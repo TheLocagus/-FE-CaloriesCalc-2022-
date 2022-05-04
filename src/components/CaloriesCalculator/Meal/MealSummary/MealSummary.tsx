@@ -10,7 +10,7 @@ interface Props {
     id: number
 }
 
-enum ProductEnum {
+export enum ProductEnum {
     Proteins,
     Carbohydrates,
     Fats,

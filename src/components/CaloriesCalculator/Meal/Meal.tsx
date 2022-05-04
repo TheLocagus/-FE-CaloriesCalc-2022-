@@ -9,8 +9,8 @@ import {MealEntity} from "../CaloriesCalculator";
 interface Props {
     productsList: ProductEntity[] | [];
     id: number;
-    setMeals: React.Dispatch<React.SetStateAction<[] | JSX.Element[]>>
-    meals: JSX.Element[] | []
+    setMeals: Dispatch<SetStateAction<[] | MealEntity[]>>
+    meals: MealEntity[] | []
     removeMeal: (id: number)=> void
 }
 
@@ -20,7 +20,7 @@ export const Meal = ({productsList, id, setMeals, meals, removeMeal}: Props) => 
     const [numberOfMeal, setNumberOfMeal] = useState<number>(0)
 
     useEffect(() => {
-        const foundIndexOfMeal = meals.findIndex(el => el.props.id === id)
+        const foundIndexOfMeal = meals.findIndex(el => el.id === id)
         setNumberOfMeal(prevState => foundIndexOfMeal + 1)
     }, [id, meals])
 
@@ -48,7 +48,10 @@ export const Meal = ({productsList, id, setMeals, meals, removeMeal}: Props) => 
                 meal={meal}
             />
             <MealSummary
+                id={id}
                 meal={meal}
+                meals={meals}
+                setMeals={setMeals}
                 numberOfMeal={numberOfMeal}
             />
         </div>

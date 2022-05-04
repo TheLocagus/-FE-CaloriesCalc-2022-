@@ -1,9 +1,13 @@
-import React, {useCallback, useEffect, useMemo, useState} from "react";
+import React, {Dispatch, SetStateAction, useCallback, useEffect, useMemo, useState} from "react";
 import {ProductEntity} from "types";
+import {MealEntity} from "../../CaloriesCalculator";
 
 interface Props {
     numberOfMeal: number
     meal: ProductEntity[]
+    setMeals: Dispatch<SetStateAction<[] | MealEntity[]>>
+    meals: MealEntity[]
+    id: number
 }
 
 enum ProductEnum {
@@ -13,10 +17,9 @@ enum ProductEnum {
     Calories,
 }
 
-export const MealSummary = ({numberOfMeal, meal}: Props) => {
+export const MealSummary = ({numberOfMeal, meal, setMeals, id, meals}: Props) => {
 
-    const macroSummary = (macro: ProductEnum) => {
-
+    const macroSummary = useCallback((macro: ProductEnum) => {
         switch (macro) {
             case ProductEnum.Proteins:
                 return meal.length !== 0 ?
@@ -49,8 +52,24 @@ export const MealSummary = ({numberOfMeal, meal}: Props) => {
             default:
                 return 0
         }
-    }
+    }, [meal])
+    useEffect(()=>{
+        const macroInMeal: MealEntity = {
+            id,
+            proteins: macroSummary(ProductEnum.Proteins),
+            carbohydrates: macroSummary(ProductEnum.Carbohydrates),
+            fats: macroSummary(ProductEnum.Fats),
+            calories: macroSummary(ProductEnum.Calories)
+        }
 
+        const newState = [...meals]
+            .map(meal => {
+                if(meal.id !== id) return meal;
+                return macroInMeal
+            })
+        setMeals(prevState => newState)
+
+    }, [id, macroSummary, meals, setMeals])
 
     return (
         <div className="meal__meal-summary meal-summary">

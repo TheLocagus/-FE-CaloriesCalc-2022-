@@ -1,6 +1,11 @@
 import React from "react";
+import {MealEntity} from "../CaloriesCalculator";
 
-export const MealsSummary = () => {
+interface Props {
+    meals: MealEntity[] | []
+}
+
+export const MealsSummary = ({meals}: Props) => {
 
     return (
         <div className="meals-summary">

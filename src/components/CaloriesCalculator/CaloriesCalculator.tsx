@@ -23,6 +23,7 @@ export const CaloriesCalculator = () => {
             setProductsList(data);
         })()
     }, [])
+    console.log('iksde')
 
     const addMeal = () => {
         const newMeal: MealEntity = {
@@ -38,13 +39,14 @@ export const CaloriesCalculator = () => {
     }
 
     const removeMeal = (id: number) => {
-        const mealsAfterRemove = [...meals]
+        const mealsAfterRemove: MealEntity[] | [] = [...meals]
             .filter(meal => {
                     return meal.id !== id
                 }
             )
+        console.log(mealsAfterRemove)
 
-        setMeals(prevState => [...mealsAfterRemove])
+        setMeals(mealsAfterRemove)
     }
     return (
         <>
@@ -60,7 +62,11 @@ export const CaloriesCalculator = () => {
                             removeMeal={removeMeal}/>)
                         : null
                 }
-                <MealsSummary meals={meals}/>
+                {
+                    meals.length > 0
+                    ? <MealsSummary meals={meals}/>
+                    : null
+                }
                 <AddMeal addMeal={addMeal}/>
             </div>
         </>

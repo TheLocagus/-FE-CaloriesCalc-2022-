@@ -19,10 +19,10 @@ export const Meal = ({productsList, id, setMeals, meals, removeMeal}: Props) => 
     const [meal, setMeal] = useState<ProductEntity[] | []>([])
     const [numberOfMeal, setNumberOfMeal] = useState<number>(0)
 
-    useEffect(() => {
-        const foundIndexOfMeal = meals.findIndex(el => el.id === id)
-        setNumberOfMeal(prevState => foundIndexOfMeal + 1)
-    }, [id, meals])
+    // useEffect(() => {
+    //     const foundIndexOfMeal = meals.findIndex(el => el.id === id)
+    //     setNumberOfMeal(prevState => foundIndexOfMeal + 1)
+    // }, [id, meals])
 
     const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
         setInputValue(e.target.value);

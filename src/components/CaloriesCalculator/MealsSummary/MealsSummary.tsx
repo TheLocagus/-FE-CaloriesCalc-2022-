@@ -53,13 +53,13 @@ export const MealsSummary = ({meals}: Props) => {
                 <p>Białko: {macroSummary(ProductEnum.Proteins)}g</p>
             </div>
             <div className="meals-summary__carbo">
-                <p>Węglowodany:  {macroSummary(ProductEnum.Carbohydrates)}g</p>
+                <p>Węglowodany: {macroSummary(ProductEnum.Carbohydrates)}g</p>
             </div>
             <div className="meals-summary__fats">
-                <p>Tłuszcze:  {macroSummary(ProductEnum.Fats)}g</p>
+                <p>Tłuszcze: {macroSummary(ProductEnum.Fats)}g</p>
             </div>
             <div className="meals-summary__calories">
-                <p>Kalorie:  {macroSummary(ProductEnum.Calories)}kcal</p>
+                <p>Kalorie: {macroSummary(ProductEnum.Calories)}kcal</p>
             </div>
         </div>
     )

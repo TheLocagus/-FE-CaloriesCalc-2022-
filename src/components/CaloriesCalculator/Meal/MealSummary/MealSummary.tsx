@@ -53,23 +53,23 @@ export const MealSummary = ({numberOfMeal, meal, setMeals, id, meals}: Props) =>
                 return 0
         }
     }, [meal])
-    useEffect(()=>{
-        const macroInMeal: MealEntity = {
-            id,
-            proteins: macroSummary(ProductEnum.Proteins),
-            carbohydrates: macroSummary(ProductEnum.Carbohydrates),
-            fats: macroSummary(ProductEnum.Fats),
-            calories: macroSummary(ProductEnum.Calories)
-        }
-
-        const newState = [...meals]
-            .map(meal => {
-                if(meal.id !== id) return meal;
-                return macroInMeal
-            })
-        setMeals(prevState => newState)
-
-    }, [id, macroSummary, meals, setMeals])
+    // useEffect(()=>{
+    //     const macroInMeal: MealEntity = {
+    //         id,
+    //         proteins: macroSummary(ProductEnum.Proteins),
+    //         carbohydrates: macroSummary(ProductEnum.Carbohydrates),
+    //         fats: macroSummary(ProductEnum.Fats),
+    //         calories: macroSummary(ProductEnum.Calories)
+    //     }
+    //
+    //     const newState = [...meals]
+    //         .map(meal => {
+    //             if(meal.id !== id) return meal;
+    //             return macroInMeal
+    //         })
+    //     setMeals(prevState => newState)
+    //
+    // }, [id, macroSummary, meals, setMeals])
 
     return (
         <div className="meal__meal-summary meal-summary">

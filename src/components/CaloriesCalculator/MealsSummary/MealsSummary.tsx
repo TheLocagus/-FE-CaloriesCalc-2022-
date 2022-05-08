@@ -13,10 +13,9 @@ export const MealsSummary = ({meals}: Props) => {
             case ProductEnum.Proteins:
                 return meals.length !== 0 ?
                     Number([...meals]
-                        .map((meal, i) => {
-                            if (meal[0] === undefined) return 0
-                            console.log(meal)
-                            return meal[0].proteins
+                        .map(meal => {
+                            if (meal === undefined || meal.length === 0) return 0
+                            return meal.map(product => product.proteins).reduce((prev, curr) => prev + curr)
                         })
                         .reduce((prev, curr) => prev + curr)
                         .toFixed(2))
@@ -25,8 +24,8 @@ export const MealsSummary = ({meals}: Props) => {
                 return meals.length !== 0 ?
                     Number([...meals]
                         .map(meal => {
-                            if (meal[0] === undefined) return 0
-                            return meal[0].carbohydrates
+                            if (meal === undefined || meal.length === 0) return 0
+                            return meal.map(product => product.carbohydrates).reduce((prev, curr) => prev + curr)
                         })
                         .reduce((prev, curr) => prev + curr)
                         .toFixed(2))
@@ -35,8 +34,8 @@ export const MealsSummary = ({meals}: Props) => {
                 return meals.length !== 0 ?
                     Number([...meals]
                         .map(meal => {
-                            if (meal[0] === undefined) return 0
-                            return meal[0].fats
+                            if (meal === undefined || meal.length === 0) return 0
+                            return meal.map(product => product.fats).reduce((prev, curr) => prev + curr)
                         })
                         .reduce((prev, curr) => prev + curr)
                         .toFixed(2))
@@ -45,8 +44,8 @@ export const MealsSummary = ({meals}: Props) => {
                 return meals.length !== 0 ?
                     Number([...meals]
                         .map(meal => {
-                            if (meal[0] === undefined) return 0
-                            return meal[0].calories
+                            if (meal === undefined || meal.length === 0) return 0
+                            return meal.map(product => product.calories).reduce((prev, curr) => prev + curr)
                         })
                         .reduce((prev, curr) => prev + curr)
                         .toFixed(2))

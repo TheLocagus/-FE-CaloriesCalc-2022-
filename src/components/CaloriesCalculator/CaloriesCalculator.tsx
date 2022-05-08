@@ -3,18 +3,10 @@ import {Meal} from "./Meal/Meal";
 import {MealsSummary} from "./MealsSummary/MealsSummary";
 import {AddMeal} from "./AddMeal/AddMeal";
 import {ProductEntity} from 'types';
-export interface MealEntity{
-    id: number;
-    proteins: number;
-    carbohydrates: number;
-    fats: number;
-    calories: number;
-}
 
 export const CaloriesCalculator = () => {
     const [productsList, setProductsList] = useState<ProductEntity[] | []>([]);
-    const [meals, setMeals] = useState<MealEntity[] | []>([]);
-    const [id, setId] = useState<number>(0)
+    const [meals, setMeals] = useState<ProductEntity[][] | []>([]);
 
     useEffect(() => {
         (async () => {
@@ -26,24 +18,14 @@ export const CaloriesCalculator = () => {
     console.log('iksde')
 
     const addMeal = () => {
-        const newMeal: MealEntity = {
-            id,
-            proteins: 0,
-            carbohydrates: 0,
-            fats: 0,
-            calories: 0,
-        }
+        const newMeal: ProductEntity[] = []
         const listWithNewMeal = [...meals, newMeal]
-        setId(prevState => prevState + 1)
         setMeals(prevState => listWithNewMeal)
     }
 
-    const removeMeal = (id: number) => {
-        const mealsAfterRemove: MealEntity[] | [] = [...meals]
-            .filter(meal => {
-                    return meal.id !== id
-                }
-            )
+    const removeMeal = (index: number) => {
+        const mealsAfterRemove: ProductEntity[][] | [] = [...meals]
+            .filter((meal, i) => i !== index)
         console.log(mealsAfterRemove)
 
         setMeals(mealsAfterRemove)
@@ -54,12 +36,13 @@ export const CaloriesCalculator = () => {
                 {
                     meals.length > 0
                         ? [...meals].map((meal, i) =><Meal
-                            id={meal.id}
-                            key={meal.id}
+                            id={i}
+                            key={i}
                             productsList={productsList}
                             setMeals={setMeals}
                             meals={meals}
-                            removeMeal={removeMeal}/>)
+                            removeMeal={removeMeal}
+                        />)
                         : null
                 }
                 {

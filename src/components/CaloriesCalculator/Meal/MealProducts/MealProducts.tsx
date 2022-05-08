@@ -3,15 +3,16 @@ import { ProductEntity } from "types";
 import {MealProduct} from "./MealProduct/MealProduct";
 
 interface Props {
-    meal: ProductEntity[]
+    meals: ProductEntity[][]
+    id: number;
 }
 
-export const MealProducts = ({meal}: Props) => {
+export const MealProducts = ({meals, id}: Props) => {
 
     return (
         <div className="meal__product product">
             {
-                [...meal].map((product, i) => <MealProduct key={`${i} - ${product.id}`} product={product}/>)
+                [...meals][id].map((product, i) => <MealProduct key={`${i} - ${product.id}`} product={product}/>)
             }
         </div>
     )

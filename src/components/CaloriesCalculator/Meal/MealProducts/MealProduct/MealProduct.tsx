@@ -4,17 +4,17 @@ import { ProductEntity } from "types";
 interface Props {
     product: ProductEntity;
     meals: ProductEntity[][] | [];
-    id: number;
+    mealId: number;
     setMeals: Dispatch<SetStateAction<[] | ProductEntity[][]>>
     productId: string;
 }
 
-export const MealProduct = ({product, meals, id, setMeals, productId}: Props) => {
+export const MealProduct = ({product, meals, mealId, setMeals, productId}: Props) => {
 
     const removeProduct = (productId: string) => {
-        const mealAfterRemovingProduct = [...meals][id].filter((meal, i) => `${i} - ${meal.id}` !== productId)
+        const mealAfterRemovingProduct = [...meals][mealId].filter((meal, i) => `${i} - ${meal.id}` !== productId)
         const refreshedMeals = [...meals].map((meal, i) => {
-            if (id === i) return mealAfterRemovingProduct;
+            if (mealId === i) return mealAfterRemovingProduct;
             return meal
         })
         setMeals(refreshedMeals)

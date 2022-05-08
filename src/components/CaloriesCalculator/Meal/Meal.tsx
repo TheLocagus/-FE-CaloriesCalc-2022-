@@ -7,25 +7,24 @@ import {MealAddingNewProduct} from "./MealAddingNewProduct/MealAddingNewProduct"
 
 interface Props {
     productsList: ProductEntity[] | [];
-    id: number;
+    mealId: number;
     setMeals: Dispatch<SetStateAction<[] | ProductEntity[][]>>
     meals: ProductEntity[][] | []
     removeMeal: (id: number)=> void
 }
 
-export const Meal = ({productsList, id, setMeals, meals, removeMeal}: Props) => {
+export const Meal = ({productsList, mealId, setMeals, meals, removeMeal}: Props) => {
     const [inputValue, setInputValue] = useState<string>('');
-    const [meal, setMeal] = useState<ProductEntity[] | []>([])
 
     const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
         setInputValue(e.target.value);
     }
 
     const addNewProduct = (newProduct: ProductEntity) => {
-        const oldMeal = [...meals][id]
+        const oldMeal = [...meals][mealId]
         const actualMeal = [...oldMeal, newProduct]
         const mealsToUpdate = [...meals].map((meal, i) => {
-            if(i !== id) return meal
+            if(i !== mealId) return meal
             return actualMeal
         })
         setMeals(prevState => mealsToUpdate)
@@ -35,7 +34,7 @@ export const Meal = ({productsList, id, setMeals, meals, removeMeal}: Props) => 
         <div className="meal">
             <MealHeader
                 removeMeal={removeMeal}
-                id={id}
+                mealId={mealId}
             />
             <MealAddingNewProduct
                 addNewProduct={addNewProduct}
@@ -45,12 +44,11 @@ export const Meal = ({productsList, id, setMeals, meals, removeMeal}: Props) => 
             />
             <MealProducts
                 meals={meals}
-                id={id}
+                mealId={mealId}
                 setMeals={setMeals}
             />
             <MealSummary
-                id={id}
-                meal={meal}
+                mealId={mealId}
                 meals={meals}
                 setMeals={setMeals}
             />

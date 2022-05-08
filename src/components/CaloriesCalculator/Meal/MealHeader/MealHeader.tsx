@@ -2,15 +2,15 @@ import React from "react";
 
 interface Props {
     removeMeal: (id: number) => void;
-    id: number;
+    mealId: number;
 }
 
-export const MealHeader = ({removeMeal, id}: Props) => {
+export const MealHeader = ({removeMeal, mealId}: Props) => {
 
     return (
         <div className="meal__header">
-            <p>Posiłek {id}</p>
-            <button onClick={() => removeMeal(id)} className="remove-meal">Usuń</button>
+            <p>Posiłek {mealId + 1}</p>
+            <button onClick={() => removeMeal(mealId)} className="remove-meal">Usuń</button>
         </div>
     )
 }

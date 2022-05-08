@@ -46,6 +46,7 @@ export const Meal = ({productsList, mealId, setMeals, meals, removeMeal}: Props)
                 meals={meals}
                 mealId={mealId}
                 setMeals={setMeals}
+                productsList={productsList}
             />
             <MealSummary
                 mealId={mealId}

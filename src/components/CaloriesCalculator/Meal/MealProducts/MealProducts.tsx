@@ -6,9 +6,10 @@ interface Props {
     meals: ProductEntity[][]
     setMeals: Dispatch<SetStateAction<[] | ProductEntity[][]>>
     mealId: number;
+    productsList: ProductEntity[]
 }
 
-export const MealProducts = ({meals, mealId, setMeals}: Props) => {
+export const MealProducts = ({meals, mealId, setMeals, productsList}: Props) => {
 
     return (
         <div className="meal__product product">
@@ -17,10 +18,11 @@ export const MealProducts = ({meals, mealId, setMeals}: Props) => {
                     <MealProduct
                         meals={meals}
                         setMeals={setMeals}
-                        productId={`${i} - ${product.id}`}
+                        productId={i}
                         mealId={mealId}
                         key={`${i} - ${product.id}`}
                         product={product}
+                        productsList={productsList}
                     />)
             }
         </div>

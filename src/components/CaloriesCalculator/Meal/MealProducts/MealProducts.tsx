@@ -5,15 +5,25 @@ import {MealProduct} from "./MealProduct/MealProduct";
 interface Props {
     meals: ProductEntity[][]
     setMeals: Dispatch<SetStateAction<[] | ProductEntity[][]>>
-    id: number;
+    mealId: number;
+    productsList: ProductEntity[]
 }
 
-export const MealProducts = ({meals, id, setMeals}: Props) => {
+export const MealProducts = ({meals, mealId, setMeals, productsList}: Props) => {
 
     return (
         <div className="meal__product product">
             {
-                [...meals][id].map((product, i) => <MealProduct meals={meals} setMeals={setMeals} productId={`${i} - ${product.id}`} id={id} key={`${i} - ${product.id}`} product={product}/>)
+                [...meals][mealId].map((product, i) =>
+                    <MealProduct
+                        meals={meals}
+                        setMeals={setMeals}
+                        productId={i}
+                        mealId={mealId}
+                        key={`${i} - ${product.id}`}
+                        product={product}
+                        productsList={productsList}
+                    />)
             }
         </div>
     )

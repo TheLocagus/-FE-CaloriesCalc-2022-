@@ -25,8 +25,6 @@ export const CaloriesCalculator = () => {
     const removeMeal = (index: number) => {
         const mealsAfterRemove: ProductEntity[][] | [] = [...meals]
             .filter((meal, i) => i !== index)
-        console.log(mealsAfterRemove)
-
         setMeals(mealsAfterRemove)
     }
     return (
@@ -35,7 +33,7 @@ export const CaloriesCalculator = () => {
                 {
                     meals.length > 0
                         ? [...meals].map((meal, i) =><Meal
-                            id={i}
+                            mealId={i}
                             key={i}
                             productsList={productsList}
                             setMeals={setMeals}

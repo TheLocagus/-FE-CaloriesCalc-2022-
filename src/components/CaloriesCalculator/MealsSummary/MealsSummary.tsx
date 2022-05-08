@@ -1,40 +1,52 @@
 import React, {useCallback} from "react";
-import {MealEntity} from "../CaloriesCalculator";
+import { ProductEntity } from "types";
 import {ProductEnum} from "../Meal/MealSummary/MealSummary";
 
 interface Props {
-    meals: MealEntity[] | []
+    meals: ProductEntity[][] | []
 }
 
 export const MealsSummary = ({meals}: Props) => {
-
+    console.log('render')
     const macroSummary = useCallback((macro: ProductEnum) => {
         switch (macro) {
             case ProductEnum.Proteins:
                 return meals.length !== 0 ?
                     Number([...meals]
-                        .map((product) => product.proteins)
+                        .map(meal => {
+                            if (meal === undefined || meal.length === 0) return 0
+                            return meal.map(product => product.proteins).reduce((prev, curr) => prev + curr)
+                        })
                         .reduce((prev, curr) => prev + curr)
                         .toFixed(2))
                     : 0
             case ProductEnum.Carbohydrates:
                 return meals.length !== 0 ?
                     Number([...meals]
-                        .map((product) => product.carbohydrates)
+                        .map(meal => {
+                            if (meal === undefined || meal.length === 0) return 0
+                            return meal.map(product => product.carbohydrates).reduce((prev, curr) => prev + curr)
+                        })
                         .reduce((prev, curr) => prev + curr)
                         .toFixed(2))
                     : 0
             case ProductEnum.Fats:
                 return meals.length !== 0 ?
                     Number([...meals]
-                        .map((product) => product.fats)
+                        .map(meal => {
+                            if (meal === undefined || meal.length === 0) return 0
+                            return meal.map(product => product.fats).reduce((prev, curr) => prev + curr)
+                        })
                         .reduce((prev, curr) => prev + curr)
                         .toFixed(2))
                     : 0
             case ProductEnum.Calories:
                 return meals.length !== 0 ?
                     Number([...meals]
-                        .map((product) => product.calories)
+                        .map(meal => {
+                            if (meal === undefined || meal.length === 0) return 0
+                            return meal.map(product => product.calories).reduce((prev, curr) => prev + curr)
+                        })
                         .reduce((prev, curr) => prev + curr)
                         .toFixed(2))
                     : 0

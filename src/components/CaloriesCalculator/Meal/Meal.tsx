@@ -30,6 +30,7 @@ export const Meal = ({productsList, id, setMeals, meals, removeMeal}: Props) => 
         })
         setMeals(prevState => mealsToUpdate)
     }
+
     return (
         <div className="meal">
             <MealHeader
@@ -45,6 +46,7 @@ export const Meal = ({productsList, id, setMeals, meals, removeMeal}: Props) => 
             <MealProducts
                 meals={meals}
                 id={id}
+                setMeals={setMeals}
             />
             <MealSummary
                 id={id}

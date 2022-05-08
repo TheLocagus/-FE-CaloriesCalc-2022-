@@ -7,7 +7,6 @@ interface Props {
 }
 
 export const MealsSummary = ({meals}: Props) => {
-    console.log('render')
     const macroSummary = useCallback((macro: ProductEnum) => {
         switch (macro) {
             case ProductEnum.Proteins:

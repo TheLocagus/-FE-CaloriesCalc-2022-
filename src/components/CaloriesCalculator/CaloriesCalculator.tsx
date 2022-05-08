@@ -15,7 +15,6 @@ export const CaloriesCalculator = () => {
             setProductsList(data);
         })()
     }, [])
-    console.log('iksde')
 
     const addMeal = () => {
         const newMeal: ProductEntity[] = []

@@ -1,6 +1,10 @@
 import React, {useCallback} from "react";
 import { ProductEntity } from "types";
 import {ProductEnum} from "../Meal/MealSummary/MealSummary";
+import {ProteinsFromAllMeals} from "./ProteinsFromAllMeals/ProteinsFromAllMeals";
+import {CarbohydratesFromAllMeals} from "./CarbohydratesromAllMeals/CarbohydratesFromAllMeals";
+import {FatsFromAllMeals} from "./FatsFromAllMeals/FatsFromAllMeals";
+import {CaloriesFromAllMeals} from "./CaloriesFromAllMeals/CaloriesFromAllMeals";
 
 interface Props {
     meals: ProductEntity[][] | []
@@ -60,18 +64,10 @@ export const MealsSummary = ({meals}: Props) => {
             <header className="meals-summary__header">
                 <p>Podsumowanie:</p>
             </header>
-            <div className="meals-summary__proteins">
-                <p>Białko: {macroSummary(ProductEnum.Proteins)}g</p>
-            </div>
-            <div className="meals-summary__carbo">
-                <p>Węglowodany: {macroSummary(ProductEnum.Carbohydrates)}g</p>
-            </div>
-            <div className="meals-summary__fats">
-                <p>Tłuszcze: {macroSummary(ProductEnum.Fats)}g</p>
-            </div>
-            <div className="meals-summary__calories">
-                <p>Kalorie: {macroSummary(ProductEnum.Calories)}kcal</p>
-            </div>
+            <ProteinsFromAllMeals macroSummary={macroSummary}/>
+            <CarbohydratesFromAllMeals macroSummary={macroSummary}/>
+            <FatsFromAllMeals macroSummary={macroSummary}/>
+            <CaloriesFromAllMeals macroSummary={macroSummary}/>
         </div>
     )
 }

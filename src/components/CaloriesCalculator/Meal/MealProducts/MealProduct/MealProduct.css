@@ -1,0 +1,43 @@
+.product {
+    padding: 7px 0;
+}
+
+.product-info {
+    padding: 4px 0;
+}
+
+.product__name {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+}
+
+
+.product__macronutrients-summary{
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+}
+
+.product__macronutrients-summary .protcarbfats-container {
+    flex-basis: 50%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.protcarbfats-container span, .cal-container span{
+    font-size: 0.9rem;
+}
+
+.protcarbfats-container small, .cal-container small  {
+    display: block;
+}
+
+label {
+    display: flex;
+}
+
+.amount-to-click{
+    cursor: pointer;
+    font-style: italic;
+}

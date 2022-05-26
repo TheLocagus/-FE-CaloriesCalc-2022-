@@ -1,10 +1,11 @@
 import React, {useCallback} from "react";
-import { ProductEntity } from "types";
+import {ProductEntity} from "types";
 import {ProductEnum} from "../Meal/MealSummary/MealSummary";
 import {ProteinsFromAllMeals} from "./ProteinsFromAllMeals/ProteinsFromAllMeals";
 import {CarbohydratesFromAllMeals} from "./CarbohydratesromAllMeals/CarbohydratesFromAllMeals";
 import {FatsFromAllMeals} from "./FatsFromAllMeals/FatsFromAllMeals";
 import {CaloriesFromAllMeals} from "./CaloriesFromAllMeals/CaloriesFromAllMeals";
+import './MealsSummary.css';
 
 interface Props {
     meals: ProductEntity[][] | []
@@ -64,10 +65,12 @@ export const MealsSummary = ({meals}: Props) => {
             <header className="meals-summary__header">
                 <p>Podsumowanie:</p>
             </header>
-            <ProteinsFromAllMeals macroSummary={macroSummary}/>
-            <CarbohydratesFromAllMeals macroSummary={macroSummary}/>
-            <FatsFromAllMeals macroSummary={macroSummary}/>
-            <CaloriesFromAllMeals macroSummary={macroSummary}/>
+            <div className="meals-summary__macronutrients">
+                <ProteinsFromAllMeals macroSummary={macroSummary}/>
+                <CarbohydratesFromAllMeals macroSummary={macroSummary}/>
+                <FatsFromAllMeals macroSummary={macroSummary}/>
+                <CaloriesFromAllMeals macroSummary={macroSummary}/>
+            </div>
         </div>
     )
 }

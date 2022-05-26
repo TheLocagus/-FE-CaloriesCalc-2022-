@@ -6,7 +6,6 @@ export const CaloriesCalculatorView = () => {
 
     return (
         <>
-            <Header/>
             <CaloriesCalculator/>
         </>
     )

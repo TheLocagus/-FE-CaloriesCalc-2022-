@@ -3,6 +3,7 @@ import {Meal} from "./Meal/Meal";
 import {MealsSummary} from "./MealsSummary/MealsSummary";
 import {AddMeal} from "./AddMeal/AddMeal";
 import {ProductEntity} from 'types';
+import './CaloriesCalculator.css'
 
 export const CaloriesCalculator = () => {
     const [productsList, setProductsList] = useState<ProductEntity[] | []>([]);
@@ -42,12 +43,12 @@ export const CaloriesCalculator = () => {
                         />)
                         : null
                 }
+                <AddMeal addMeal={addMeal}/>
                 {
                     meals.length > 0
                     ? <MealsSummary meals={meals}/>
                     : null
                 }
-                <AddMeal addMeal={addMeal}/>
             </div>
         </>
     )

@@ -1,5 +1,6 @@
 import React, {Dispatch, SetStateAction, useCallback, useEffect, useMemo, useState} from "react";
 import {ProductEntity} from "types";
+import "./MealSummary.css";
 
 interface Props {
     setMeals: Dispatch<SetStateAction<[] | ProductEntity[][]>>
@@ -56,17 +57,19 @@ export const MealSummary = ({setMeals, mealId, meals}: Props) => {
             <div className="meal-summary__header">
                 <p>Posiłek {mealId + 1} zawiera łącznie: </p>
             </div>
-            <div className="meal-summary__proteins">
-                <p>Białko: {macroSummary(ProductEnum.Proteins)}g</p>
-            </div>
-            <div className="meal-summary__carbo">
-                <p>Węglowodany: {macroSummary(ProductEnum.Carbohydrates)}g</p>
-            </div>
-            <div className="meal-summary__fats">
-                <p>Tłuszcze: {macroSummary(ProductEnum.Fats)}g</p>
-            </div>
-            <div className="meal-summary__calories">
-                <p>Kalorie: {macroSummary(ProductEnum.Calories)}g</p>
+            <div className="meal-summary__macronutrients">
+                <div className="meal-summary-macro meal-summary__proteins">
+                    <p><small>B:</small> {macroSummary(ProductEnum.Proteins)}<small>g</small></p>
+                </div>
+                <div className="meal-summary-macro meal-summary__carbo">
+                    <p><small>W:</small> {macroSummary(ProductEnum.Carbohydrates)}<small>g</small></p>
+                </div>
+                <div className="meal-summary-macro meal-summary__fats">
+                    <p><small>T:</small> {macroSummary(ProductEnum.Fats)}<small>g</small></p>
+                </div>
+                <div className="meal-summary-macro meal-summary__calories">
+                    <p><small>K:</small> {macroSummary(ProductEnum.Calories)}<small>kcal</small></p>
+                </div>
             </div>
         </div>
     )

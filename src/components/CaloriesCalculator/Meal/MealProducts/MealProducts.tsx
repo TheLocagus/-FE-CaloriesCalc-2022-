@@ -12,7 +12,7 @@ interface Props {
 export const MealProducts = ({meals, mealId, setMeals, productsList}: Props) => {
 
     return (
-        <div className="meal__product product">
+        <div className="meal__products products">
             {
                 [...meals][mealId].map((product, i) =>
                     <MealProduct

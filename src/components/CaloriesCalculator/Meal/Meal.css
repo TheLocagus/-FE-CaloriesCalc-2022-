@@ -1,0 +1,15 @@
+.meal {
+    width: 100%;
+    padding: 0 10px;
+}
+
+.meal:nth-child(1){
+    padding: 10px;
+}
+
+.separator {
+    height: 2px;
+    background-color: gray;
+    width: 100%;
+    margin: 15px 0;
+}

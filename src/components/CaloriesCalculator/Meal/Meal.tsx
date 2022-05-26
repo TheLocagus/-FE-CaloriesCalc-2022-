@@ -4,6 +4,7 @@ import {MealSummary} from "./MealSummary/MealSummary";
 import {MealProducts} from "./MealProducts/MealProducts";
 import {MealHeader} from "./MealHeader/MealHeader";
 import {MealAddingNewProduct} from "./MealAddingNewProduct/MealAddingNewProduct";
+import "./Meal.css"
 
 interface Props {
     productsList: ProductEntity[] | [];
@@ -53,6 +54,12 @@ export const Meal = ({productsList, mealId, setMeals, meals, removeMeal}: Props)
                 meals={meals}
                 setMeals={setMeals}
             />
+
+            {
+                meals.length > 1
+                    ? <div className="separator"></div>
+                    : null
+            }
         </div>
     )
 }

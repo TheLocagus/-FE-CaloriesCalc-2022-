@@ -8,8 +8,8 @@ interface Props {
 export const CaloriesFromAllMeals = ({macroSummary}: Props) => {
 
     return (
-        <div className="meals-summary__calories">
-            <p>Kalorie: {macroSummary(ProductEnum.Calories)}g</p>
+        <div className="meals-summary__calories meals-summary-info">
+            <p><small>K:</small> {macroSummary(ProductEnum.Calories)}<small>kcal</small></p>
         </div>
     )
 }

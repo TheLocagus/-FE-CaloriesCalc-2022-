@@ -1,5 +1,6 @@
 import React, {Dispatch, FormEventHandler, SetStateAction, useState} from "react";
 import { ProductEntity } from "types";
+import './MealProduct.css';
 
 interface Props {
     product: ProductEntity;
@@ -68,31 +69,54 @@ export const MealProduct = ({product, meals, mealId, setMeals, productId, produc
 
     return (
         <>
-            <div key={product.id}>
-                <div className="product__name">
-                    <p>Nazwa: {product.name}</p>
+            <div className="product" key={product.id}>
+                <div className="product__name product-info">
+                    <div className="name-container">
+                        <p>{product.name}</p>
+                    </div>
+                    <div className="buttons-container">
+                        <button>Edytuj</button>
+                        <button onClick={() => removeProduct(productId)} className="product__remove-product">Usuń</button>
+                    </div>
                 </div>
-                <div className="product__macronutrients-summary">
-                    <div onClick={showEditInput} className="product__amount">
-                        {
-                            isEditInputVisible
-                                ? <form onSubmit={showAndConfirmValue}>
+                <div onClick={showEditInput} className="product__amount product-info">
+                    {
+                        isEditInputVisible
+                            ? <form onSubmit={showAndConfirmValue}>
+                                <label>
+                                    <p><small>Ilość: </small></p>
                                     <input onChange={handleInput}
                                            className="product__edit-input"
                                            type="number"
                                            min="0"
                                            value={inputValue}
                                     />
-                                </form>
-                                : <p>{inputValue}g</p>
-                        }
+                                </label>
+
+                            </form>
+                            : <p><small>Ilość: <span className="amount-to-click">{inputValue}g</span></small></p>
+                    }
+                </div>
+                <div className="product__macronutrients-summary product-info">
+                    <div className="protcarbfats-container">
+                        <div className="product__proteins">
+                            <p><small>Białko:</small> <span>{product.proteins.toFixed(2)}g</span></p>
+                        </div>
+                        <div className="product__carbohydrates">
+                            <p><small>Węglowodany:</small> <span>{product.carbohydrates.toFixed(2)}g</span></p>
+                        </div>
+                        <div className="product__fats">
+                            <p><small>Tłuszcze:</small> <span>{product.fats.toFixed(2)}g</span></p>
+                        </div>
                     </div>
-                    <div className="product__calories">
-                        <p>Kcal: {product.calories.toFixed(2)}</p>
+                    <div className="cal-container">
+                        <div className="product__calories">
+                            <p><small>Kalorie:</small> <span>{product.calories.toFixed(2)}</span></p>
+                        </div>
                     </div>
+
                 </div>
                 {/*<button  className="product__edit-product">Edytuj</button>*/}
-                <button onClick={() => removeProduct(productId)} className="product__remove-product">Usuń</button>
             </div>
         </>
     )

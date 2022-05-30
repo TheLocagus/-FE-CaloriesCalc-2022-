@@ -8,3 +8,7 @@ body {
     font-family: Arial, serif;
     background-color: #0f0fd7;
 }
+
+button {
+    outline: none;
+}

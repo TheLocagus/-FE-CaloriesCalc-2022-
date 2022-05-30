@@ -2,6 +2,7 @@ import React, {ChangeEvent, MutableRefObject, useRef, useState} from "react";
 import {ProductEntity} from "types";
 import './MealAddingNewProduct.css'
 import {Button} from "../../../common/Button";
+import {DropdownInput} from "./DropdownInput/DropdownInput";
 
 interface Props {
     productsList: ProductEntity[] | [];
@@ -10,13 +11,13 @@ interface Props {
 
 export const MealAddingNewProduct = ({addNewProduct, productsList}: Props) => {
     const [inputValue, setInputValue] = useState<string>('');
+    const [isFindProductVisible, setIsFindProductVisible] = useState<boolean>(false);
 
-    const input = useRef() as MutableRefObject<HTMLInputElement>;
+    const inputRef = useRef() as MutableRefObject<HTMLInputElement>;
 
     const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
         setInputValue(e.target.value);
     }
-    const [isFindProductVisible, setIsFindProductVisible] = useState<boolean>(false);
 
     const changeFindProductVisibility = () => {
         setIsFindProductVisible(prevState => !prevState)
@@ -24,7 +25,7 @@ export const MealAddingNewProduct = ({addNewProduct, productsList}: Props) => {
     }
 
     const clearInput = () => {
-        input.current.focus();
+        inputRef.current.focus();
         setInputValue('')
     }
 
@@ -34,8 +35,7 @@ export const MealAddingNewProduct = ({addNewProduct, productsList}: Props) => {
                 isFindProductVisible
                     ? <div className="meal__dropdown dropdown">
                         <div className="dropdown-field">
-                            <input ref={input} className="dropdown-input" onChange={handleInput} value={inputValue} type="text"
-                                   name="product"/>
+                            <DropdownInput inputRef={inputRef} className="dropdown-input" onChange={handleInput} value={inputValue}/>
                             <Button className='dropdown-input-clear' onClick={clearInput} text='X'/>
                         </div>
 
@@ -75,10 +75,7 @@ export const MealAddingNewProduct = ({addNewProduct, productsList}: Props) => {
                     : <Button className='find-product' onClick={changeFindProductVisibility} text="Find product"/>
 
             }
-            <Button className='add-own-product' onClick={() => {
-                document.getElementsByName('product')[0].focus()
-                console.log(document.getElementsByName('product')[0])
-            }} text="Add own"/>
+            <Button className='add-own-product' onClick={() => {}} text="Add own"/>
         </div>
     )
 }

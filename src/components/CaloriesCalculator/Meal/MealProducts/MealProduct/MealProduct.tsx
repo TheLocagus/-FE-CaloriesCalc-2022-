@@ -100,18 +100,18 @@ export const MealProduct = ({product, meals, mealId, setMeals, productId, produc
                 <div className="product__macronutrients-summary product-info">
                     <div className="protcarbfats-container">
                         <div className="product__proteins">
-                            <p><small>Białko:</small> <span>{product.proteins.toFixed(2)}g</span></p>
+                            <p><small>Białko:</small> <span>{Number(product.proteins.toFixed(2))}g</span></p>
                         </div>
                         <div className="product__carbohydrates">
-                            <p><small>Węglowodany:</small> <span>{product.carbohydrates.toFixed(2)}g</span></p>
+                            <p><small>Węglowodany:</small> <span>{Number(product.carbohydrates.toFixed(2))}g</span></p>
                         </div>
                         <div className="product__fats">
-                            <p><small>Tłuszcze:</small> <span>{product.fats.toFixed(2)}g</span></p>
+                            <p><small>Tłuszcze:</small> <span>{Number(product.fats.toFixed(2))}g</span></p>
                         </div>
                     </div>
                     <div className="cal-container">
                         <div className="product__calories">
-                            <p><small>Kalorie:</small> <span>{product.calories.toFixed(2)}</span></p>
+                            <p><small>Kalorie:</small> <span>{Number(product.calories.toFixed(2))}</span></p>
                         </div>
                     </div>
 

@@ -1,0 +1,21 @@
+.app-header {
+    width: 100%;
+    padding: 10px 5px;
+    display: flex;
+    justify-content: space-between;
+    background-color: #4f0f0f;
+    margin-bottom: 10px;
+}
+
+.header-functionality button {
+    background-color: #4f0f0f;
+    color: white;
+    border: none;
+    padding: 0 5px;
+    cursor: pointer;
+}
+
+.header-functionality button:hover {
+    color: #8d1717;
+    transition: 0.2s;
+}

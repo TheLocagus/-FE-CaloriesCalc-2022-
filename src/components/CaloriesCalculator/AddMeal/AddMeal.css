@@ -1,0 +1,17 @@
+.add-meal {
+    position: relative;
+    background-color: #4f0f0f;
+    color: #ccc;
+    padding: 10px 0;
+    width: 100%;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+.add-meal:hover {
+    background-color: #3a0808;
+    color: white;
+    border: 1px solid white;
+    transition: 0.1s;
+}

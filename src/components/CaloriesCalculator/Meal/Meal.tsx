@@ -15,11 +15,7 @@ interface Props {
 }
 
 export const Meal = ({productsList, mealId, setMeals, meals, removeMeal}: Props) => {
-    const [inputValue, setInputValue] = useState<string>('');
 
-    const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
-        setInputValue(e.target.value);
-    }
 
     const addNewProduct = (newProduct: ProductEntity) => {
         const oldMeal = [...meals][mealId]
@@ -39,8 +35,6 @@ export const Meal = ({productsList, mealId, setMeals, meals, removeMeal}: Props)
             />
             <MealAddingNewProduct
                 addNewProduct={addNewProduct}
-                handleInput={handleInput}
-                inputValue={inputValue}
                 productsList={productsList}
             />
             <MealProducts

@@ -1,0 +1,20 @@
+.modal-form label {
+    width: 20em;
+    padding-bottom: 5px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.modal-form input {
+    padding: 2px 5px;
+    outline: none;
+    border: 1px solid black;
+}
+
+.modal-form input:in-range {
+    border: 1px solid green;
+}
+
+.modal-form input:out-of-range {
+    border: 1px solid red;
+}

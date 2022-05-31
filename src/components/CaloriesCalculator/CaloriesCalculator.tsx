@@ -37,6 +37,7 @@ export const CaloriesCalculator = () => {
                             mealId={i}
                             key={i}
                             productsList={productsList}
+                            setProductsList={setProductsList}
                             setMeals={setMeals}
                             meals={meals}
                             removeMeal={removeMeal}

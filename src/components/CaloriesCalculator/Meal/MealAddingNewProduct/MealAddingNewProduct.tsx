@@ -1,17 +1,28 @@
 import React, {ChangeEvent, MutableRefObject, useRef, useState} from "react";
 import {ProductEntity} from "types";
-import './MealAddingNewProduct.css'
+import './MealAddingNewProduct.css';
 import {Button} from "../../../common/Button";
 import {DropdownInput} from "./DropdownInput/DropdownInput";
+import {ModalCustomMeal} from "./ModalCustomMeal/ModalCustomMeal";
 
 interface Props {
     productsList: ProductEntity[] | [];
     addNewProduct: (newProduct: ProductEntity) => void;
+    setProductsList: React.Dispatch<React.SetStateAction<[] | ProductEntity[]>>
 }
 
-export const MealAddingNewProduct = ({addNewProduct, productsList}: Props) => {
+export const MealAddingNewProduct = ({setProductsList, addNewProduct, productsList}: Props) => {
     const [inputValue, setInputValue] = useState<string>('');
     const [isFindProductVisible, setIsFindProductVisible] = useState<boolean>(false);
+
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const closeModal = () => {
+        setIsModalVisible(false)
+    }
+    const openModal = () => {
+        setIsModalVisible(true)
+    }
+
 
     const inputRef = useRef() as MutableRefObject<HTMLInputElement>;
 
@@ -35,7 +46,8 @@ export const MealAddingNewProduct = ({addNewProduct, productsList}: Props) => {
                 isFindProductVisible
                     ? <div className="meal__dropdown dropdown">
                         <div className="dropdown-field">
-                            <DropdownInput inputRef={inputRef} className="dropdown-input" onChange={handleInput} value={inputValue}/>
+                            <DropdownInput inputRef={inputRef} className="dropdown-input" onChange={handleInput}
+                                           value={inputValue}/>
                             <Button className='dropdown-input-clear' onClick={clearInput} text='X'/>
                         </div>
 
@@ -75,7 +87,18 @@ export const MealAddingNewProduct = ({addNewProduct, productsList}: Props) => {
                     : <Button className='find-product' onClick={changeFindProductVisibility} text="Find product"/>
 
             }
-            <Button className='add-own-product' onClick={() => {}} text="Add own"/>
+            <Button className='add-own-product' onClick={openModal} text="Add own"/>
+
+            {
+                isModalVisible
+                    ? <ModalCustomMeal
+                        setProductsList={setProductsList}
+                        addNewProduct={addNewProduct}
+                        closeModal={closeModal}
+                        isModalVisible={isModalVisible}
+                        openModal={openModal}/>
+                    : null
+            }
         </div>
     )
 }

@@ -1,4 +1,4 @@
-import React, {ChangeEvent, Dispatch, SetStateAction, useEffect, useState} from "react";
+import React, {Dispatch, SetStateAction} from "react";
 import {ProductEntity} from "types";
 import {MealSummary} from "./MealSummary/MealSummary";
 import {MealProducts} from "./MealProducts/MealProducts";
@@ -11,11 +11,11 @@ interface Props {
     mealId: number;
     setMeals: Dispatch<SetStateAction<[] | ProductEntity[][]>>
     meals: ProductEntity[][] | []
-    removeMeal: (id: number)=> void
+    removeMeal: (id: number)=> void;
+    setProductsList: React.Dispatch<React.SetStateAction<[] | ProductEntity[]>>;
 }
 
-export const Meal = ({productsList, mealId, setMeals, meals, removeMeal}: Props) => {
-
+export const Meal = ({setProductsList, productsList, mealId, setMeals, meals, removeMeal}: Props) => {
 
     const addNewProduct = (newProduct: ProductEntity) => {
         const oldMeal = [...meals][mealId]
@@ -34,8 +34,9 @@ export const Meal = ({productsList, mealId, setMeals, meals, removeMeal}: Props)
                 mealId={mealId}
             />
             <MealAddingNewProduct
-                addNewProduct={addNewProduct}
                 productsList={productsList}
+                addNewProduct={addNewProduct}
+                setProductsList={setProductsList}
             />
             <MealProducts
                 meals={meals}

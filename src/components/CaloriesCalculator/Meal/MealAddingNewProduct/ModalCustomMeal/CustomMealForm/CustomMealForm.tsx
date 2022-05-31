@@ -20,6 +20,7 @@ export const CustomMealForm = ({closeModal, setProductsList, addNewProduct}: Pro
         carbohydrates: 0,
         fats: 0,
         calories: 0,
+        amount: 100,
     });
 
     const updateForm = (key: string, value: any) => {
@@ -33,6 +34,7 @@ export const CustomMealForm = ({closeModal, setProductsList, addNewProduct}: Pro
         e.preventDefault();
         const {name, proteins, carbohydrates, fats, calories} = newMeal;
         const newMealToAdd = {
+            ...newMeal,
             name,
             proteins: Number(proteins),
             carbohydrates: Number(carbohydrates),

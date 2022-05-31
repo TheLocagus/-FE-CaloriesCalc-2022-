@@ -1,6 +1,7 @@
-import React, {Dispatch, FormEventHandler, SetStateAction, useState} from "react";
+import React, {Dispatch, FormEventHandler, SetStateAction, useEffect, useState} from "react";
 import { ProductEntity } from "types";
 import './MealProduct.css';
+import {Button} from "../../../../common/Button";
 
 interface Props {
     product: ProductEntity;
@@ -8,13 +9,18 @@ interface Props {
     mealId: number;
     setMeals: Dispatch<SetStateAction<[] | ProductEntity[][]>>
     productId: number;
-    productsList: ProductEntity[]
+    productsList: ProductEntity[];
+    amount: number;
 }
 
-export const MealProduct = ({product, meals, mealId, setMeals, productId, productsList}: Props) => {
+export const MealProduct = ({amount, product, meals, mealId, setMeals, productId, productsList}: Props) => {
 
     const [isEditInputVisible, setIsEditInputVisible] = useState(false);
-    const [inputValue, setInputValue] = useState<number | string>(100)
+    const [inputValue, setInputValue] = useState<number | string>(amount)
+
+    useEffect(() => {
+        setInputValue(amount)
+    }, [amount])
 
     const removeProduct = (productId: number) => {
         const mealAfterRemovingProduct = [...meals][mealId].filter((meal, i) => i !== productId)
@@ -44,6 +50,7 @@ export const MealProduct = ({product, meals, mealId, setMeals, productId, produc
             carbohydrates: productToModifie.carbohydrates * (Number(inputValue)/100),
             fats: productToModifie.fats * (Number(inputValue)/100),
             calories: productToModifie.calories * (Number(inputValue)/100),
+            amount: Number(inputValue),
         }
 
         const updatedMeal = [...meals][mealId].map((product, i) => {
@@ -75,8 +82,9 @@ export const MealProduct = ({product, meals, mealId, setMeals, productId, produc
                         <p>{product.name}</p>
                     </div>
                     <div className="buttons-container">
-                        <button>Edytuj</button>
+                        <Button className="product__edit-product" onClick={()=>{}} text="Edit"/>
                         <button onClick={() => removeProduct(productId)} className="product__remove-product">Usuń</button>
+                        {/*<Button className="product__remove-product" onClick={() => removeProduct(productId)} text="Delete"/>*/}
                     </div>
                 </div>
                 <div onClick={showEditInput} className="product__amount product-info">
@@ -94,7 +102,7 @@ export const MealProduct = ({product, meals, mealId, setMeals, productId, produc
                                 </label>
 
                             </form>
-                            : <p><small>Ilość: <span className="amount-to-click">{inputValue}g</span></small></p>
+                            : <p><small>Ilość: <span className="amount-to-click">{amount}g</span></small></p>
                     }
                 </div>
                 <div className="product__macronutrients-summary product-info">

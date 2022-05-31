@@ -47,7 +47,9 @@ export const CaloriesCalculator = () => {
                 <AddMeal addMeal={addMeal}/>
                 {
                     meals.length > 0
-                    ? <MealsSummary meals={meals}/>
+                    ? <MealsSummary
+                            meals={meals}
+                        />
                     : null
                 }
             </div>

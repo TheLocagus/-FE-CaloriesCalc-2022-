@@ -10,7 +10,6 @@ interface Props {
 }
 
 export const MealProducts = ({meals, mealId, setMeals, productsList}: Props) => {
-
     return (
         <div className="meal__products products">
             {
@@ -23,6 +22,7 @@ export const MealProducts = ({meals, mealId, setMeals, productsList}: Props) => 
                         key={`${i} - ${product.id}`}
                         product={product}
                         productsList={productsList}
+                        amount={product.amount}
                     />)
             }
         </div>

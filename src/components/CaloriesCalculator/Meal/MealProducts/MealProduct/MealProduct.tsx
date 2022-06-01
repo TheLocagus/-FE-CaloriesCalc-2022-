@@ -2,21 +2,24 @@ import React, {Dispatch, FormEventHandler, SetStateAction, useEffect, useState} 
 import { ProductEntity } from "types";
 import './MealProduct.css';
 import {Button} from "../../../../common/Button";
+import {useDispatch, useSelector} from "react-redux";
+import {RootState} from "../../../../../store";
+import {setMeals} from "../../../../../actions/caloriesCalclator";
 
 interface Props {
     product: ProductEntity;
-    meals: ProductEntity[][] | [];
     mealId: number;
-    setMeals: Dispatch<SetStateAction<[] | ProductEntity[][]>>
     productId: number;
-    productsList: ProductEntity[];
     amount: number;
 }
 
-export const MealProduct = ({amount, product, meals, mealId, setMeals, productId, productsList}: Props) => {
+export const MealProduct = ({amount, product, mealId, productId}: Props) => {
 
+    const {productsList, meals} = useSelector((store: RootState) => store.caloriesCalculator)
     const [isEditInputVisible, setIsEditInputVisible] = useState(false);
     const [inputValue, setInputValue] = useState<number | string>(amount)
+
+    const dispatch = useDispatch();
 
     useEffect(() => {
         setInputValue(amount)
@@ -28,7 +31,7 @@ export const MealProduct = ({amount, product, meals, mealId, setMeals, productId
             if (mealId === i) return mealAfterRemovingProduct;
             return meal
         })
-        setMeals(refreshedMeals)
+        dispatch(setMeals(refreshedMeals))
     }
 
     const showEditInput = () => {
@@ -63,7 +66,7 @@ export const MealProduct = ({amount, product, meals, mealId, setMeals, productId
             return meal;
         })
 
-        setMeals(prevState => updatedMeals)
+        dispatch(setMeals(updatedMeals))
 
         if(isEditInputVisible){
             setIsEditInputVisible(prevState => !prevState);

@@ -1,14 +1,15 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import {Meal} from "./Meal/Meal";
 import {MealsSummary} from "./MealsSummary/MealsSummary";
 import {AddMeal} from "./AddMeal/AddMeal";
 import {ProductEntity} from 'types';
 import './CaloriesCalculator.css'
-import {useDispatch} from "react-redux";
-import {setProductsList} from "../../actions/caloriesCalclator";
+import {useDispatch, useSelector} from "react-redux";
+import {setMeals, setProductsList} from "../../actions/caloriesCalclator";
+import {RootState} from "../../store";
 
 export const CaloriesCalculator = () => {
-    const [meals, setMeals] = useState<ProductEntity[][] | []>([]);
+    const {meals} = useSelector((store: RootState) => store.caloriesCalculator)
     const dispatch = useDispatch();
     useEffect(() => {
         (async () => {
@@ -21,13 +22,13 @@ export const CaloriesCalculator = () => {
     const addMeal = () => {
         const newMeal: ProductEntity[] = []
         const listWithNewMeal = [...meals, newMeal]
-        setMeals(prevState => listWithNewMeal)
+        dispatch(setMeals(listWithNewMeal))
     }
 
     const removeMeal = (index: number) => {
         const mealsAfterRemove: ProductEntity[][] | [] = [...meals]
             .filter((meal, i) => i !== index)
-        setMeals(mealsAfterRemove)
+        dispatch(setMeals(mealsAfterRemove));
     }
     return (
         <>
@@ -37,8 +38,6 @@ export const CaloriesCalculator = () => {
                         ? [...meals].map((meal, i) =><Meal
                             mealId={i}
                             key={i}
-                            setMeals={setMeals}
-                            meals={meals}
                             removeMeal={removeMeal}
                         />)
                         : null
@@ -47,7 +46,6 @@ export const CaloriesCalculator = () => {
                 {
                     meals.length > 0
                     ? <MealsSummary
-                            meals={meals}
                         />
                     : null
                 }

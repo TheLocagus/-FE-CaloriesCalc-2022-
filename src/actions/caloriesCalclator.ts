@@ -11,12 +11,12 @@ export const setMeals = (meals: ProductEntity[][]) => ({
     payload: meals,
 })
 
-export const AddMeal = (meals: ProductEntity[]) => ({
+export const addMeal = (meals: ProductEntity[]) => ({
     type: CaloriesCalculatorAction.ADD_MEAL,
     payload: meals,
 })
 
-export const RemoveMeal = (id: number) => ({
+export const removeMeal = (id: number) => ({
     type: CaloriesCalculatorAction.REMOVE_MEAL,
     payload: id,
 })

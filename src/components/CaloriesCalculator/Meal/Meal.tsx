@@ -5,18 +5,18 @@ import {MealProducts} from "./MealProducts/MealProducts";
 import {MealHeader} from "./MealHeader/MealHeader";
 import {MealAddingNewProduct} from "./MealAddingNewProduct/MealAddingNewProduct";
 import "./Meal.css"
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../store";
+import {setMeals} from "../../../actions/caloriesCalclator";
 
 interface Props {
     mealId: number;
-    setMeals: Dispatch<SetStateAction<[] | ProductEntity[][]>>
-    meals: ProductEntity[][] | []
     removeMeal: (id: number)=> void;
 }
 
-export const Meal = ({ mealId, setMeals, meals, removeMeal}: Props) => {
-    const {productsList} = useSelector((store: RootState) => store.caloriesCalculator)
+export const Meal = ({ mealId, removeMeal}: Props) => {
+    const {productsList, meals} = useSelector((store: RootState) => store.caloriesCalculator);
+    const dispatch = useDispatch();
     const addNewProduct = (newProduct: ProductEntity) => {
         const oldMeal = [...meals][mealId]
         const actualMeal = [...oldMeal, newProduct]
@@ -24,7 +24,7 @@ export const Meal = ({ mealId, setMeals, meals, removeMeal}: Props) => {
             if(i !== mealId) return meal
             return actualMeal
         })
-        setMeals(prevState => mealsToUpdate)
+        dispatch(setMeals(mealsToUpdate))
     }
 
     return (
@@ -37,15 +37,10 @@ export const Meal = ({ mealId, setMeals, meals, removeMeal}: Props) => {
                 addNewProduct={addNewProduct}
             />
             <MealProducts
-                meals={meals}
                 mealId={mealId}
-                setMeals={setMeals}
-                productsList={productsList}
             />
             <MealSummary
                 mealId={mealId}
-                meals={meals}
-                setMeals={setMeals}
             />
 
             {

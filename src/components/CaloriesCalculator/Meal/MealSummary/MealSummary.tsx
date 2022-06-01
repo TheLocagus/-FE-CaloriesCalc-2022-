@@ -1,10 +1,9 @@
-import React, {Dispatch, SetStateAction, useCallback, useEffect, useMemo, useState} from "react";
-import {ProductEntity} from "types";
+import React, {useCallback} from "react";
 import "./MealSummary.css";
+import {useSelector} from "react-redux";
+import {RootState} from "../../../../store";
 
 interface Props {
-    setMeals: Dispatch<SetStateAction<[] | ProductEntity[][]>>
-    meals: ProductEntity[][]
     mealId: number
 }
 
@@ -15,7 +14,9 @@ export enum ProductEnum {
     Calories,
 }
 
-export const MealSummary = ({setMeals, mealId, meals}: Props) => {
+export const MealSummary = ({mealId}: Props) => {
+
+    const {meals} = useSelector((store: RootState) => store.caloriesCalculator)
 
     const macroSummary = useCallback((macro: ProductEnum) => {
         switch (macro) {

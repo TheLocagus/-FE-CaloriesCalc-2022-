@@ -1,17 +1,15 @@
 import React, {useCallback} from "react";
-import {ProductEntity} from "types";
 import {ProductEnum} from "../Meal/MealSummary/MealSummary";
 import {ProteinsFromAllMeals} from "./ProteinsFromAllMeals/ProteinsFromAllMeals";
 import {CarbohydratesFromAllMeals} from "./CarbohydratesromAllMeals/CarbohydratesFromAllMeals";
 import {FatsFromAllMeals} from "./FatsFromAllMeals/FatsFromAllMeals";
 import {CaloriesFromAllMeals} from "./CaloriesFromAllMeals/CaloriesFromAllMeals";
 import './MealsSummary.css';
+import {useSelector} from "react-redux";
+import {RootState} from "../../../store";
 
-interface Props {
-    meals: ProductEntity[][] | []
-}
-
-export const MealsSummary = ({meals}: Props) => {
+export const MealsSummary = () => {
+    const {meals} = useSelector((store: RootState) => store.caloriesCalculator)
     const macroSummary = useCallback((macro: ProductEnum) => {
         switch (macro) {
             case ProductEnum.Proteins:

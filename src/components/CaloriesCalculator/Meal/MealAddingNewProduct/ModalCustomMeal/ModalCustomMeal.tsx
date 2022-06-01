@@ -11,10 +11,9 @@ interface Props {
     isModalVisible: boolean,
     closeModal: () => void,
     addNewProduct: (newProduct: ProductEntity) => void;
-    setProductsList: React.Dispatch<React.SetStateAction<[] | ProductEntity[]>>
 }
 
-export const ModalCustomMeal = ({setProductsList, addNewProduct, openModal, isModalVisible, closeModal}: Props) => {
+export const ModalCustomMeal = ({addNewProduct, openModal, isModalVisible, closeModal}: Props) => {
 
 
     const customStyles = {
@@ -43,7 +42,7 @@ export const ModalCustomMeal = ({setProductsList, addNewProduct, openModal, isMo
                         <h2>Add Your own product <span><small>Values at 100g</small></span></h2>
                         <Button className="modal-close-btn" onClick={closeModal} text="Cancel"/>
                     </div>
-                    <CustomMealForm closeModal={closeModal} setProductsList={setProductsList} addNewProduct={addNewProduct}/>
+                    <CustomMealForm closeModal={closeModal} addNewProduct={addNewProduct}/>
                 </Modal>
             </div>
         </>

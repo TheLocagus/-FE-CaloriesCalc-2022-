@@ -4,15 +4,18 @@ import {ProductEntity} from "types";
 import {Button} from "../../../../../common/Button";
 
 import "./CustomMealForm.css";
+import {useDispatch, useSelector} from "react-redux";
+import {setProductsList} from "../../../../../../actions/caloriesCalclator";
+import {RootState} from "../../../../../../store";
 
 interface Props {
     addNewProduct: (newProduct: ProductEntity) => void;
-    setProductsList: React.Dispatch<React.SetStateAction<[] | ProductEntity[]>>
     closeModal: ()=> void;
 }
 
-export const CustomMealForm = ({closeModal, setProductsList, addNewProduct}: Props) => {
-
+export const CustomMealForm = ({closeModal, addNewProduct}: Props) => {
+    const dispatch = useDispatch();
+    const {productsList} = useSelector((store: RootState) => store.caloriesCalculator)
     const [errorMessage, setErrorMessage] = useState<string>('')
     const [newMeal, setNewMeal] = useState<ProductEntity>({
         name: '',
@@ -33,7 +36,7 @@ export const CustomMealForm = ({closeModal, setProductsList, addNewProduct}: Pro
     const confirmForm = (e: SyntheticEvent) => {
         e.preventDefault();
         const {name, proteins, carbohydrates, fats, calories} = newMeal;
-        const newMealToAdd = {
+        const newMealToAdd: ProductEntity = {
             ...newMeal,
             name,
             proteins: Number(proteins),
@@ -49,8 +52,8 @@ export const CustomMealForm = ({closeModal, setProductsList, addNewProduct}: Pro
         }
 
         addNewProduct(newMealToAdd);
-
-        setProductsList(prev => [...prev, newMealToAdd])
+        const productsListCopy: ProductEntity[] = [...productsList, newMealToAdd]
+        dispatch(setProductsList(productsListCopy))
         closeModal();
     }
 

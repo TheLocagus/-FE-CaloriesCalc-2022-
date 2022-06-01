@@ -4,14 +4,15 @@ import './MealAddingNewProduct.css';
 import {Button} from "../../../common/Button";
 import {DropdownInput} from "./DropdownInput/DropdownInput";
 import {ModalCustomMeal} from "./ModalCustomMeal/ModalCustomMeal";
+import {useSelector} from "react-redux";
+import {RootState} from "../../../../store";
 
 interface Props {
-    productsList: ProductEntity[] | [];
     addNewProduct: (newProduct: ProductEntity) => void;
-    setProductsList: React.Dispatch<React.SetStateAction<[] | ProductEntity[]>>
 }
 
-export const MealAddingNewProduct = ({setProductsList, addNewProduct, productsList}: Props) => {
+export const MealAddingNewProduct = ({addNewProduct}: Props) => {
+    const {productsList} = useSelector((store: RootState) => store.caloriesCalculator)
     const [inputValue, setInputValue] = useState<string>('');
     const [isFindProductVisible, setIsFindProductVisible] = useState<boolean>(false);
 
@@ -92,7 +93,6 @@ export const MealAddingNewProduct = ({setProductsList, addNewProduct, productsLi
             {
                 isModalVisible
                     ? <ModalCustomMeal
-                        setProductsList={setProductsList}
                         addNewProduct={addNewProduct}
                         closeModal={closeModal}
                         isModalVisible={isModalVisible}

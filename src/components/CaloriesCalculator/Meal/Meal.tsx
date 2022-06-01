@@ -5,18 +5,18 @@ import {MealProducts} from "./MealProducts/MealProducts";
 import {MealHeader} from "./MealHeader/MealHeader";
 import {MealAddingNewProduct} from "./MealAddingNewProduct/MealAddingNewProduct";
 import "./Meal.css"
+import {useSelector} from "react-redux";
+import {RootState} from "../../../store";
 
 interface Props {
-    productsList: ProductEntity[] | [];
     mealId: number;
     setMeals: Dispatch<SetStateAction<[] | ProductEntity[][]>>
     meals: ProductEntity[][] | []
     removeMeal: (id: number)=> void;
-    setProductsList: React.Dispatch<React.SetStateAction<[] | ProductEntity[]>>;
 }
 
-export const Meal = ({setProductsList, productsList, mealId, setMeals, meals, removeMeal}: Props) => {
-
+export const Meal = ({ mealId, setMeals, meals, removeMeal}: Props) => {
+    const {productsList} = useSelector((store: RootState) => store.caloriesCalculator)
     const addNewProduct = (newProduct: ProductEntity) => {
         const oldMeal = [...meals][mealId]
         const actualMeal = [...oldMeal, newProduct]
@@ -34,9 +34,7 @@ export const Meal = ({setProductsList, productsList, mealId, setMeals, meals, re
                 mealId={mealId}
             />
             <MealAddingNewProduct
-                productsList={productsList}
                 addNewProduct={addNewProduct}
-                setProductsList={setProductsList}
             />
             <MealProducts
                 meals={meals}

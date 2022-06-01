@@ -4,18 +4,19 @@ import {MealsSummary} from "./MealsSummary/MealsSummary";
 import {AddMeal} from "./AddMeal/AddMeal";
 import {ProductEntity} from 'types';
 import './CaloriesCalculator.css'
+import {useDispatch} from "react-redux";
+import {setProductsList} from "../../actions/caloriesCalclator";
 
 export const CaloriesCalculator = () => {
-    const [productsList, setProductsList] = useState<ProductEntity[] | []>([]);
     const [meals, setMeals] = useState<ProductEntity[][] | []>([]);
-
+    const dispatch = useDispatch();
     useEffect(() => {
         (async () => {
             const res = await fetch('http://localhost:3002');
             const data = await res.json();
-            setProductsList(data);
+            dispatch(setProductsList(data));
         })()
-    }, [])
+    }, [dispatch])
 
     const addMeal = () => {
         const newMeal: ProductEntity[] = []
@@ -36,8 +37,6 @@ export const CaloriesCalculator = () => {
                         ? [...meals].map((meal, i) =><Meal
                             mealId={i}
                             key={i}
-                            productsList={productsList}
-                            setProductsList={setProductsList}
                             setMeals={setMeals}
                             meals={meals}
                             removeMeal={removeMeal}

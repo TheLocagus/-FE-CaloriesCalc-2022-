@@ -11,10 +11,4 @@ const rootReducer = combineReducers({
 
 export const store = createStore(rootReducer);
 
-/**
- * caloriesCalculator: {
- *     productsList: productEntity[] | [],
- *     meals: ProductEntity[][] | []
- * }
- *
- */
+export type RootState = ReturnType<typeof store.getState>

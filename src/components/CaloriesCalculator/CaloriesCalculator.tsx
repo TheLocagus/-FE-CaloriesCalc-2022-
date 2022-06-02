@@ -19,17 +19,6 @@ export const CaloriesCalculator = () => {
         })()
     }, [dispatch])
 
-    // const addMeal = () => {
-    //     const newMeal: ProductEntity[] = []
-    //     const listWithNewMeal = [...meals, newMeal]
-    //     dispatch(setMeals(listWithNewMeal))
-    // }
-
-    const removeMeal = (index: number) => {
-        const mealsAfterRemove: ProductEntity[][] | [] = [...meals]
-            .filter((meal, i) => i !== index)
-        dispatch(setMeals(mealsAfterRemove));
-    }
     return (
         <>
             <div className="calc-wrap">
@@ -38,7 +27,6 @@ export const CaloriesCalculator = () => {
                         ? [...meals].map((meal, i) =><Meal
                             mealId={i}
                             key={i}
-                            removeMeal={removeMeal}
                         />)
                         : null
                 }

@@ -1,17 +1,20 @@
 import React from "react";
 import './MealHeader.css'
+import {useDispatch} from "react-redux";
+import {removeMeal} from "../../../../actions/caloriesCalclator";
 
 interface Props {
-    removeMeal: (id: number) => void;
     mealId: number;
 }
 
-export const MealHeader = ({removeMeal, mealId}: Props) => {
+export const MealHeader = ({mealId}: Props) => {
+
+    const dispatch = useDispatch();
 
     return (
         <div className="meal__header">
             <p>Posiłek {mealId + 1}</p>
-            <button onClick={() => removeMeal(mealId)} className="remove-meal">X</button>
+            <button onClick={() => dispatch(removeMeal(mealId))} className="remove-meal">X</button>
         </div>
     )
 }

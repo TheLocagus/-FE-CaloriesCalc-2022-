@@ -11,11 +11,10 @@ import {setMeals} from "../../../actions/caloriesCalclator";
 
 interface Props {
     mealId: number;
-    removeMeal: (id: number)=> void;
 }
 
-export const Meal = ({ mealId, removeMeal}: Props) => {
-    const {productsList, meals} = useSelector((store: RootState) => store.caloriesCalculator);
+export const Meal = ({ mealId}: Props) => {
+    const {meals} = useSelector((store: RootState) => store.caloriesCalculator);
     const dispatch = useDispatch();
     const addNewProduct = (newProduct: ProductEntity) => {
         const oldMeal = [...meals][mealId]
@@ -30,7 +29,6 @@ export const Meal = ({ mealId, removeMeal}: Props) => {
     return (
         <div className="meal">
             <MealHeader
-                removeMeal={removeMeal}
                 mealId={mealId}
             />
             <MealAddingNewProduct

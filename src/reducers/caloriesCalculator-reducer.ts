@@ -23,7 +23,6 @@ interface SetMeals {
 
 interface AddMeal {
     type: CaloriesCalculatorAction.ADD_MEAL,
-    payload: ProductEntity[]
 }
 
 interface RemoveMeal {
@@ -61,7 +60,7 @@ export default (state: CaloriesCalculatorState = initialState, action: Action) =
         case CaloriesCalculatorAction.ADD_MEAL: {
             return {
                 ...state,
-                meals: [...state.meals, action.payload]
+                meals: [...state.meals, [] as ProductEntity[]]
             }
         }
         case CaloriesCalculatorAction.REMOVE_MEAL: {

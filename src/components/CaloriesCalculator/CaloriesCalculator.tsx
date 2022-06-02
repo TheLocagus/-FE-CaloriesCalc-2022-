@@ -19,11 +19,11 @@ export const CaloriesCalculator = () => {
         })()
     }, [dispatch])
 
-    const addMeal = () => {
-        const newMeal: ProductEntity[] = []
-        const listWithNewMeal = [...meals, newMeal]
-        dispatch(setMeals(listWithNewMeal))
-    }
+    // const addMeal = () => {
+    //     const newMeal: ProductEntity[] = []
+    //     const listWithNewMeal = [...meals, newMeal]
+    //     dispatch(setMeals(listWithNewMeal))
+    // }
 
     const removeMeal = (index: number) => {
         const mealsAfterRemove: ProductEntity[][] | [] = [...meals]
@@ -42,7 +42,7 @@ export const CaloriesCalculator = () => {
                         />)
                         : null
                 }
-                <AddMeal addMeal={addMeal}/>
+                <AddMeal />
                 {
                     meals.length > 0
                     ? <MealsSummary

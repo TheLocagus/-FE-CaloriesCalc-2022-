@@ -11,9 +11,8 @@ export const setMeals = (meals: ProductEntity[][]) => ({
     payload: meals,
 })
 
-export const addMeal = (meals: ProductEntity[]) => ({
+export const addMeal = () => ({
     type: CaloriesCalculatorAction.ADD_MEAL,
-    payload: meals,
 })
 
 export const removeMeal = (id: number) => ({

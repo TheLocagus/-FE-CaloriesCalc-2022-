@@ -5,15 +5,15 @@ import {Button} from "../../../../../common/Button";
 
 import "./CustomMealForm.css";
 import {useDispatch, useSelector} from "react-redux";
-import {setProductsList} from "../../../../../../actions/caloriesCalclator";
+import {addProductToMeal, setProductsList} from "../../../../../../actions/caloriesCalclator";
 import {RootState} from "../../../../../../store";
 
 interface Props {
-    addNewProduct: (newProduct: ProductEntity) => void;
     closeModal: ()=> void;
+    mealId: number;
 }
 
-export const CustomMealForm = ({closeModal, addNewProduct}: Props) => {
+export const CustomMealForm = ({closeModal, mealId}: Props) => {
     const dispatch = useDispatch();
     const {productsList} = useSelector((store: RootState) => store.caloriesCalculator)
     const [errorMessage, setErrorMessage] = useState<string>('')
@@ -51,7 +51,7 @@ export const CustomMealForm = ({closeModal, addNewProduct}: Props) => {
             return;
         }
 
-        addNewProduct(newMealToAdd);
+        dispatch(addProductToMeal(newMealToAdd, mealId));
         const productsListCopy: ProductEntity[] = [...productsList, newMealToAdd]
         dispatch(setProductsList(productsListCopy))
         closeModal();

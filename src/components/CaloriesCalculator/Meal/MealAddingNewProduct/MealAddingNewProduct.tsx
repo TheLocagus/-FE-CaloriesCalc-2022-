@@ -4,17 +4,21 @@ import './MealAddingNewProduct.css';
 import {Button} from "../../../common/Button";
 import {DropdownInput} from "./DropdownInput/DropdownInput";
 import {ModalCustomMeal} from "./ModalCustomMeal/ModalCustomMeal";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../../store";
+import {addProductToMeal} from "../../../../actions/caloriesCalclator";
 
 interface Props {
-    addNewProduct: (newProduct: ProductEntity) => void;
+    mealId: number;
 }
 
-export const MealAddingNewProduct = ({addNewProduct}: Props) => {
-    const {productsList} = useSelector((store: RootState) => store.caloriesCalculator)
+export const MealAddingNewProduct = ({mealId}: Props) => {
+    const {productsList} = useSelector((store: RootState) => store.caloriesCalculator);
+
     const [inputValue, setInputValue] = useState<string>('');
     const [isFindProductVisible, setIsFindProductVisible] = useState<boolean>(false);
+
+    const dispatch = useDispatch();
 
     const [isModalVisible, setIsModalVisible] = useState(false);
     const closeModal = () => {
@@ -23,7 +27,6 @@ export const MealAddingNewProduct = ({addNewProduct}: Props) => {
     const openModal = () => {
         setIsModalVisible(true)
     }
-
 
     const inputRef = useRef() as MutableRefObject<HTMLInputElement>;
 
@@ -69,7 +72,7 @@ export const MealAddingNewProduct = ({addNewProduct}: Props) => {
                                                             Kcal: <b>{product.calories}</b>
                                                         </span>
                                                     </p>
-                                                    <Button className='confirm' onClick={() => addNewProduct(product)}
+                                                    <Button className='confirm' onClick={() => dispatch(addProductToMeal(product, mealId))}
                                                             text='Confirm'/>
                                                 </div>
                                             </li>
@@ -93,10 +96,10 @@ export const MealAddingNewProduct = ({addNewProduct}: Props) => {
             {
                 isModalVisible
                     ? <ModalCustomMeal
-                        addNewProduct={addNewProduct}
+                        mealId={mealId}
                         closeModal={closeModal}
                         isModalVisible={isModalVisible}
-                        openModal={openModal}/>
+                    />
                     : null
             }
         </div>

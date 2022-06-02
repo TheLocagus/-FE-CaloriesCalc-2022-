@@ -16,15 +16,15 @@ interface Props {
 export const Meal = ({ mealId}: Props) => {
     const {meals} = useSelector((store: RootState) => store.caloriesCalculator);
     const dispatch = useDispatch();
-    const addNewProduct = (newProduct: ProductEntity) => {
-        const oldMeal = [...meals][mealId]
-        const actualMeal = [...oldMeal, newProduct]
-        const mealsToUpdate = [...meals].map((meal, i) => {
-            if(i !== mealId) return meal
-            return actualMeal
-        })
-        dispatch(setMeals(mealsToUpdate))
-    }
+    // const addNewProduct = (newProduct: ProductEntity) => {
+    //     const oldMeal = [...meals][mealId]
+    //     const actualMeal = [...oldMeal, newProduct]
+    //     const mealsToUpdate = [...meals].map((meal, i) => {
+    //         if(i !== mealId) return meal
+    //         return actualMeal
+    //     })
+    //     dispatch(setMeals(mealsToUpdate))
+    // }
 
     return (
         <div className="meal">
@@ -32,7 +32,7 @@ export const Meal = ({ mealId}: Props) => {
                 mealId={mealId}
             />
             <MealAddingNewProduct
-                addNewProduct={addNewProduct}
+                mealId={mealId}
             />
             <MealProducts
                 mealId={mealId}

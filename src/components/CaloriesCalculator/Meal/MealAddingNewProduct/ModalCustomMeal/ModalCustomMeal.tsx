@@ -7,14 +7,12 @@ import {CustomMealForm} from "./CustomMealForm/CustomMealForm";
 import { ProductEntity } from "types";
 
 interface Props {
-    openModal: () => void,
     isModalVisible: boolean,
     closeModal: () => void,
-    addNewProduct: (newProduct: ProductEntity) => void;
+    mealId: number
 }
 
-export const ModalCustomMeal = ({addNewProduct, openModal, isModalVisible, closeModal}: Props) => {
-
+export const ModalCustomMeal = ({mealId, isModalVisible, closeModal}: Props) => {
 
     const customStyles = {
         content: {
@@ -42,7 +40,7 @@ export const ModalCustomMeal = ({addNewProduct, openModal, isModalVisible, close
                         <h2>Add Your own product <span><small>Values at 100g</small></span></h2>
                         <Button className="modal-close-btn" onClick={closeModal} text="Cancel"/>
                     </div>
-                    <CustomMealForm closeModal={closeModal} addNewProduct={addNewProduct}/>
+                    <CustomMealForm mealId={mealId} closeModal={closeModal}/>
                 </Modal>
             </div>
         </>

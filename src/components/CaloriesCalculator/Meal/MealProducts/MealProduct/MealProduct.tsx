@@ -1,10 +1,10 @@
-import React, {Dispatch, FormEventHandler, SetStateAction, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import { ProductEntity } from "types";
 import './MealProduct.css';
 import {Button} from "../../../../common/Button";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../../../store";
-import {setMeals} from "../../../../../actions/caloriesCalclator";
+import {removeProductFromMeal, setMeals} from "../../../../../actions/caloriesCalclator";
 
 interface Props {
     product: ProductEntity;
@@ -24,15 +24,6 @@ export const MealProduct = ({amount, product, mealId, productId}: Props) => {
     useEffect(() => {
         setInputValue(amount)
     }, [amount])
-
-    const removeProduct = (productId: number) => {
-        const mealAfterRemovingProduct = [...meals][mealId].filter((meal, i) => i !== productId)
-        const refreshedMeals = [...meals].map((meal, i) => {
-            if (mealId === i) return mealAfterRemovingProduct;
-            return meal
-        })
-        dispatch(setMeals(refreshedMeals))
-    }
 
     const showEditInput = () => {
         if(!isEditInputVisible){
@@ -86,7 +77,7 @@ export const MealProduct = ({amount, product, mealId, productId}: Props) => {
                     </div>
                     <div className="buttons-container">
                         <Button className="product__edit-product" onClick={()=>{}} text="Edit"/>
-                        <button onClick={() => removeProduct(productId)} className="product__remove-product">Usuń</button>
+                        <button onClick={() => dispatch(removeProductFromMeal(productId, mealId))} className="product__remove-product">Usuń</button>
                         {/*<Button className="product__remove-product" onClick={() => removeProduct(productId)} text="Delete"/>*/}
                     </div>
                 </div>

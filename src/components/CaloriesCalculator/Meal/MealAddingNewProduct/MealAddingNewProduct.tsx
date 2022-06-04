@@ -1,5 +1,4 @@
 import React, {ChangeEvent, MutableRefObject, useRef, useState} from "react";
-import {ProductEntity} from "types";
 import './MealAddingNewProduct.css';
 import {Button} from "../../../common/Button";
 import {DropdownInput} from "./DropdownInput/DropdownInput";

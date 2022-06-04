@@ -4,7 +4,6 @@ import Modal from "react-modal";
 import "./ModalCustomMeal.css";
 import {Button} from "../../../../common/Button";
 import {CustomMealForm} from "./CustomMealForm/CustomMealForm";
-import { ProductEntity } from "types";
 
 interface Props {
     isModalVisible: boolean,

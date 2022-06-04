@@ -39,6 +39,7 @@ interface AddProduct {
 interface RemoveProduct {
     type: CaloriesCalculatorAction.REMOVE_PRODUCT,
     payload: number,
+    payload2: number,
 }
 
 type Action = SetProductsList | SetMeals | AddMeal | RemoveMeal | AddProduct | RemoveProduct;
@@ -79,6 +80,17 @@ export default (state: CaloriesCalculatorState = initialState, action: Action) =
             return {
                 ...state,
                 meals: mealsAfterAddingProduct,
+            }
+        }
+        case CaloriesCalculatorAction.REMOVE_PRODUCT: {
+            const mealAfterRemovingProduct = [...state.meals][action.payload2].filter((meal, i) => i !== action.payload)
+            const refreshedMeals = [...state.meals].map((meal, i) => {
+                if (action.payload2 === i) return mealAfterRemovingProduct;
+                return meal
+            })
+            return {
+                ...state,
+                meals: refreshedMeals,
             }
         }
         default: return state;

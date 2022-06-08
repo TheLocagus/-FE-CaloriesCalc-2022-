@@ -7,17 +7,6 @@ export const ChangePassword = () => {
         repeatedPassword: ''
     });
 
-
-    const token = localStorage.getItem('token') ?? ''
-
-    if (token.length === 0) {
-        window.location.href = "http://localhost:3000/signin";
-        return (
-            <div>Redirecting to login...</div>
-        )
-    }
-
-
     const changeValue = (key: string, value: any) => {
         setData(form => ({
             ...form,

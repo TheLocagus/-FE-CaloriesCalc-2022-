@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from "react";
-import { ProductEntity } from "types";
+import React, {MutableRefObject, useEffect, useRef, useState} from "react";
+import {ProductEntity} from "types";
 import './MealProduct.css';
 import {Button} from "../../../../common/Button";
 import {useDispatch, useSelector} from "react-redux";
@@ -21,18 +21,22 @@ export const MealProduct = ({amount, product, mealId, productId}: Props) => {
 
     const dispatch = useDispatch();
 
+    const inputRef = useRef() as MutableRefObject<HTMLInputElement>;
+
     useEffect(() => {
-        setInputValue(amount)
-    }, [amount])
+        setInputValue(amount);
+        if(isEditInputVisible) inputRef.current.focus()
+    }, [amount, isEditInputVisible])
 
     const showEditInput = () => {
-        if(!isEditInputVisible){
-            setIsEditInputVisible(prevState => !prevState);
+        if (!isEditInputVisible) {
+            setIsEditInputVisible(true);
         }
     }
+
     const showAndConfirmValue = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if(inputValue === ''){
+        if (inputValue === '') {
             setInputValue(0);
         }
 
@@ -40,26 +44,26 @@ export const MealProduct = ({amount, product, mealId, productId}: Props) => {
 
         const modifiedProduct: ProductEntity = {
             ...productToModifie,
-            proteins: productToModifie.proteins * (Number(inputValue)/100),
-            carbohydrates: productToModifie.carbohydrates * (Number(inputValue)/100),
-            fats: productToModifie.fats * (Number(inputValue)/100),
-            calories: productToModifie.calories * (Number(inputValue)/100),
+            proteins: productToModifie.proteins * (Number(inputValue) / 100),
+            carbohydrates: productToModifie.carbohydrates * (Number(inputValue) / 100),
+            fats: productToModifie.fats * (Number(inputValue) / 100),
+            calories: productToModifie.calories * (Number(inputValue) / 100),
             amount: Number(inputValue),
         }
 
         const updatedMeal = [...meals][mealId].map((product, i) => {
-            if(i === productId) return modifiedProduct
+            if (i === productId) return modifiedProduct
             return product;
         })
 
         const updatedMeals = [...meals].map((meal, i) => {
-            if(i === mealId) return updatedMeal
+            if (i === mealId) return updatedMeal
             return meal;
         })
 
         dispatch(setMeals(updatedMeals))
 
-        if(isEditInputVisible){
+        if (isEditInputVisible) {
             setIsEditInputVisible(prevState => !prevState);
         }
     }
@@ -76,9 +80,8 @@ export const MealProduct = ({amount, product, mealId, productId}: Props) => {
                         <p>{product.name}</p>
                     </div>
                     <div className="buttons-container">
-                        <Button className="product__edit-product" onClick={()=>{}} text="Edit"/>
-                        <button onClick={() => dispatch(removeProductFromMeal(productId, mealId))} className="product__remove-product">Usuń</button>
-                        {/*<Button className="product__remove-product" onClick={() => removeProduct(productId)} text="Delete"/>*/}
+                        <Button className="product__remove-product"
+                                onClick={() => dispatch(removeProductFromMeal(productId, mealId))} text="Delete"/>
                     </div>
                 </div>
                 <div onClick={showEditInput} className="product__amount product-info">
@@ -87,11 +90,14 @@ export const MealProduct = ({amount, product, mealId, productId}: Props) => {
                             ? <form onSubmit={showAndConfirmValue}>
                                 <label>
                                     <p><small>Ilość: </small></p>
-                                    <input onChange={handleInput}
-                                           className="product__edit-input"
-                                           type="number"
-                                           min="0"
-                                           value={inputValue}
+                                    <input
+                                        onChange={handleInput}
+                                        className="product__edit-input"
+                                        type="number"
+                                        min="0"
+                                        value={inputValue}
+                                        ref={inputRef}
+                                        onBlur={() => setIsEditInputVisible(false)}
                                     />
                                 </label>
 

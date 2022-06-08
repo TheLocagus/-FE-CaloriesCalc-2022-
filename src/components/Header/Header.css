@@ -7,15 +7,25 @@
     margin-bottom: 10px;
 }
 
-.header-functionality button {
-    background-color: #4f0f0f;
+.logo a {
     color: white;
+    text-decoration: none;
+}
+
+.header-functionality {
+    display: flex;
+}
+
+.header-functionality div a {
+    /*background-color: #4f0f0f;*/
+    color: #bbb;
     border: none;
     padding: 0 5px;
     cursor: pointer;
+    text-decoration: none;
 }
 
-.header-functionality button:hover {
-    color: #8d1717;
+.header-functionality div:hover a {
+    color: white;
     transition: 0.2s;
 }

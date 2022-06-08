@@ -9,14 +9,18 @@ interface Props {
 
 export const DropdownInput = ({inputRef, onChange, className, value}: Props) => {
 
-    // const input = useRef() as MutableRefObject<HTMLInputElement>;
-
     useEffect(()=>{
         inputRef.current.focus();
     }, [inputRef]);
 
     return (
-        <input ref={inputRef} className={className} onChange={onChange} value={value} type="text"
-               name="product"/>
+        <input
+            ref={inputRef}
+            className={className}
+            onChange={onChange}
+            value={value}
+            autoComplete="off"
+            type="text"
+            name="product"/>
     )
 }

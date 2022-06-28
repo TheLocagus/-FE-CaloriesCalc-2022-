@@ -1,10 +1,11 @@
 .app-header {
     width: 100%;
-    padding: 10px 5px;
+    height: 5vh;
+    padding: 0 5px;
     display: flex;
     justify-content: space-between;
+    align-items: center;
     background-color: #4f0f0f;
-    margin-bottom: 10px;
 }
 
 .logo a {

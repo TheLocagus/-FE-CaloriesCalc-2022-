@@ -1,19 +1,25 @@
 import React, {SyntheticEvent, useEffect, useState} from 'react';
-import { UserEntity } from 'types';
+import {LoggedUserEntity, UserEntity } from 'types';
+import {useDispatch, useSelector} from "react-redux";
+import {setUser} from "../../actions/caloriesCalclator";
+import {RootState} from "../../store";
+import {useNavigate} from "react-router-dom";
 
 interface JsonData {
     status: string,
     token?: string,
     error?: string,
-    user: UserEntity,
+    loggedUser: LoggedUserEntity,
 }
 
 export const Login = () => {
-
+    
     const [data, setData] = useState<UserEntity>({
         username: '',
         password: '',
-    })
+    });
+    const {user} = useSelector((store: RootState) => store.caloriesCalculator)
+    const nav = useNavigate();
 
     const changeValue = (key: string, value: any) => {
         setData(form => ({
@@ -34,11 +40,9 @@ export const Login = () => {
                 password: data.password,
             })
         })
-        const datas: JsonData = await res.json()
-        console.log(datas)
+        const datas: JsonData = await res.json();
         if (datas.status === 'ok'){
             localStorage.setItem('token', datas.token as string);
-            localStorage.setItem('user', JSON.stringify(datas.user))
             window.location.href = 'http://localhost:3000'
         }
     }

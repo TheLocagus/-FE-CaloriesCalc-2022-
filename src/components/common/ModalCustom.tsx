@@ -1,17 +1,17 @@
 import React from "react";
 import Modal from "react-modal";
 
-import "./ModalCustomMeal.css";
-import {Button} from "../../../../common/Button";
-import {CustomMealForm} from "./CustomMealForm/CustomMealForm";
+import "./ModalCustom.css";
+import {Button} from "./Button";
 
 interface Props {
     isModalVisible: boolean,
     closeModal: () => void,
-    mealId: number
+    modalContent: JSX.Element,
+    titleContent: JSX.Element
 }
 
-export const ModalCustomMeal = ({mealId, isModalVisible, closeModal}: Props) => {
+export const ModalCustom = ({isModalVisible, closeModal, modalContent, titleContent}: Props) => {
 
     const customStyles = {
         content: {
@@ -36,10 +36,10 @@ export const ModalCustomMeal = ({mealId, isModalVisible, closeModal}: Props) => 
                     shouldCloseOnOverlayClick={false}
                 >
                     <div className="modal-header">
-                        <h2>Add Your own product <span><small>Values at 100g</small></span></h2>
+                        {titleContent}
                         <Button className="modal-close-btn" onClick={closeModal} text="Cancel"/>
                     </div>
-                    <CustomMealForm mealId={mealId} closeModal={closeModal} />
+                    {modalContent}
                 </Modal>
             </div>
         </>

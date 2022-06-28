@@ -5,4 +5,5 @@ export enum CaloriesCalculatorAction {
     REMOVE_MEAL = 'REMOVE_MEAL',
     ADD_PRODUCT = 'ADD_PRODUCT',
     REMOVE_PRODUCT = 'REMOVE_PRODUCT',
+    SET_USER = 'SET_USER',
 }

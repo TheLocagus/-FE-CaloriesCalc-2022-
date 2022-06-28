@@ -1,14 +1,16 @@
-import {ProductEntity} from "types";
+import {LoggedUserEntity, ProductEntity} from "types";
 import {CaloriesCalculatorAction} from "../action-types/caloriesCalculator";
 
 interface CaloriesCalculatorState {
     productsList: ProductEntity[];
     meals: ProductEntity[][];
+    user: LoggedUserEntity | null;
 }
 
 const initialState: CaloriesCalculatorState = {
     productsList: [],
     meals: [],
+    user: null,
 }
 
 interface SetProductsList {
@@ -42,10 +44,16 @@ interface RemoveProduct {
     payload2: number,
 }
 
-type Action = SetProductsList | SetMeals | AddMeal | RemoveMeal | AddProduct | RemoveProduct;
+interface SetUser {
+    type: CaloriesCalculatorAction.SET_USER,
+    payload: LoggedUserEntity,
+}
+
+type Action = SetProductsList | SetMeals | AddMeal | RemoveMeal | AddProduct | RemoveProduct | SetUser;
 
 export default (state: CaloriesCalculatorState = initialState, action: Action) => {
     switch(action.type){
+
         case CaloriesCalculatorAction.SET_PRODUCTS_LIST: {
             return {
                 ...state,
@@ -91,6 +99,12 @@ export default (state: CaloriesCalculatorState = initialState, action: Action) =
             return {
                 ...state,
                 meals: refreshedMeals,
+            }
+        }
+        case CaloriesCalculatorAction.SET_USER: {
+            return {
+                ...state,
+                user: action.payload
             }
         }
         default: return state;

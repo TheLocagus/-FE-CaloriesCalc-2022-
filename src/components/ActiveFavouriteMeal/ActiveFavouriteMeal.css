@@ -1,0 +1,8 @@
+.active-favourite-product {
+    background-color: #ccc;
+    padding: 5px;
+}
+
+.active-favourite-product p {
+    padding: 3px 0;
+}

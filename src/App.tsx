@@ -1,22 +1,33 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Route, Routes} from 'react-router-dom';
 import {CaloriesCalculatorView} from "./components/views/CaloriesCalculatorView";
 import {Header} from "./components/Header/Header";
 import Modal from "react-modal";
-import {Provider} from "react-redux";
-import {store} from "./store";
 import {LoginView} from "./components/views/LoginView";
 import {RegistrationView} from "./components/views/RegistrationView";
-import './App.css';
 import {ChangePasswordView} from "./components/views/ChangePasswordView";
 import {ProtectedRoute} from "./components/PrivateRoute/ProtectedRoute";
+import './App.css';
+import {useDispatch, useSelector} from "react-redux";
+import {RootState} from "./store";
+import {setUser} from "./actions/caloriesCalclator";
+import {FavouritesView} from "./components/views/FavouritesView";
+
 
 export const App = () => {
-    Modal.setAppElement('#root');
     const token = localStorage.getItem('token');
+    const dispatch = useDispatch();
+    Modal.setAppElement('#root');
+
+    useEffect(()=>{
+        if (token){
+            const data = JSON.parse(atob(token.split('.')[1]))
+            dispatch(setUser(data))
+        }
+        
+    }, [dispatch, token])
     return (
         <div className="App">
-            <Provider store={store}>
                 <Header/>
                 <Routes>
                     <Route path="/" element={<CaloriesCalculatorView/>}/>
@@ -25,13 +36,19 @@ export const App = () => {
                     <Route
                         path="/change-password"
                         element={
-                            <ProtectedRoute isAuth={!!token}>
+                            <ProtectedRoute>
                                 <ChangePasswordView/>
+                            </ProtectedRoute>}
+                    />
+                    <Route
+                        path="/user/:id/favourites"
+                        element={
+                            <ProtectedRoute>
+                                <FavouritesView/>
                             </ProtectedRoute>}
                     />
 
                 </Routes>
-            </Provider>
         </div>
     );
 }

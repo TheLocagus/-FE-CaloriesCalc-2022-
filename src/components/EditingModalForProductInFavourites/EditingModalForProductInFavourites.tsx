@@ -1,73 +1,32 @@
-import React, {SyntheticEvent, useState} from "react";
-import {v4 as uuid} from 'uuid';
-import {ProductEntity} from "types";
-import {Button} from "../../../../../common/Button";
-import {useDispatch, useSelector} from "react-redux";
-import {addProductToMeal, setProductsList} from "../../../../../../actions/caloriesCalclator";
-import {RootState} from "../../../../../../store";
+import React, {useState} from "react";
+import {Button} from "../common/Button";
 
-import "./CustomMealForm.css";
+export const EditingModalForProductInFavourites = () => {
 
-interface Props {
-    closeModal: ()=> void;
-    mealId: number;
-}
-
-export const CustomMealForm = ({closeModal, mealId}: Props) => {
-    const dispatch = useDispatch();
-    const {productsList} = useSelector((store: RootState) => store.caloriesCalculator)
-    const [errorMessage, setErrorMessage] = useState<string>('')
-    const [newMeal, setNewMeal] = useState<ProductEntity>({
+    const [values, setValues] = useState({
         name: '',
         proteins: 0,
         carbohydrates: 0,
         fats: 0,
         calories: 0,
-        amount: 100,
-    });
+        amount: 0
+    })
 
     const updateForm = (key: string, value: any) => {
-        setNewMeal(form => ({
+        setValues(form => ({
             ...form,
             [key]: value,
         }))
     }
 
-    const confirmForm = (e: SyntheticEvent) => {
-        e.preventDefault();
-        const {name, proteins, carbohydrates, fats, calories} = newMeal;
-        const newMealToAdd: ProductEntity = {
-            ...newMeal,
-            name,
-            proteins: Number(proteins),
-            carbohydrates: Number(carbohydrates),
-            fats: Number(fats),
-            calories: Number(calories),
-            id: uuid(),
-        }
-
-        if (name.length === 0 || name.length > 50){
-            setErrorMessage("Name of product cannot be empty either too long (max 50 char.).")
-            return;
-        }
-
-        dispatch(addProductToMeal(newMealToAdd, mealId));
-        const productsListCopy: ProductEntity[] = [...productsList, newMealToAdd]
-        dispatch(setProductsList(productsListCopy))
-        closeModal();
-    }
-
     return (
         <>
-            <div className="error-message">
-                <p style={{color: "red"}}>{errorMessage}</p>
-            </div>
-            <form className="modal-form" onSubmit={confirmForm}>
+            <form className="modal-form" onSubmit={()=>{}}>
                 <div className="modal-form-name">
                     <label> Name:
                         <input
                             maxLength={50}
-                            value={newMeal.name}
+                            value={values.name}
                             type="text"
                             onChange={e => updateForm('name', e.target.value)}
                         />
@@ -77,7 +36,7 @@ export const CustomMealForm = ({closeModal, mealId}: Props) => {
                     <label> Proteins:
                         <input
                             min={0}
-                            value={newMeal.proteins}
+                            value={values.proteins}
                             type="number"
                             onChange={e => updateForm('proteins', e.target.value[0] === "0" && e.target.value.length > 1 ? e.target.value.substring(1) : e.target.value)}
                         />
@@ -85,7 +44,7 @@ export const CustomMealForm = ({closeModal, mealId}: Props) => {
                     <label> Carbohydrates:
                         <input
                             min={0}
-                            value={newMeal.carbohydrates}
+                            value={values.carbohydrates}
                             type="number"
                             onChange={e => updateForm('carbohydrates', e.target.value[0] === "0" && e.target.value.length > 1 ? e.target.value.substring(1) : e.target.value)}
                         />
@@ -93,7 +52,7 @@ export const CustomMealForm = ({closeModal, mealId}: Props) => {
                     <label> Fats:
                         <input
                             min={0}
-                            value={newMeal.fats}
+                            value={values.fats}
                             type="number"
                             onChange={e => updateForm('fats', e.target.value[0] === "0" && e.target.value.length > 1 ? e.target.value.substring(1) : e.target.value)}
                         />
@@ -101,7 +60,15 @@ export const CustomMealForm = ({closeModal, mealId}: Props) => {
                     <label> Calories:
                         <input
                             min={0}
-                            value={newMeal.calories}
+                            value={values.calories}
+                            type="number"
+                            onChange={e => updateForm('calories', e.target.value[0] === "0" && e.target.value.length > 1 ? e.target.value.substring(1) : e.target.value)}
+                        />
+                    </label>
+                    <label> Amount:
+                        <input
+                            min={0}
+                            value={values.amount}
                             type="number"
                             onChange={e => updateForm('calories', e.target.value[0] === "0" && e.target.value.length > 1 ? e.target.value.substring(1) : e.target.value)}
                         />

@@ -2,10 +2,11 @@ import React, {ChangeEvent, MutableRefObject, useRef, useState} from "react";
 import './MealAddingNewProduct.css';
 import {Button} from "../../../common/Button";
 import {DropdownInput} from "./DropdownInput/DropdownInput";
-import {ModalCustomMeal} from "./ModalCustomMeal/ModalCustomMeal";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../../store";
 import {addProductToMeal} from "../../../../actions/caloriesCalclator";
+import {CustomMealForm} from "./ModalCustomMeal/CustomMealForm/CustomMealForm";
+import {ModalCustom} from "../../../common/ModalCustom";
 
 interface Props {
     mealId: number;
@@ -94,11 +95,16 @@ export const MealAddingNewProduct = ({mealId}: Props) => {
 
             {
                 isModalVisible
-                    ? <ModalCustomMeal
-                        mealId={mealId}
-                        closeModal={closeModal}
+                    // ? <ModalCustomMeal
+                    //     mealId={mealId}
+                    //     closeModal={closeModal}
+                    //     isModalVisible={isModalVisible}
+                    // />
+                    ? <ModalCustom
                         isModalVisible={isModalVisible}
-                    />
+                        closeModal={closeModal}
+                        modalContent={<CustomMealForm mealId={mealId} closeModal={closeModal}/>}
+                        titleContent={<h2>Add Your own product. <small>(values at 100g.)</small></h2>}/>
                     : null
             }
         </div>

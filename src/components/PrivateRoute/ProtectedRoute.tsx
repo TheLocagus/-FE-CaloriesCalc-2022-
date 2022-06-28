@@ -1,15 +1,18 @@
 import React from 'react';
 import {Navigate} from "react-router-dom";
+import {useSelector} from "react-redux";
+import {RootState} from "../../store";
 
 interface Props {
-    isAuth: boolean,
     children: JSX.Element
 }
 
-export const ProtectedRoute = ({isAuth, children}: Props) => {
+export const ProtectedRoute = ({children}: Props) => {
+    const {user} = useSelector((store: RootState) => store.caloriesCalculator);
 
-    if (isAuth) {
+    if (user !== null) {
         return children
-    } else return <Navigate to="/signin"/>
+    }
+    return <Navigate to="/signin"/>
 
 };

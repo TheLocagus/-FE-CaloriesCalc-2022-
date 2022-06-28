@@ -1,4 +1,4 @@
-import { ProductEntity } from "types";
+import {LoggedUserEntity, ProductEntity, UserEntity } from "types";
 import {CaloriesCalculatorAction} from "../action-types/caloriesCalculator";
 
 export const setProductsList = (productList: ProductEntity[]) => ({
@@ -30,4 +30,9 @@ export const removeProductFromMeal = (productId: number, mealId: number) => ({
     type: CaloriesCalculatorAction.REMOVE_PRODUCT,
     payload: productId,
     payload2: mealId,
+})
+
+export const setUser = (user: LoggedUserEntity) => ({
+    type: CaloriesCalculatorAction.SET_USER,
+    payload: user,
 })

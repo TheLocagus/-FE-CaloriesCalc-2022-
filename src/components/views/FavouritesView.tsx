@@ -1,12 +1,15 @@
 import React, {SyntheticEvent, useEffect, useState} from "react";
-import {FavouriteMeal} from "../FavouriteMeal/FavouriteMeal";
-import {useSelector} from "react-redux";
+import {FavouriteMeal} from "../Favourites/FavouriteMeal/FavouriteMeal";
+import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../store";
+import {ActiveFavouriteMeal} from "../Favourites/ActiveFavouriteMeal/ActiveFavouriteMeal";
 
 import './FavouriteView.css';
-import {ActiveFavouriteMeal} from "../ActiveFavouriteMeal/ActiveFavouriteMeal";
-import {Button} from "../common/Button";
-import {ModalCustom} from "../common/ModalCustom";
+import {BsPencilSquare} from "react-icons/bs";
+import {MyModal} from "../common/MyModal/MyModal";
+import {
+    ChangeTitleOfFavouriteMeal
+} from "../common/MyModal/ModalContents/ChangeTitleOfFavouriteMeal/ChangeTitleOfFavouriteMeal";
 
 export interface FavouritesProduct {
     id: string,
@@ -29,10 +32,10 @@ export interface FavouritesEntity {
 export const FavouritesView = () => {
     const [favourites, setFavourites] = useState<FavouritesEntity[] | null>(null);
     const [activeMealIndex, setActiveMealIndex] = useState<number>(0);
-    const [title, setTitle] = useState<string>('');
     const [titleInput, setTitleInput] = useState<string>('');
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const {user} = useSelector((store: RootState) => store.caloriesCalculator)
+    const {user} = useSelector((store: RootState) => store.caloriesCalculator);
+    const dispatch = useDispatch();
     useEffect(() => {
         (async () => {
             if (user) {
@@ -42,6 +45,16 @@ export const FavouritesView = () => {
             }
         })()
     }, [user])
+    if (!user) {
+        return <h1>Error</h1>
+    }
+    if (favourites === null || favourites === undefined) {
+        return <h2>Loading...</h2>
+    }
+
+    if (favourites.length === 0) {
+        return <h2>Lista jest pusta</h2>
+    }
 
     const closeModal = () => {
         setIsModalOpen(false);
@@ -52,14 +65,11 @@ export const FavouritesView = () => {
 
     const changeTitle = async (e: SyntheticEvent) => {
         e.preventDefault();
-        console.log(favourites)
         if (favourites) {
             const mealToUpdate: FavouritesEntity = {
                 ...favourites[activeMealIndex],
                 title: titleInput
             }
-
-            console.log(mealToUpdate)
 
             const res = await fetch('http://localhost:3002/user/favourites', {
                 method: 'PATCH',
@@ -77,11 +87,12 @@ export const FavouritesView = () => {
         }
     }
 
-    const removeFavouriteMeal = async(mealId: string) => {
+    const removeFavouriteMeal = async (mealId: string, userId: string) => {
         const res = await fetch('http://localhost:3002/user/favourites/', {
             method: 'DELETE',
             body: JSON.stringify({
-                id: mealId
+                mealId,
+                userId,
             }),
             headers: {
                 'Content-Type': 'application/json'
@@ -89,12 +100,17 @@ export const FavouritesView = () => {
         })
 
         const data = await res.json();
-        console.log(data)
+        setFavourites(data.meals);
+        setActiveMealIndex(0);
+        console.log(data.message)
+        console.log(data.status)
+
     }
 
-    if (favourites === null || favourites === undefined) {
-        return <h2>Loading...</h2>
+    const changeInputValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setTitleInput(e.target.value)
     }
+
 
     return (
         <div className='favourite-meals-wrapper'>
@@ -108,8 +124,9 @@ export const FavouritesView = () => {
                             title={fav.title}
                             items={fav.products}
                             setActiveMealIndex={setActiveMealIndex}
-                            setTitle={setTitle}
+                            // setTitle={setTitle}
                             removeFavouriteMeal={removeFavouriteMeal}
+                            userId={user.id}
                         />
                     )
                 }
@@ -117,9 +134,9 @@ export const FavouritesView = () => {
             <div className="actual-favourite-meal">
                 <div className="actual-favourite-meal-title">
                     <div className="title">
-                        <h2>{title}</h2>
+                        <h2>{favourites[activeMealIndex].title}</h2>
                     </div>
-                    <Button className="actual-favourite-meal__edit-button" text="Edit" onClick={openModal}/>
+                    <BsPencilSquare className="actual-favourite-meal__edit-icon" onClick={openModal}/>
 
                 </div>
                 {favourites[activeMealIndex].products.map((product, i) =>
@@ -132,15 +149,17 @@ export const FavouritesView = () => {
                     />
                 )}
             </div>
-            <ModalCustom closeModal={closeModal} isModalVisible={isModalOpen} titleContent={<h2>Change title</h2>}
-                         modalContent=
-                             {<form onSubmit={changeTitle}>
-                                 <input value={titleInput} onChange={e => {
-                                     setTitleInput(e.target.value)
-                                 }} type="text"/>
-                                 <Button className='change-title-button' text='Change' onClick={() => {
-                                 }}/>
-                             </form>}/>
+            {
+                isModalOpen
+
+                    ? <MyModal
+                        closeModal={closeModal}
+                        title='Change title'
+                        content={<ChangeTitleOfFavouriteMeal changeTitle={changeTitle} title={titleInput} changeInputValue={changeInputValue}/>
+                    }/>
+                    : null
+            }
+
         </div>
     )
 }

@@ -1,28 +1,32 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import './MealHeader.css'
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {removeMeal} from "../../../../actions/caloriesCalclator";
 import {BsStar, BsStarFill} from "react-icons/bs";
+import {RootState} from "../../../../store";
 
 interface Props {
-    mealId: number;
+    mealIndex: number;
     showAddFavouriteModal: () => void;
-    isMealFavourite: boolean
+    isFavourite: boolean;
 }
 
-export const MealHeader = ({mealId, showAddFavouriteModal, isMealFavourite}: Props) => {
+export const MealHeader = ({isFavourite, showAddFavouriteModal, mealIndex}: Props) => {
 
     const dispatch = useDispatch();
 
+
     return (
         <div className="meal__header">
-            {isMealFavourite
-                ? <BsStarFill className='added-favourite-star'/>
-                : <BsStar onClick={showAddFavouriteModal} className='favourite-star'/>
+            <div className="favourite-icon">
+                {isFavourite
+                    ? <BsStarFill className='added-favourite-star'/>
+                    : <BsStar onClick={showAddFavouriteModal} className='favourite-star'/>
+                }
+            </div>
 
-            }
-            <p>Posiłek {mealId + 1}</p>
-            <button onClick={() => dispatch(removeMeal(mealId))} className="remove-meal">X</button>
+            <p>Posiłek {mealIndex + 1}</p>
+            <button onClick={() => dispatch(removeMeal(mealIndex))} className="remove-meal">X</button>
         </div>
     )
 }

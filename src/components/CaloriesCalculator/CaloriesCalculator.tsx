@@ -1,12 +1,12 @@
-import React, {useEffect} from "react";
+import React, {useCallback, useEffect, useMemo} from "react";
 import {Meal} from "./Meal/Meal";
 import {MealsSummary} from "./MealsSummary/MealsSummary";
 import {AddMeal} from "./AddMeal/AddMeal";
-import {ProductEntity} from 'types';
 import './CaloriesCalculator.css'
 import {useDispatch, useSelector} from "react-redux";
 import {setMeals, setProductsList} from "../../actions/caloriesCalclator";
 import {RootState} from "../../store";
+import {v4 as uuid} from 'uuid';
 
 export const CaloriesCalculator = () => {
     const {meals} = useSelector((store: RootState) => store.caloriesCalculator)
@@ -17,7 +17,12 @@ export const CaloriesCalculator = () => {
             const data = await res.json();
             dispatch(setProductsList(data));
         })()
+
+        return ()=> {
+            dispatch(setMeals([]));
+        }
     }, [dispatch])
+
 
     return (
         <>
@@ -25,7 +30,7 @@ export const CaloriesCalculator = () => {
                 {
                     meals.length > 0
                         ? [...meals].map((meal, i) =><Meal
-                            mealId={i}
+                            mealIndex={i}
                             key={i}
                         />)
                         : null

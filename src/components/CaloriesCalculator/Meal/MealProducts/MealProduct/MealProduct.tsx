@@ -8,12 +8,12 @@ import {removeProductFromMeal, setMeals} from "../../../../../actions/caloriesCa
 
 interface Props {
     product: ProductEntity;
-    mealId: number;
+    mealIndex: number;
     productId: number;
     amount: number;
 }
 
-export const MealProduct = ({amount, product, mealId, productId}: Props) => {
+export const MealProduct = ({amount, product, mealIndex, productId}: Props) => {
 
     const {productsList, meals} = useSelector((store: RootState) => store.caloriesCalculator)
     const [isEditInputVisible, setIsEditInputVisible] = useState(false);
@@ -51,13 +51,13 @@ export const MealProduct = ({amount, product, mealId, productId}: Props) => {
             amount: Number(inputValue),
         }
 
-        const updatedMeal = [...meals][mealId].map((product, i) => {
+        const updatedMeal = [...meals][mealIndex].map((product, i) => {
             if (i === productId) return modifiedProduct
             return product;
         })
 
         const updatedMeals = [...meals].map((meal, i) => {
-            if (i === mealId) return updatedMeal
+            if (i === mealIndex) return updatedMeal
             return meal;
         })
 
@@ -81,7 +81,7 @@ export const MealProduct = ({amount, product, mealId, productId}: Props) => {
                     </div>
                     <div className="buttons-container">
                         <Button className="product__remove-product"
-                                onClick={() => dispatch(removeProductFromMeal(productId, mealId))} text="Delete"/>
+                                onClick={() => dispatch(removeProductFromMeal(productId, mealIndex))} text="Delete"/>
                     </div>
                 </div>
                 <div onClick={showEditInput} className="product__amount product-info">

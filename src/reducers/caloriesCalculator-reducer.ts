@@ -53,7 +53,6 @@ type Action = SetProductsList | SetMeals | AddMeal | RemoveMeal | AddProduct | R
 
 export default (state: CaloriesCalculatorState = initialState, action: Action) => {
     switch(action.type){
-
         case CaloriesCalculatorAction.SET_PRODUCTS_LIST: {
             return {
                 ...state,

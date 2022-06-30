@@ -1,8 +1,8 @@
 import React, {SyntheticEvent, useEffect, useState} from 'react';
 import {LoggedUserEntity, UserEntity } from 'types';
 import {useDispatch, useSelector} from "react-redux";
-import {setUser} from "../../actions/caloriesCalclator";
-import {RootState} from "../../store";
+import {setUser} from "../../../actions/caloriesCalclator";
+import {RootState} from "../../../store";
 import {useNavigate} from "react-router-dom";
 
 interface JsonData {

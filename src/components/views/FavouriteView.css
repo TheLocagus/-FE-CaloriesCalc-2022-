@@ -21,9 +21,15 @@
 .actual-favourite-meal-title {
     display: flex;
     justify-content: flex-end;
+    align-items: center;
 }
 
 .actual-favourite-meal .title {
     flex-grow: 1;
     text-align: center;
+}
+
+.actual-favourite-meal__edit-icon:hover {
+    transform: scale(1.1);
+    cursor: pointer;
 }

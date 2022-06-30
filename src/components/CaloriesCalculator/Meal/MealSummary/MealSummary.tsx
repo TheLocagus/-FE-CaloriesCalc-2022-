@@ -4,7 +4,7 @@ import {useSelector} from "react-redux";
 import {RootState} from "../../../../store";
 
 interface Props {
-    mealId: number
+    mealIndex: number
 }
 
 export enum ProductEnum {
@@ -14,36 +14,36 @@ export enum ProductEnum {
     Calories,
 }
 
-export const MealSummary = ({mealId}: Props) => {
+export const MealSummary = ({mealIndex}: Props) => {
 
     const {meals} = useSelector((store: RootState) => store.caloriesCalculator)
 
     const macroSummary = useCallback((macro: ProductEnum) => {
         switch (macro) {
             case ProductEnum.Proteins:
-                return meals[mealId].length !== 0 ?
-                    Number([...meals][mealId]
+                return meals[mealIndex].length !== 0 ?
+                    Number([...meals][mealIndex]
                         .map((product) => product.proteins)
                         .reduce((prev, curr) => prev + curr)
                         .toFixed(2))
                     : 0
             case ProductEnum.Carbohydrates:
-                return meals[mealId].length !== 0 ?
-                    Number([...meals][mealId]
+                return meals[mealIndex].length !== 0 ?
+                    Number([...meals][mealIndex]
                         .map((product) => product.carbohydrates)
                         .reduce((prev, curr) => prev + curr)
                         .toFixed(2))
                     : 0
             case ProductEnum.Fats:
-                return meals[mealId].length !== 0 ?
-                    Number([...meals][mealId]
+                return meals[mealIndex].length !== 0 ?
+                    Number([...meals][mealIndex]
                         .map((product) => product.fats)
                         .reduce((prev, curr) => prev + curr)
                         .toFixed(2))
                     : 0
             case ProductEnum.Calories:
-                return meals[mealId].length !== 0 ?
-                    Number([...meals][mealId]
+                return meals[mealIndex].length !== 0 ?
+                    Number([...meals][mealIndex]
                         .map((product) => product.calories)
                         .reduce((prev, curr) => prev + curr)
                         .toFixed(2))
@@ -51,12 +51,12 @@ export const MealSummary = ({mealId}: Props) => {
             default:
                 return 0
         }
-    }, [mealId, meals])
+    }, [mealIndex, meals])
 
     return (
         <div className="meal__meal-summary meal-summary">
             <div className="meal-summary__header">
-                <p>Posiłek {mealId + 1} zawiera łącznie: </p>
+                <p>Posiłek {mealIndex + 1} zawiera łącznie: </p>
             </div>
             <div className="meal-summary__macronutrients">
                 <div className="meal-summary-macro meal-summary__proteins">

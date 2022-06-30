@@ -6,7 +6,7 @@ import Modal from "react-modal";
 import {LoginView} from "./components/views/LoginView";
 import {RegistrationView} from "./components/views/RegistrationView";
 import {ChangePasswordView} from "./components/views/ChangePasswordView";
-import {ProtectedRoute} from "./components/PrivateRoute/ProtectedRoute";
+import {ProtectedRoute} from "./components/common/PrivateRoute/ProtectedRoute";
 import './App.css';
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "./store";

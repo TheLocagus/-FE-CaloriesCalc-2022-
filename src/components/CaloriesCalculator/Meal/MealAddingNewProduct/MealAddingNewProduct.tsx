@@ -5,14 +5,14 @@ import {DropdownInput} from "./DropdownInput/DropdownInput";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../../store";
 import {addProductToMeal} from "../../../../actions/caloriesCalclator";
-import {CustomMealForm} from "./ModalCustomMeal/CustomMealForm/CustomMealForm";
-import {ModalCustom} from "../../../common/ModalCustom";
+import {AddNewProductToMealForm} from "../../../common/MyModal/ModalContents/AddNewProductToMealForm/AddNewProductToMealForm";
+import {MyModal} from "../../../common/MyModal/MyModal";
 
 interface Props {
-    mealId: number;
+    mealIndex: number;
 }
 
-export const MealAddingNewProduct = ({mealId}: Props) => {
+export const MealAddingNewProduct = ({mealIndex}: Props) => {
     const {productsList} = useSelector((store: RootState) => store.caloriesCalculator);
 
     const [inputValue, setInputValue] = useState<string>('');
@@ -72,7 +72,7 @@ export const MealAddingNewProduct = ({mealId}: Props) => {
                                                             Kcal: <b>{product.calories}</b>
                                                         </span>
                                                     </p>
-                                                    <Button className='confirm' onClick={() => dispatch(addProductToMeal(product, mealId))}
+                                                    <Button className='confirm' onClick={() => dispatch(addProductToMeal(product, mealIndex))}
                                                             text='Confirm'/>
                                                 </div>
                                             </li>
@@ -95,16 +95,12 @@ export const MealAddingNewProduct = ({mealId}: Props) => {
 
             {
                 isModalVisible
-                    // ? <ModalCustomMeal
-                    //     mealId={mealId}
-                    //     closeModal={closeModal}
+                    // ? <ModalCustom
                     //     isModalVisible={isModalVisible}
-                    // />
-                    ? <ModalCustom
-                        isModalVisible={isModalVisible}
-                        closeModal={closeModal}
-                        modalContent={<CustomMealForm mealId={mealId} closeModal={closeModal}/>}
-                        titleContent={<h2>Add Your own product. <small>(values at 100g.)</small></h2>}/>
+                    //     closeModal={closeModal}
+                    //     modalContent={<AddNewProductToMealForm mealIndex={mealIndex} closeModal={closeModal}/>}
+                    //     titleContent={<h2>Add Your own product. <small>(values at 100g.)</small></h2>}/>
+                ? <MyModal closeModal={closeModal} title='Add Your own product.' subtitle='at 100g' content={<AddNewProductToMealForm closeModal={closeModal} mealIndex={mealIndex}/>}/>
                     : null
             }
         </div>

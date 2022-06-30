@@ -1,6 +1,6 @@
 import React, {SyntheticEvent, useState} from "react";
-import {FavouritesEntity, FavouritesProduct} from "../views/FavouritesView";
-import {Button} from "../common/Button";
+import {FavouritesEntity, FavouritesProduct} from "../../views/FavouritesView";
+import {Button} from "../../common/Button";
 
 interface Props {
     productValues: FavouritesProduct,

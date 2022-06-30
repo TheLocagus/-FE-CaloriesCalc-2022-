@@ -1,19 +1,18 @@
 import React, {SyntheticEvent, useState} from "react";
 import {v4 as uuid} from 'uuid';
 import {ProductEntity} from "types";
-import {Button} from "../../../../../common/Button";
 import {useDispatch, useSelector} from "react-redux";
-import {addProductToMeal, setProductsList} from "../../../../../../actions/caloriesCalclator";
-import {RootState} from "../../../../../../store";
+import {addProductToMeal, setProductsList} from "../../../../../actions/caloriesCalclator";
+import {RootState} from "../../../../../store";
 
-import "./CustomMealForm.css";
+import "./AddNewProductToMealForm.css";
 
 interface Props {
     closeModal: ()=> void;
-    mealId: number;
+    mealIndex: number;
 }
 
-export const CustomMealForm = ({closeModal, mealId}: Props) => {
+export const AddNewProductToMealForm = ({closeModal, mealIndex}: Props) => {
     const dispatch = useDispatch();
     const {productsList} = useSelector((store: RootState) => store.caloriesCalculator)
     const [errorMessage, setErrorMessage] = useState<string>('')
@@ -51,7 +50,7 @@ export const CustomMealForm = ({closeModal, mealId}: Props) => {
             return;
         }
 
-        dispatch(addProductToMeal(newMealToAdd, mealId));
+        dispatch(addProductToMeal(newMealToAdd, mealIndex));
         const productsListCopy: ProductEntity[] = [...productsList, newMealToAdd]
         dispatch(setProductsList(productsListCopy))
         closeModal();
@@ -107,7 +106,9 @@ export const CustomMealForm = ({closeModal, mealId}: Props) => {
                         />
                     </label>
                 </div>
-                <Button className='save-new-custom-meal' onClick={()=>{}} text='Save'/>
+                <div className="modal-btn">
+                    <button type='submit' className='modal-confirm'>Confirm</button>
+                </div>
             </form>
         </>
     )

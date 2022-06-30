@@ -1,13 +1,9 @@
 import React, {SyntheticEvent, useEffect, useState} from "react";
-import {FavouritesEntity, FavouritesProduct} from "../views/FavouritesView";
-
+import {FavouritesEntity, FavouritesProduct} from "../../views/FavouritesView";
 import './ActiveFavouriteMeal.css';
-import {Button} from "../common/Button";
-import {ModalCustom} from "../common/ModalCustom";
-import {
-    EditingModalForProductInFavourites
-} from "../EditingModalForProductInFavourites/EditingModalForProductInFavourites";
+import {Button} from "../../common/Button";
 import {HardEditingFields} from "../HardEditingFields/HardEditingFields";
+import {TiPencil} from "react-icons/ti";
 
 interface Props {
     product: FavouritesProduct,
@@ -78,10 +74,10 @@ export const ActiveFavouriteMeal = ({product, favourites, activeMealIndex, setFa
 
     const saveChangedByAmount = async () => {
         const productsToSend: FavouritesProduct[] = [...[...favourites[activeMealIndex].products].filter(product => product.id !== productValues.id),
-        {
-            ...productValues,
-            index: product.index
-        }];
+            {
+                ...productValues,
+                index: product.index
+            }];
 
         const newValues: FavouritesEntity = {
             favouriteId: favourites[activeMealIndex].favouriteId,
@@ -89,9 +85,6 @@ export const ActiveFavouriteMeal = ({product, favourites, activeMealIndex, setFa
             title: favourites[activeMealIndex].title,
             userId: favourites[activeMealIndex].userId
         }
-
-        console.log(newValues)
-
 
         setDidUserChangeBasicValue(false);
         setIsEditInputVisible(false);
@@ -114,32 +107,45 @@ export const ActiveFavouriteMeal = ({product, favourites, activeMealIndex, setFa
 
     return (
         <>
-            <div className="active-favourite-product__header">
-                <Button className='active-favourite-product__edit-button' text='Edit' onClick={() => {
-                    setIsHardEditActive(true)
-                }}/>
-            </div>
             <div key={product.name} className="active-favourite-product">
                 {
                     isHardEditActive
-                        ? <HardEditingFields setIsHardEditActive={setIsHardEditActive} setFavourites={setFavourites} product={product} activeMealIndex={activeMealIndex} favourites={favourites} productValues={productValues}/>
+                        ? <>
+                        <div className="active-favourite-product-edit-button">
+                            <TiPencil className='active-favourite-product__edit-button' onClick={() => {
+                                setIsHardEditActive(false)
+                            }}/>
+                        </div>
+                        <HardEditingFields setIsHardEditActive={setIsHardEditActive} setFavourites={setFavourites}
+                                             product={product} activeMealIndex={activeMealIndex} favourites={favourites}
+                                             productValues={productValues}/>
+                        </>
+
                         : <>
-                            <h3>Product: {productValues.name}</h3>
-                            <p>Proteins: {productValues.proteins}</p>
-                            <p>Carbohydrates: {productValues.carbohydrates}</p>
-                            <p>Fats: {productValues.fats}</p>
-                            <p>Calories: {productValues.calories}</p>
-                            <div>Amount:
-                                {
-                                    isEditInputVisible
-                                        ? <form onSubmit={changeAmount}>
-                                            <input value={inputValue} onChange={e => setInputValue(Number(e.target.value))}
-                                                   type="number" step='0.01'/>
-                                        </form>
-                                        : <span onClick={showInput}>{productValues.amount}</span>
-                                }
+                            <div className="active-favourite-product-edit-button">
+                                <TiPencil className='active-favourite-product__edit-button' onClick={() => {
+                                    setIsHardEditActive(true)
+                                }}/>
+                            </div>
+                            <div className='active-favourite-product-values'>
+                                <h3>Product: {productValues.name}</h3>
+                                <p>Proteins: {productValues.proteins}</p>
+                                <p>Carbohydrates: {productValues.carbohydrates}</p>
+                                <p>Fats: {productValues.fats}</p>
+                                <p>Calories: {productValues.calories}</p>
+                                <div>Amount:
+                                    {
+                                        isEditInputVisible
+                                            ? <form onSubmit={changeAmount}>
+                                                <input value={inputValue} onChange={e => setInputValue(Number(e.target.value))}
+                                                       type="number" step='0.01'/>
+                                            </form>
+                                            : <span onClick={showInput}>{productValues.amount}</span>
+                                    }
+                                </div>
                             </div>
                         </>
+
                 }
 
             </div>

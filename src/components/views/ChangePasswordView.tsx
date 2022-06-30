@@ -1,5 +1,5 @@
 import React from 'react';
-import {ChangePassword} from "../ChangePassword/ChangePassword";
+import {ChangePassword} from "../User/ChangePassword/ChangePassword";
 
 export const ChangePasswordView = () => {
     return <>

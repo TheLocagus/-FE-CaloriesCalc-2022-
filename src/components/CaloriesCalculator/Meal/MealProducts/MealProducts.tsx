@@ -4,18 +4,18 @@ import {useSelector} from "react-redux";
 import {RootState} from "../../../../store";
 
 interface Props {
-    mealId: number;
+    mealIndex: number;
 }
 
-export const MealProducts = ({mealId}: Props) => {
+export const MealProducts = ({mealIndex}: Props) => {
     const {meals} = useSelector((store: RootState) => store.caloriesCalculator)
     return (
         <div className="meal__products products">
             {
-                [...meals][mealId].map((product, i) =>
+                [...meals][mealIndex].map((product, i) =>
                     <MealProduct
                         productId={i}
-                        mealId={mealId}
+                        mealIndex={mealIndex}
                         key={`${i} - ${product.id}`}
                         product={product}
                         amount={product.amount}

@@ -8,43 +8,44 @@ import {RootState} from "../../../store";
 import {v4 as uuid} from 'uuid';
 
 import "./Meal.css"
-import {FavouritesEntity, FavouritesJoinedInDatabase, FavouritesProducts } from "types";
-import {ModalCustom} from "../../common/ModalCustom";
+import {FavouritesEntity, FavouritesProducts} from "types";
+
+import {MyModal} from "../../common/MyModal/MyModal";
+import {SetTitleOnFavourite} from "../../common/MyModal/ModalContents/SetTitleOnFavourite/SetTitleOnFavourite";
 
 
 interface Props {
-    mealId: number;
+    mealIndex: number;
 }
 
-export const Meal = ({ mealId}: Props) => {
+export const Meal = ({mealIndex}: Props) => {
     const {meals, user} = useSelector((store: RootState) => store.caloriesCalculator);
     const [isModalAddToFavouriteOpen, setIsModalAddToFavouriteOpen] = useState(false);
     const [titleInput, setTitleInput] = useState('');
-    const [isMealFavourite, setIsMealFavourite] = useState(false);
+    const [isFavourite, setIsFavourite] = useState(false);
 
-    if(!user){
-        return <h2>Błąd</h2>
-    }
-
-    const addFavourite = async(e: SyntheticEvent) => {
+    const addFavourite = async (e: SyntheticEvent) => {
         e.preventDefault();
-        const generatedFavouriteMealId = uuid();
-        const generatedCorrectMeal: FavouritesProducts[] = meals[mealId].map((meal, i) => ({
+
+        if (!user) {
+            return <h2>Błąd</h2>
+        }
+
+        const generatedMealId = uuid();
+
+        const generatedCorrectMeal: FavouritesProducts[] = meals[mealIndex].map((meal, i) => ({
             ...meal,
-            favouriteId: generatedFavouriteMealId,
+            favouriteId: generatedMealId,
             index: i,
             id: uuid(),
         }))
 
-
         const mealToSend: FavouritesEntity = {
             title: titleInput,
-            favouriteId: generatedFavouriteMealId,
+            favouriteId: generatedMealId,
             userId: user.id,
             products: generatedCorrectMeal
         };
-
-        console.log(mealToSend)
 
         const res = await fetch('http://localhost:3002/user/favourites', {
             method: 'POST',
@@ -54,15 +55,13 @@ export const Meal = ({ mealId}: Props) => {
             }
         })
 
-
         const data = await res.json();
-        console.log(data.status)
-        setIsMealFavourite(true);
+        setIsFavourite(true);
         setIsModalAddToFavouriteOpen(false);
 
     }
 
-    const showAddFavouriteModal = async() => {
+    const showAddFavouriteModal = async () => {
         setIsModalAddToFavouriteOpen(true);
     }
 
@@ -70,30 +69,39 @@ export const Meal = ({ mealId}: Props) => {
         setIsModalAddToFavouriteOpen(false);
     }
 
+    const changeInputValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+        e.preventDefault();
+        setTitleInput(e.target.value)
+    }
+
     return (
         <div className="meal">
             <MealHeader
                 showAddFavouriteModal={showAddFavouriteModal}
-                mealId={mealId}
-                isMealFavourite={isMealFavourite}
+                mealIndex={mealIndex}
+                isFavourite={isFavourite}
             />
             {
                 isModalAddToFavouriteOpen
-                ? <ModalCustom isModalVisible={isModalAddToFavouriteOpen} closeModal={closeAddFavouriteModal} titleContent={<h2>Type Your meal's title</h2>}
-                        modalContent={<form onSubmit={addFavourite}>
-                            <input type="text" value={titleInput} onChange={e => setTitleInput(e.target.value)}/>
-                            <button>Confirm</button>
-                        </form>}/>
+                    // ? <ModalCustom isModalVisible={isModalAddToFavouriteOpen} closeModal={closeAddFavouriteModal} titleContent={<h2>Type Your meal's title</h2>}
+                    //         modalContent={<form onSubmit={addFavourite}>
+                    //             <input type="text" value={titleInput} onChange={e => setTitleInput(e.target.value)}/>
+                    //             <button>Confirm</button>
+                    //         </form>}/>
+                    ? <MyModal closeModal={closeAddFavouriteModal} title="Type Your meal's title" content={
+                        <SetTitleOnFavourite title={titleInput} addFavourite={addFavourite} changeInputValue={changeInputValue}/>}
+                    />
+
                     : null
             }
             <MealAddingNewProduct
-                mealId={mealId}
+                mealIndex={mealIndex}
             />
             <MealProducts
-                mealId={mealId}
+                mealIndex={mealIndex}
             />
             <MealSummary
-                mealId={mealId}
+                mealIndex={mealIndex}
             />
 
             {

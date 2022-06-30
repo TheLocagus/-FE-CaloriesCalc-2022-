@@ -1,5 +1,5 @@
 import React from 'react';
-import {Registration} from "../Registration/Registration";
+import {Registration} from "../User/Registration/Registration";
 
 export const RegistrationView = () => {
     return <>

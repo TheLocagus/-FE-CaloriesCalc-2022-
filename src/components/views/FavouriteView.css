@@ -5,6 +5,7 @@
     width: 100%;
     padding: 10px;
     display: flex;
+    overflow: auto;
 }
 
 .favourite-meals-list {

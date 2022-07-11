@@ -1,19 +1,16 @@
-.active-favourite-product {
+
+.actual-favourite-meal__summary-values {
+    margin-top: 10px;
+    padding: 5px 10px;
+    width: 50%;
     display: flex;
-    background-color: #ccc;
-    padding: 15px 5px;
+    justify-content: space-between;
 }
 
-
-.active-favourite-product__edit-button {
-    margin-right: 5px;
-    cursor: pointer;
+.actual-favourite-meal__summary-pcf {
+    display: flex;
 }
 
-.active-favourite-product__edit-button:hover {
-    transform: scale(1.1);
-}
-
-.active-favourite-product p {
-    padding: 3px 0;
+.actual-favourite-meal__summary-pcf p{
+    margin-right: 10px;
 }

@@ -6,7 +6,7 @@ import {combineReducers, createStore} from "redux";
 import caloriesCalculatorReducer from "../reducers/caloriesCalculator-reducer";
 
 const rootReducer = combineReducers({
-    caloriesCalculator: caloriesCalculatorReducer
+    caloriesCalculator: caloriesCalculatorReducer,
 })
 
 export const store = createStore(rootReducer);

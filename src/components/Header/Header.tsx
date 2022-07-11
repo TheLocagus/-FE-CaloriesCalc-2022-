@@ -1,32 +1,29 @@
 import React from 'react';
 import "./Header.css";
-import {Button} from "../common/Button";
 import {Link} from "react-router-dom";
 import {useSelector} from "react-redux";
-import {RootState, store} from "../../store";
+import {RootState} from "../../store";
+import {UsernameWithMenu} from "./UsernameWithMenu/UsernameWithMenu";
 
 export const Header = () => {
     const {user} = useSelector((store: RootState) => store.caloriesCalculator)
+
     return (
         <>
             <header className="app-header">
                 <div className="logo">
                     <Link to="/">FitApp - Calories Calculator, by Locagus</Link>
                 </div>
+
                 {
                     user !== null
-                        ? <Link to={`/user/${user.id}/favourites`}>Favourites</Link>
-                        : null
-                }
-                {
-                    user !== null
-                        ? <div> Witaj {user.username}</div>
+                        ? <UsernameWithMenu/>
                         : <div className="header-functionality">
                             <div className="signin">
-                                <Link to="/signin">Login</Link>
+                                <Link to="/auth/login">Login</Link>
                             </div>
                             <div className="signup">
-                                <Link to="/signup">Registration</Link>
+                                <Link to="/auth/register">Registration</Link>
                             </div>
                         </div>
                 }

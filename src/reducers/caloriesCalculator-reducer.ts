@@ -1,16 +1,22 @@
-import {LoggedUserEntity, ProductEntity} from "types";
+import {ErrorEntity, LoggedUserEntity, ProductEntity} from "types";
 import {CaloriesCalculatorAction} from "../action-types/caloriesCalculator";
 
 interface CaloriesCalculatorState {
     productsList: ProductEntity[];
     meals: ProductEntity[][];
     user: LoggedUserEntity | null;
+    error: ErrorEntity | null;
 }
 
 const initialState: CaloriesCalculatorState = {
     productsList: [],
     meals: [],
-    user: null,
+    user:
+        localStorage.getItem('username') === null ? null : {
+        username: localStorage.getItem('username') as string,
+        id: localStorage.getItem('id') as string
+    } || null,
+    error: null,
 }
 
 interface SetProductsList {
@@ -49,7 +55,12 @@ interface SetUser {
     payload: LoggedUserEntity,
 }
 
-type Action = SetProductsList | SetMeals | AddMeal | RemoveMeal | AddProduct | RemoveProduct | SetUser;
+interface SetError {
+    type: CaloriesCalculatorAction.SET_ERROR,
+    payload: ErrorEntity | null,
+}
+
+type Action = SetProductsList | SetMeals | AddMeal | RemoveMeal | AddProduct | RemoveProduct | SetUser | SetError;
 
 export default (state: CaloriesCalculatorState = initialState, action: Action) => {
     switch(action.type){
@@ -104,6 +115,12 @@ export default (state: CaloriesCalculatorState = initialState, action: Action) =
             return {
                 ...state,
                 user: action.payload
+            }
+        }
+        case CaloriesCalculatorAction.SET_ERROR: {
+            return {
+                ...state,
+                error: action.payload
             }
         }
         default: return state;

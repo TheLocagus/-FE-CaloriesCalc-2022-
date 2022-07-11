@@ -4,9 +4,9 @@ import {ProteinsFromAllMeals} from "./ProteinsFromAllMeals/ProteinsFromAllMeals"
 import {CarbohydratesFromAllMeals} from "./CarbohydratesromAllMeals/CarbohydratesFromAllMeals";
 import {FatsFromAllMeals} from "./FatsFromAllMeals/FatsFromAllMeals";
 import {CaloriesFromAllMeals} from "./CaloriesFromAllMeals/CaloriesFromAllMeals";
-import './MealsSummary.css';
 import {useSelector} from "react-redux";
 import {RootState} from "../../../store";
+import './MealsSummary.css';
 
 export const MealsSummary = () => {
     const {meals} = useSelector((store: RootState) => store.caloriesCalculator)
@@ -61,7 +61,7 @@ export const MealsSummary = () => {
     return (
         <div className="meals-summary">
             <header className="meals-summary__header">
-                <p>Podsumowanie:</p>
+                <p>Summary:</p>
             </header>
             <div className="meals-summary__macronutrients">
                 <ProteinsFromAllMeals macroSummary={macroSummary}/>

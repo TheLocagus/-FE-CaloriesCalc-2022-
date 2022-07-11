@@ -1,9 +1,9 @@
 import React from "react";
 import {Button} from "../../common/Button";
-import "./AddMeal.css";
-import {useDispatch} from "react-redux";
 import {addMeal} from "../../../actions/caloriesCalclator";
+import {useDispatch} from "react-redux";
 
+import "./AddMeal.css";
 
 export const AddMeal = () => {
     const dispatch = useDispatch();

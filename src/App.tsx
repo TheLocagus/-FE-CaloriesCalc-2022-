@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {Route, Routes} from 'react-router-dom';
 import {CaloriesCalculatorView} from "./components/views/CaloriesCalculatorView";
 import {Header} from "./components/Header/Header";
@@ -8,47 +8,51 @@ import {RegistrationView} from "./components/views/RegistrationView";
 import {ChangePasswordView} from "./components/views/ChangePasswordView";
 import {ProtectedRoute} from "./components/common/PrivateRoute/ProtectedRoute";
 import './App.css';
-import {useDispatch, useSelector} from "react-redux";
-import {RootState} from "./store";
-import {setUser} from "./actions/caloriesCalclator";
 import {FavouritesView} from "./components/views/FavouritesView";
+import {Logout} from "./components/User/Logout/Logout";
+import {CustomError} from "./components/common/Error/CustomError";
+import {NotFoundView} from "./components/views/NotFoundView/NotFoundView";
+import {useSelector} from "react-redux";
+import {RootState} from "./store";
 
 
 export const App = () => {
-    const token = localStorage.getItem('token');
-    const dispatch = useDispatch();
     Modal.setAppElement('#root');
+    const {error} = useSelector((store: RootState) => store.caloriesCalculator);
 
-    useEffect(()=>{
-        if (token){
-            const data = JSON.parse(atob(token.split('.')[1]))
-            dispatch(setUser(data))
-        }
-        
-    }, [dispatch, token])
     return (
         <div className="App">
-                <Header/>
-                <Routes>
-                    <Route path="/" element={<CaloriesCalculatorView/>}/>
-                    <Route path="/signin" element={<LoginView/>}/>
-                    <Route path="/signup" element={<RegistrationView/>}/>
-                    <Route
-                        path="/change-password"
-                        element={
-                            <ProtectedRoute>
-                                <ChangePasswordView/>
-                            </ProtectedRoute>}
-                    />
-                    <Route
-                        path="/user/:id/favourites"
-                        element={
-                            <ProtectedRoute>
-                                <FavouritesView/>
-                            </ProtectedRoute>}
-                    />
-
-                </Routes>
+            <Header/>
+            <Routes>
+                <Route path="/" element={<CaloriesCalculatorView/>}/>
+                <Route path="/auth/login" element={<LoginView/>}/>
+                <Route path="/auth/register" element={<RegistrationView/>}/>
+                <Route path="/auth/logout" element={
+                    <ProtectedRoute>
+                        <Logout/>
+                    </ProtectedRoute>
+                }/>
+                <Route
+                    path="/change-password"
+                    element={
+                        <ProtectedRoute>
+                            <ChangePasswordView/>
+                        </ProtectedRoute>}
+                />
+                <Route
+                    path="/user/:id/favourites"
+                    element={
+                        <ProtectedRoute>
+                            <FavouritesView/>
+                        </ProtectedRoute>}
+                />
+                {
+                    error === null
+                        ? <Route path="/error" element={<CustomError error={error}/>}/>
+                        : <Route path="/error" element={<CustomError message={error.message} status={error.status}/>}/>
+                }
+                <Route path="*" element={<NotFoundView/>}/>
+            </Routes>
         </div>
     );
 }

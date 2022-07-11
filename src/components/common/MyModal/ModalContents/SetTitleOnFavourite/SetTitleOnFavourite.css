@@ -1,0 +1,28 @@
+.set-title-input:focus, .set-title-input:hover, .set-title-input:active {
+    outline: none;
+    box-shadow:none;
+}
+
+.set-title-input {
+    padding: 10px 5px;
+    font-size: 14px;
+    border: 1px solid #3a0808;
+    background-color: #6c2b2b;
+    color: white;
+    outline: none;
+    box-shadow:none;
+}
+
+.set-title-input+button{
+    border: 1px solid #3a0808;
+    margin-left: 3px;
+    padding: 10px 5px;
+    cursor: pointer;
+    background-color: #6c2b2b;
+    color: white;
+    border-radius: 10px;;
+}
+
+.set-title-input+button:hover {
+    background-color: #e35e5e;
+}

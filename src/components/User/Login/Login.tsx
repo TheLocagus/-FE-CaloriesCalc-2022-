@@ -1,48 +1,61 @@
 import React, {SyntheticEvent, useEffect, useState} from 'react';
-import {LoggedUserEntity, UserEntity } from 'types';
-import {useDispatch, useSelector} from "react-redux";
-import {setUser} from "../../../actions/caloriesCalclator";
-import {RootState} from "../../../store";
-import {useNavigate} from "react-router-dom";
+import {LoggedUserEntity, UserEntity} from 'types';
+import {ErrorMessage} from "../../common/ErrorMessage/ErrorMessage";
 
-interface JsonData {
-    status: string,
-    token?: string,
-    error?: string,
+import './Login.css';
+
+interface JsonLoginData {
+    success: true,
     loggedUser: LoggedUserEntity,
 }
 
+interface JsonLoginDataFail {
+    success: false,
+    status: number,
+    message: string,
+}
+
 export const Login = () => {
-    
-    const [data, setData] = useState<UserEntity>({
+    const [user, setUser] = useState<UserEntity>({
         username: '',
         password: '',
     });
-    const {user} = useSelector((store: RootState) => store.caloriesCalculator)
-    const nav = useNavigate();
+    const [errorMessage, setErrorMessage] = useState<string>('')
+
+    useEffect(() => {
+        if(errorMessage.length > 0){
+            setErrorMessage('')
+        }
+    }, [user.username, user.password])
 
     const changeValue = (key: string, value: any) => {
-        setData(form => ({
+        setUser(form => ({
             ...form,
             [key]: value,
         }))
     }
 
-    const sendData = async(e: SyntheticEvent) => {
+    const sendData = async (e: SyntheticEvent) => {
         e.preventDefault();
-        const res = await fetch('http://localhost:3002/signin', {
+        const res = await fetch('http://localhost:3002/auth/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
+            credentials: "include",
             body: JSON.stringify({
-                username: data.username,
-                password: data.password,
+                username: user.username,
+                password: user.password,
             })
         })
-        const datas: JsonData = await res.json();
-        if (datas.status === 'ok'){
-            localStorage.setItem('token', datas.token as string);
+        const data: JsonLoginDataFail | JsonLoginData = await res.json();
+        if (!data.success) {
+            setErrorMessage(data.message);
+        }
+        if (data.success) {
+
+            localStorage.setItem('username', data.loggedUser.username);
+            localStorage.setItem('id', data.loggedUser.id);
             window.location.href = 'http://localhost:3000'
         }
     }
@@ -50,12 +63,18 @@ export const Login = () => {
     return (
         <div className="signin-form-wrapper">
             <h1>Logowanie</h1>
+            {
+                errorMessage.length > 0
+                    ? <ErrorMessage message={errorMessage}/>
+                    : null
+            }
             <form onSubmit={sendData} className="signin-form">
                 <label>Username
-                    <input value={data.username} onChange={e => changeValue('username', e.target.value)} type="text"/>
+                    <input value={user.username} onChange={e => changeValue('username', e.target.value)} type="text"/>
                 </label>
                 <label>Password
-                    <input value={data.password} onChange={e => changeValue('password', e.target.value)} type="password"/>
+                    <input value={user.password} onChange={e => changeValue('password', e.target.value)}
+                           type="password"/>
                 </label>
                 <button>Sign in</button>
             </form>

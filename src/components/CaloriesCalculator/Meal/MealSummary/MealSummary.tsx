@@ -56,20 +56,20 @@ export const MealSummary = ({mealIndex}: Props) => {
     return (
         <div className="meal__meal-summary meal-summary">
             <div className="meal-summary__header">
-                <p>Posiłek {mealIndex + 1} zawiera łącznie: </p>
+                <p>Meal #{mealIndex + 1} extends: </p>
             </div>
             <div className="meal-summary__macronutrients">
                 <div className="meal-summary-macro meal-summary__proteins">
-                    <p><small>B:</small> {macroSummary(ProductEnum.Proteins)}<small>g</small></p>
+                    <p><small>P:</small> {macroSummary(ProductEnum.Proteins)}<small>g</small></p>
                 </div>
                 <div className="meal-summary-macro meal-summary__carbo">
-                    <p><small>W:</small> {macroSummary(ProductEnum.Carbohydrates)}<small>g</small></p>
+                    <p><small>C:</small> {macroSummary(ProductEnum.Carbohydrates)}<small>g</small></p>
                 </div>
                 <div className="meal-summary-macro meal-summary__fats">
-                    <p><small>T:</small> {macroSummary(ProductEnum.Fats)}<small>g</small></p>
+                    <p><small>F:</small> {macroSummary(ProductEnum.Fats)}<small>g</small></p>
                 </div>
                 <div className="meal-summary-macro meal-summary__calories">
-                    <p><small>K:</small> {macroSummary(ProductEnum.Calories)}<small>kcal</small></p>
+                    <p><small>Cal:</small> {macroSummary(ProductEnum.Calories)}</p>
                 </div>
             </div>
         </div>

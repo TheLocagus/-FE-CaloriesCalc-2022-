@@ -1,5 +1,6 @@
 import React, {SyntheticEvent} from "react";
 import './SetTitleOnFavourite.css';
+
 interface Props {
     addFavourite: (e: SyntheticEvent) => Promise<JSX.Element | undefined>;
     title: string;
@@ -10,7 +11,12 @@ export const SetTitleOnFavourite = ({addFavourite, title, changeInputValue}: Pro
 
     return (
         <form onSubmit={addFavourite}>
-            <input type="text" value={title} onChange={changeInputValue}/>
+            <input
+                className='set-title-input'
+                type="text"
+                value={title}
+                onChange={changeInputValue}
+                placeholder='Name Your meal'/>
             <button>Confirm</button>
         </form>
     )

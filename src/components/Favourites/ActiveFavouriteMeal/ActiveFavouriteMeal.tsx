@@ -1,162 +1,74 @@
-import React, {SyntheticEvent, useEffect, useState} from "react";
-import {FavouritesEntity, FavouritesProduct} from "../../views/FavouritesView";
+import React, {Dispatch, SetStateAction, useEffect, useState} from "react";
+import {BsPencilSquare} from "react-icons/bs";
+import {FavouritesEntity} from "types";
+import {ProductInActiveFavMeal} from "./ProductInActiveFavMeal/ProductInActiveFavMeal";
+
 import './ActiveFavouriteMeal.css';
-import {Button} from "../../common/Button";
-import {HardEditingFields} from "../HardEditingFields/HardEditingFields";
-import {TiPencil} from "react-icons/ti";
 
 interface Props {
-    product: FavouritesProduct,
-    favourites: FavouritesEntity[],
-    activeMealIndex: number,
-    setFavourites: React.Dispatch<React.SetStateAction<FavouritesEntity[] | null>>
+    favourites: FavouritesEntity[];
+    activeMealIndex: number;
+    openModal: () => void;
+    setFavourites: Dispatch<SetStateAction<FavouritesEntity[] | null>>
 }
 
-export const ActiveFavouriteMeal = ({product, favourites, activeMealIndex, setFavourites}: Props) => {
+export const ActiveFavouriteMeal = ({favourites, activeMealIndex, openModal, setFavourites}: Props) => {
 
-    const [productValues, setProductValues] = useState<FavouritesProduct>({
-        id: '',
-        name: '',
+    const [sums, setSums] = useState({
         proteins: 0,
         carbohydrates: 0,
         fats: 0,
         calories: 0,
-        amount: 0,
-        index: 0
-    });
-    const [isEditInputVisible, setIsEditInputVisible] = useState(false);
-    const [inputValue, setInputValue] = useState<number>(product.amount);
-    const [didUserChangeBasicValue, setDidUserChangeBasicValue] = useState(false)
-
-    const [isHardEditActive, setIsHardEditActive] = useState(false);
+    })
 
     useEffect(() => {
-        setInputValue(product.amount);
-        setProductValues(({
-            id: product.id,
-            name: product.name,
-            proteins: Number(product.proteins.toFixed(2)),
-            carbohydrates: Number(product.carbohydrates.toFixed(2)),
-            fats: Number(product.fats.toFixed(2)),
-            calories: Number(product.calories.toFixed(2)),
-            amount: product.amount,
-            index: product.index
+        const countProteins = favourites[activeMealIndex].products.map(item => item.proteins).reduce((prev, curr) => prev + curr);
+        const countCarbohydrates = favourites[activeMealIndex].products.map(item => item.carbohydrates).reduce((prev, curr) => prev + curr);
+        const countFats = favourites[activeMealIndex].products.map(item => item.fats).reduce((prev, curr) => prev + curr);
+        const countCalories = favourites[activeMealIndex].products.map(item => item.calories).reduce((prev, curr) => prev + curr);
+        setSums(prev => ({
+            proteins: Number(countProteins.toFixed(1)),
+            carbohydrates: Number(countCarbohydrates.toFixed(1)),
+            fats: Number(countFats.toFixed(2)),
+            calories: Number(countCalories.toFixed(2)),
         }))
-    }, [product.amount, product.calories, product.carbohydrates, product.fats, product.id, product.index, product.name, product.proteins])
-
-    const showInput = () => {
-        setIsEditInputVisible(true);
-    }
-
-    const changeValues = () => {
-        setProductValues(prevState => ({
-            ...prevState,
-            name: product.name,
-            proteins: Number((product.proteins * (inputValue / product.amount)).toFixed(2)),
-            carbohydrates: Number((product.carbohydrates * (inputValue / product.amount)).toFixed(2)),
-            fats: Number((product.fats * (inputValue / product.amount)).toFixed(2)),
-            calories: Number((product.calories * (inputValue / product.amount)).toFixed(2)),
-        }));
-    }
-
-    function changeAmount(e: SyntheticEvent) {
-        e.preventDefault();
-        const initialValue = product.amount;
-        setProductValues(prevState => ({
-            ...prevState,
-            amount: inputValue,
-        }))
-
-        changeValues();
-
-        inputValue !== initialValue ? setDidUserChangeBasicValue(true) : setDidUserChangeBasicValue(false);
-    }
-
-    const saveChangedByAmount = async () => {
-        const productsToSend: FavouritesProduct[] = [...[...favourites[activeMealIndex].products].filter(product => product.id !== productValues.id),
-            {
-                ...productValues,
-                index: product.index
-            }];
-
-        const newValues: FavouritesEntity = {
-            favouriteId: favourites[activeMealIndex].favouriteId,
-            products: productsToSend,
-            title: favourites[activeMealIndex].title,
-            userId: favourites[activeMealIndex].userId
-        }
-
-        setDidUserChangeBasicValue(false);
-        setIsEditInputVisible(false);
-
-        const res = await fetch('http://localhost:3002/user/favourites', {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(
-                newValues
-            )
-
-        })
-        const data: FavouritesEntity[] = await res.json();
-
-        setFavourites(prev => data);
-
-    }
+    }, [activeMealIndex, favourites])
 
     return (
-        <>
-            <div key={product.name} className="active-favourite-product">
-                {
-                    isHardEditActive
-                        ? <>
-                        <div className="active-favourite-product-edit-button">
-                            <TiPencil className='active-favourite-product__edit-button' onClick={() => {
-                                setIsHardEditActive(false)
-                            }}/>
-                        </div>
-                        <HardEditingFields setIsHardEditActive={setIsHardEditActive} setFavourites={setFavourites}
-                                             product={product} activeMealIndex={activeMealIndex} favourites={favourites}
-                                             productValues={productValues}/>
-                        </>
-
-                        : <>
-                            <div className="active-favourite-product-edit-button">
-                                <TiPencil className='active-favourite-product__edit-button' onClick={() => {
-                                    setIsHardEditActive(true)
-                                }}/>
-                            </div>
-                            <div className='active-favourite-product-values'>
-                                <h3>Product: {productValues.name}</h3>
-                                <p>Proteins: {productValues.proteins}</p>
-                                <p>Carbohydrates: {productValues.carbohydrates}</p>
-                                <p>Fats: {productValues.fats}</p>
-                                <p>Calories: {productValues.calories}</p>
-                                <div>Amount:
-                                    {
-                                        isEditInputVisible
-                                            ? <form onSubmit={changeAmount}>
-                                                <input value={inputValue} onChange={e => setInputValue(Number(e.target.value))}
-                                                       type="number" step='0.01'/>
-                                            </form>
-                                            : <span onClick={showInput}>{productValues.amount}</span>
-                                    }
-                                </div>
-                            </div>
-                        </>
-
-                }
+        <div className="actual-favourite-meal">
+            <div className="actual-favourite-meal-title">
+                <div className="title">
+                    <h2>{favourites[activeMealIndex].title}</h2>
+                </div>
+                <BsPencilSquare
+                    className="actual-favourite-meal__edit-icon"
+                    onClick={openModal}
+                />
 
             </div>
-            <div>
-                {
-                    didUserChangeBasicValue
-                        ? <Button className='save-changes' text='Save changes' onClick={saveChangedByAmount}/>
-                        : null
-                }
+            {favourites[activeMealIndex].products.map((product, i) =>
+                <ProductInActiveFavMeal
+                    key={i}
+                    favourites={favourites}
+                    activeMealIndex={activeMealIndex}
+                    product={product}
+                    setFavourites={setFavourites}
+                />
+            )}
+            <div className="actual-favourite-meal__summary">
+                <h3>Summary</h3>
+                <div className="actual-favourite-meal__summary-values">
+                    <div className="actual-favourite-meal__summary-pcf">
+                        <p>P: {sums.proteins}g</p>
+                        <p>C: {sums.carbohydrates}g</p>
+                        <p>F: {sums.fats}g</p>
+                    </div>
+                    <div className="actual-favourite-meal__summary-cal">
+                        <p>Cal: {sums.calories}</p>
+                    </div>
+                </div>
             </div>
+        </div>
 
-        </>
     )
 }

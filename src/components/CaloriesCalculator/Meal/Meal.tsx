@@ -1,14 +1,13 @@
 import React, {SyntheticEvent, useState} from "react";
+import {v4 as uuid} from 'uuid';
 import {MealSummary} from "./MealSummary/MealSummary";
 import {MealProducts} from "./MealProducts/MealProducts";
 import {MealHeader} from "./MealHeader/MealHeader";
 import {MealAddingNewProduct} from "./MealAddingNewProduct/MealAddingNewProduct";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../store";
-import {v4 as uuid} from 'uuid';
-
-import "./Meal.css"
 import {FavouritesEntity, FavouritesProducts} from "types";
+import "./Meal.css"
 
 import {MyModal} from "../../common/MyModal/MyModal";
 import {SetTitleOnFavourite} from "../../common/MyModal/ModalContents/SetTitleOnFavourite/SetTitleOnFavourite";
@@ -47,22 +46,24 @@ export const Meal = ({mealIndex}: Props) => {
             products: generatedCorrectMeal
         };
 
-        const res = await fetch('http://localhost:3002/user/favourites', {
+        await fetch('http://localhost:3002/user/favourites', {
             method: 'POST',
             body: JSON.stringify(mealToSend),
+            credentials: "include",
             headers: {
                 'Content-Type': 'application/json'
             }
         })
 
-        const data = await res.json();
         setIsFavourite(true);
         setIsModalAddToFavouriteOpen(false);
 
     }
 
-    const showAddFavouriteModal = async () => {
-        setIsModalAddToFavouriteOpen(true);
+    const showAddFavouriteModal = () => {
+        if(meals[mealIndex].length !== 0){
+            setIsModalAddToFavouriteOpen(true);
+        }
     }
 
     const closeAddFavouriteModal = () => {
@@ -83,12 +84,7 @@ export const Meal = ({mealIndex}: Props) => {
             />
             {
                 isModalAddToFavouriteOpen
-                    // ? <ModalCustom isModalVisible={isModalAddToFavouriteOpen} closeModal={closeAddFavouriteModal} titleContent={<h2>Type Your meal's title</h2>}
-                    //         modalContent={<form onSubmit={addFavourite}>
-                    //             <input type="text" value={titleInput} onChange={e => setTitleInput(e.target.value)}/>
-                    //             <button>Confirm</button>
-                    //         </form>}/>
-                    ? <MyModal closeModal={closeAddFavouriteModal} title="Type Your meal's title" content={
+                    ? <MyModal closeModal={closeAddFavouriteModal} title="Title" content={
                         <SetTitleOnFavourite title={titleInput} addFavourite={addFavourite} changeInputValue={changeInputValue}/>}
                     />
 

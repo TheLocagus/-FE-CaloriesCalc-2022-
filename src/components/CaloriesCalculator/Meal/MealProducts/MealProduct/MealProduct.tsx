@@ -1,10 +1,11 @@
 import React, {MutableRefObject, useEffect, useRef, useState} from "react";
-import {ProductEntity} from "types";
-import './MealProduct.css';
 import {Button} from "../../../../common/Button";
+import {ProductEntity} from "types";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../../../store";
 import {removeProductFromMeal, setMeals} from "../../../../../actions/caloriesCalclator";
+
+import './MealProduct.css';
 
 interface Props {
     product: ProductEntity;
@@ -89,7 +90,7 @@ export const MealProduct = ({amount, product, mealIndex, productId}: Props) => {
                         isEditInputVisible
                             ? <form onSubmit={showAndConfirmValue}>
                                 <label>
-                                    <p><small>Ilość: </small></p>
+                                    <p><small>Amount: </small></p>
                                     <input
                                         onChange={handleInput}
                                         className="product__edit-input"
@@ -102,24 +103,24 @@ export const MealProduct = ({amount, product, mealIndex, productId}: Props) => {
                                 </label>
 
                             </form>
-                            : <p><small>Ilość: <span className="amount-to-click">{amount}g</span></small></p>
+                            : <p><small>Amount: <span className="amount-to-click">{amount}g</span></small></p>
                     }
                 </div>
                 <div className="product__macronutrients-summary product-info">
                     <div className="protcarbfats-container">
                         <div className="product__proteins">
-                            <p><small>Białko:</small> <span>{Number(product.proteins.toFixed(2))}g</span></p>
+                            <p><small>Proteins:</small> <span>{Number(product.proteins.toFixed(2))}g</span></p>
                         </div>
                         <div className="product__carbohydrates">
-                            <p><small>Węglowodany:</small> <span>{Number(product.carbohydrates.toFixed(2))}g</span></p>
+                            <p><small>Carbohydrates:</small> <span>{Number(product.carbohydrates.toFixed(2))}g</span></p>
                         </div>
                         <div className="product__fats">
-                            <p><small>Tłuszcze:</small> <span>{Number(product.fats.toFixed(2))}g</span></p>
+                            <p><small>Fats:</small> <span>{Number(product.fats.toFixed(2))}g</span></p>
                         </div>
                     </div>
                     <div className="cal-container">
                         <div className="product__calories">
-                            <p><small>Kalorie:</small> <span>{Number(product.calories.toFixed(2))}</span></p>
+                            <p><small>Calories:</small> <span>{Number(product.calories.toFixed(2))}</span></p>
                         </div>
                     </div>
 

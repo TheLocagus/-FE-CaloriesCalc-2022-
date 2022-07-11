@@ -1,20 +1,20 @@
 import React, {SyntheticEvent, useState} from "react";
-import {FavouritesEntity, FavouritesProduct} from "../../views/FavouritesView";
-import {Button} from "../../common/Button";
+import {FavouritesEntity, FavouritesProducts, UpdateValuesEntity } from "types";
+import {useSelector} from "react-redux";
+import {RootState} from "../../../../store";
 
 interface Props {
-    productValues: FavouritesProduct,
+    productValues: FavouritesProducts,
     favourites: FavouritesEntity[],
     activeMealIndex: number,
-    product: FavouritesProduct,
     setFavourites: React.Dispatch<React.SetStateAction<FavouritesEntity[] | null>>
     setIsHardEditActive:  React.Dispatch<React.SetStateAction<boolean>>
 
 }
 
-export const HardEditingFields = ({setIsHardEditActive, setFavourites, productValues, favourites, activeMealIndex, product}: Props) => {
+export const HardEditingFields = ({setIsHardEditActive, setFavourites, productValues}: Props) => {
 
-    const [values, setValues] = useState({
+    const [values, setValues] = useState<FavouritesProducts>({
         id: productValues.id,
         name: productValues.name,
         proteins: productValues.proteins,
@@ -22,8 +22,15 @@ export const HardEditingFields = ({setIsHardEditActive, setFavourites, productVa
         fats: productValues.fats,
         calories: productValues.calories,
         amount: productValues.amount,
-        index: productValues.index
+        index: productValues.index,
+        favouriteId: productValues.favouriteId,
     });
+
+    const {user} = useSelector((store: RootState) => store.caloriesCalculator);
+
+    if(!user){
+        return <h2>Błąd</h2>
+    }
 
     const updateForm = (key: string, value: any) => {
         setValues(form => ({
@@ -35,10 +42,8 @@ export const HardEditingFields = ({setIsHardEditActive, setFavourites, productVa
     const handleEdit = async (e: SyntheticEvent) => {
         e.preventDefault();
 
-        const newValues = {
+        const newValues: FavouritesProducts = {
             ...values,
-            id: values.id,
-            name: values.name,
             proteins: Number(Number(values.proteins).toFixed(2)),
             carbohydrates: Number(Number(values.carbohydrates).toFixed(2)),
             fats: Number(Number(values.fats).toFixed(2)),
@@ -46,33 +51,27 @@ export const HardEditingFields = ({setIsHardEditActive, setFavourites, productVa
             amount: Number(Number(values.amount).toFixed(2)),
         };
 
-        const productsToSend: FavouritesProduct[] = [...[...favourites[activeMealIndex].products].filter(product => product.id !== values.id),
-            {
-                ...newValues,
-            }];
-
-        const dataToSend: FavouritesEntity = {
-            favouriteId: favourites[activeMealIndex].favouriteId,
-            products: productsToSend,
-            title: favourites[activeMealIndex].title,
-            userId: favourites[activeMealIndex].userId
+        const dataValues: UpdateValuesEntity = {
+            product: newValues,
+            userId: user.id,
+            whatToChange: 'values'
         }
 
         setIsHardEditActive(false)
 
         const res = await fetch('http://localhost:3002/user/favourites', {
-            method: 'PATCH',
+            method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
             },
+            credentials: "include",
             body: JSON.stringify(
-                dataToSend
+                dataValues
             )
         })
 
         const data: FavouritesEntity[] = await res.json();
-        console.log(data)
-        setFavourites(prev => data);
+        setFavourites(data);
     }
 
     const cancelHardEdit = () => {
@@ -97,7 +96,6 @@ export const HardEditingFields = ({setIsHardEditActive, setFavourites, productVa
         <p>Calories: <input type="number" value={values.calories} onChange={e => updateForm('calories', e.target.value)} step='0.01'/></p>
         <div>Amount: <input type="number" value={values.amount} onChange={e => updateForm('amount', e.target.value)} step='0.01'/></div>
         <button>Confirm</button>
-        {/*<Button className='cancel-hard-edit' text='Cancel' onClick={cancelHardEdit}/>*/}
         <button type='button' className='cancel-hard-edit' onClick={cancelHardEdit}>Cancel</button>
     </form>
 }

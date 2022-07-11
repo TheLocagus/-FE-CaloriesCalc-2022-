@@ -1,0 +1,19 @@
+.active-favourite-product {
+    display: flex;
+    background-color: #ccc;
+    padding: 15px 5px;
+}
+
+
+.active-favourite-product__edit-button {
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+.active-favourite-product__edit-button:hover {
+    transform: scale(1.1);
+}
+
+.active-favourite-product p {
+    padding: 3px 0;
+}

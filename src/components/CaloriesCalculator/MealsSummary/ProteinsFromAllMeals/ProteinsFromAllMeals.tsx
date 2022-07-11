@@ -9,7 +9,7 @@ export const ProteinsFromAllMeals = ({macroSummary}: Props) => {
 
     return (
         <div className="meals-summary__proteins meals-summary-info">
-            <p><small>B:</small> {macroSummary(ProductEnum.Proteins)}<small>g</small></p>
+            <p><small>P:</small> {macroSummary(ProductEnum.Proteins)}<small>g</small></p>
         </div>
     )
 }

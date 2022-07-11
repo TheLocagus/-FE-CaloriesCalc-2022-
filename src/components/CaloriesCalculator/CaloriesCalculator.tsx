@@ -1,12 +1,18 @@
-import React, {useCallback, useEffect, useMemo} from "react";
+import React, {useEffect} from "react";
 import {Meal} from "./Meal/Meal";
 import {MealsSummary} from "./MealsSummary/MealsSummary";
 import {AddMeal} from "./AddMeal/AddMeal";
-import './CaloriesCalculator.css'
-import {useDispatch, useSelector} from "react-redux";
-import {setMeals, setProductsList} from "../../actions/caloriesCalclator";
+import {setError, setMeals, setProductsList} from "../../actions/caloriesCalclator";
+import {ErrorEntity, ProductEntity } from "types";
 import {RootState} from "../../store";
-import {v4 as uuid} from 'uuid';
+import {useDispatch, useSelector} from "react-redux";
+
+import './CaloriesCalculator.css'
+
+interface ProductsJsonResponse {
+    products: ProductEntity[];
+    success: true,
+}
 
 export const CaloriesCalculator = () => {
     const {meals} = useSelector((store: RootState) => store.caloriesCalculator)
@@ -14,8 +20,13 @@ export const CaloriesCalculator = () => {
     useEffect(() => {
         (async () => {
             const res = await fetch('http://localhost:3002');
-            const data = await res.json();
-            dispatch(setProductsList(data));
+            const data: ProductsJsonResponse | ErrorEntity = await res.json();
+            if(!data.success){
+                dispatch(setError(data))
+            }
+            if(data.success){
+                dispatch(setProductsList(data.products));
+            }
         })()
 
         return ()=> {

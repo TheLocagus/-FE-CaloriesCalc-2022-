@@ -58,7 +58,7 @@ export const AddNewProductToMealForm = ({closeModal, mealIndex}: Props) => {
 
     return (
         <>
-            <div className="error-message">
+            <div className="modal-error-message">
                 <p style={{color: "red"}}>{errorMessage}</p>
             </div>
             <form className="modal-form" onSubmit={confirmForm}>
@@ -76,6 +76,7 @@ export const AddNewProductToMealForm = ({closeModal, mealIndex}: Props) => {
                     <label> Proteins:
                         <input
                             min={0}
+                            step={0.01}
                             value={newMeal.proteins}
                             type="number"
                             onChange={e => updateForm('proteins', e.target.value[0] === "0" && e.target.value.length > 1 ? e.target.value.substring(1) : e.target.value)}
@@ -84,6 +85,7 @@ export const AddNewProductToMealForm = ({closeModal, mealIndex}: Props) => {
                     <label> Carbohydrates:
                         <input
                             min={0}
+                            step={0.01}
                             value={newMeal.carbohydrates}
                             type="number"
                             onChange={e => updateForm('carbohydrates', e.target.value[0] === "0" && e.target.value.length > 1 ? e.target.value.substring(1) : e.target.value)}
@@ -92,6 +94,7 @@ export const AddNewProductToMealForm = ({closeModal, mealIndex}: Props) => {
                     <label> Fats:
                         <input
                             min={0}
+                            step={0.01}
                             value={newMeal.fats}
                             type="number"
                             onChange={e => updateForm('fats', e.target.value[0] === "0" && e.target.value.length > 1 ? e.target.value.substring(1) : e.target.value)}
@@ -100,6 +103,7 @@ export const AddNewProductToMealForm = ({closeModal, mealIndex}: Props) => {
                     <label> Calories:
                         <input
                             min={0}
+                            step={0.01}
                             value={newMeal.calories}
                             type="number"
                             onChange={e => updateForm('calories', e.target.value[0] === "0" && e.target.value.length > 1 ? e.target.value.substring(1) : e.target.value)}

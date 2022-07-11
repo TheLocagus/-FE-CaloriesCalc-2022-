@@ -1,0 +1,10 @@
+.change-title-input{
+    width: 80%;
+    padding: 10px 5px;
+    font-size: 14px;
+    border: 1px solid #3a0808;
+    background-color: #6c2b2b;
+    color: white;
+    outline: none;
+    box-shadow:none;
+}

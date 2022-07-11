@@ -1,7 +1,6 @@
 import React from 'react';
-import "./MyModal.css";
-import {Button} from "../Button";
 import {MdCancel} from "react-icons/md";
+import "./MyModal.css";
 
 interface Props {
     closeModal: () => void;

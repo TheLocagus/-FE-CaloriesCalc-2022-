@@ -1,5 +1,4 @@
 import React, {ChangeEvent, MutableRefObject, useRef, useState} from "react";
-import './MealAddingNewProduct.css';
 import {Button} from "../../../common/Button";
 import {DropdownInput} from "./DropdownInput/DropdownInput";
 import {useDispatch, useSelector} from "react-redux";
@@ -7,6 +6,8 @@ import {RootState} from "../../../../store";
 import {addProductToMeal} from "../../../../actions/caloriesCalclator";
 import {AddNewProductToMealForm} from "../../../common/MyModal/ModalContents/AddNewProductToMealForm/AddNewProductToMealForm";
 import {MyModal} from "../../../common/MyModal/MyModal";
+
+import './MealAddingNewProduct.css';
 
 interface Props {
     mealIndex: number;
@@ -66,10 +67,10 @@ export const MealAddingNewProduct = ({mealIndex}: Props) => {
                                                 <div id={product.id}>
                                                     <p>{product.name}
                                                         <span>
-                                                            B: <b>{product.proteins}</b>g /
-                                                            W: <b>{product.carbohydrates}</b>g /
-                                                            T: <b>{product.fats}</b>g /
-                                                            Kcal: <b>{product.calories}</b>
+                                                            P: <b>{product.proteins}</b>g /
+                                                            C: <b>{product.carbohydrates}</b>g /
+                                                            F: <b>{product.fats}</b>g /
+                                                            Cal: <b>{product.calories}</b>
                                                         </span>
                                                     </p>
                                                     <Button className='confirm' onClick={() => dispatch(addProductToMeal(product, mealIndex))}

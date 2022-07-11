@@ -1,33 +1,23 @@
 import React, {SyntheticEvent, useEffect, useState} from "react";
-import {FavouriteMeal} from "../Favourites/FavouriteMeal/FavouriteMeal";
-import {useDispatch, useSelector} from "react-redux";
-import {RootState} from "../../store";
-import {ActiveFavouriteMeal} from "../Favourites/ActiveFavouriteMeal/ActiveFavouriteMeal";
-
-import './FavouriteView.css';
-import {BsPencilSquare} from "react-icons/bs";
+import {useNavigate} from "react-router-dom";
+import {FavouriteMealInList} from "../Favourites/FavouriteMealInList/FavouriteMealInList";
 import {MyModal} from "../common/MyModal/MyModal";
 import {
     ChangeTitleOfFavouriteMeal
 } from "../common/MyModal/ModalContents/ChangeTitleOfFavouriteMeal/ChangeTitleOfFavouriteMeal";
+import {useDispatch, useSelector} from "react-redux";
+import {RootState} from "../../store";
+import {ErrorEntity, FavouritesEntity, UpdateTitleEntity} from "types";
+import {setError} from "../../actions/caloriesCalclator";
+import {ActiveFavouriteMeal} from "../Favourites/ActiveFavouriteMeal/ActiveFavouriteMeal";
 
-export interface FavouritesProduct {
-    id: string,
-    name: string,
-    proteins: number,
-    carbohydrates: number,
-    fats: number,
-    calories: number,
-    amount: number,
-    index: number
+import './FavouriteView.css';
+
+interface FavouritesJsonResponse {
+    favMeals: FavouritesEntity[],
+    success: true,
 }
 
-export interface FavouritesEntity {
-    title: string;
-    favouriteId: string;
-    userId: string;
-    products: FavouritesProduct[]
-}
 
 export const FavouritesView = () => {
     const [favourites, setFavourites] = useState<FavouritesEntity[] | null>(null);
@@ -36,12 +26,21 @@ export const FavouritesView = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const {user} = useSelector((store: RootState) => store.caloriesCalculator);
     const dispatch = useDispatch();
+    const navigateError = useNavigate();
     useEffect(() => {
         (async () => {
             if (user) {
-                const res = await fetch(`http://localhost:3002/user/${user.id}/favourites`);
-                const data: FavouritesEntity[] = await res.json();
-                setFavourites(data)
+                const res = await fetch(`http://localhost:3002/user/${user.id}/favourites`, {
+                    credentials: "include",
+                });
+                const data: FavouritesJsonResponse | ErrorEntity = await res.json();
+                if (!data.success) {
+                    dispatch(setError(data))
+                    navigateError('/error')
+                }
+                if (data.success) {
+                    setFavourites(data.favMeals)
+                }
             }
         })()
     }, [user])
@@ -66,24 +65,32 @@ export const FavouritesView = () => {
     const changeTitle = async (e: SyntheticEvent) => {
         e.preventDefault();
         if (favourites) {
-            const mealToUpdate: FavouritesEntity = {
-                ...favourites[activeMealIndex],
-                title: titleInput
+
+            const titleData: UpdateTitleEntity = {
+                title: titleInput,
+                mealId: favourites[activeMealIndex].favouriteId,
+                userId: user.id,
+                whatToChange: 'title'
             }
 
             const res = await fetch('http://localhost:3002/user/favourites', {
-                method: 'PATCH',
+                method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
                 },
+                credentials: "include",
                 body: JSON.stringify(
-                    mealToUpdate
+                    titleData,
                 )
-
             })
-            const data: FavouritesEntity[] = await res.json();
-            setFavourites(data);
-            setIsModalOpen(false);
+            const data: FavouritesJsonResponse | ErrorEntity = await res.json();
+            if (!data.success) {
+                dispatch(setError(data))
+            }
+            if (data.success) {
+                setFavourites(data.favMeals);
+                setIsModalOpen(false);
+            }
         }
     }
 
@@ -94,16 +101,19 @@ export const FavouritesView = () => {
                 mealId,
                 userId,
             }),
+            credentials: "include",
             headers: {
                 'Content-Type': 'application/json'
             }
         })
-
-        const data = await res.json();
-        setFavourites(data.meals);
-        setActiveMealIndex(0);
-        console.log(data.message)
-        console.log(data.status)
+        const data: FavouritesJsonResponse | ErrorEntity = await res.json();
+        if(!data.success){
+            dispatch(setError(data))
+        }
+        if(data.success){
+            setFavourites(data.favMeals);
+            setActiveMealIndex(0);
+        }
 
     }
 
@@ -111,55 +121,43 @@ export const FavouritesView = () => {
         setTitleInput(e.target.value)
     }
 
-
     return (
         <div className='favourite-meals-wrapper'>
             <div className='favourite-meals-list'>
                 {
                     favourites.map((fav, i) =>
-                        <FavouriteMeal
+                        <FavouriteMealInList
                             key={fav.favouriteId}
                             id={fav.favouriteId}
                             index={i}
                             title={fav.title}
                             items={fav.products}
                             setActiveMealIndex={setActiveMealIndex}
-                            // setTitle={setTitle}
                             removeFavouriteMeal={removeFavouriteMeal}
                             userId={user.id}
                         />
                     )
                 }
             </div>
-            <div className="actual-favourite-meal">
-                <div className="actual-favourite-meal-title">
-                    <div className="title">
-                        <h2>{favourites[activeMealIndex].title}</h2>
-                    </div>
-                    <BsPencilSquare className="actual-favourite-meal__edit-icon" onClick={openModal}/>
-
-                </div>
-                {favourites[activeMealIndex].products.map((product, i) =>
-                    <ActiveFavouriteMeal
-                        key={i}
-                        favourites={favourites}
-                        activeMealIndex={activeMealIndex}
-                        product={product}
-                        setFavourites={setFavourites}
-                    />
-                )}
-            </div>
+            <ActiveFavouriteMeal
+                favourites={favourites}
+                activeMealIndex={activeMealIndex}
+                setFavourites={setFavourites}
+                openModal={openModal}
+            />
             {
                 isModalOpen
 
                     ? <MyModal
                         closeModal={closeModal}
                         title='Change title'
-                        content={<ChangeTitleOfFavouriteMeal changeTitle={changeTitle} title={titleInput} changeInputValue={changeInputValue}/>
-                    }/>
+                        content={<ChangeTitleOfFavouriteMeal
+                            changeTitle={changeTitle}
+                            title={titleInput}
+                            changeInputValue={changeInputValue}/>
+                        }/>
                     : null
             }
-
         </div>
     )
 }

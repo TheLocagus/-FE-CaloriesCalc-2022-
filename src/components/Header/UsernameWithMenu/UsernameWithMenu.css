@@ -1,0 +1,58 @@
+.username-with-menu {
+    height: 100%;
+}
+
+.username-with-menu p {
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.username-with-menu p span {
+    font-size: 10px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    margin-bottom: 10px;
+}
+
+.username-with-menu ul {
+    width: 20%;
+    list-style: none;
+    background-color: #4f0f0f;
+}
+
+.username-with-menu ul li {
+    height: 3em;
+    text-align: center;
+    cursor: pointer;
+}
+
+.username-with-menu ul li a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    text-decoration: none;
+    color: white;
+}
+
+.username-with-menu ul li a:hover{
+    background-color: #3a0808;
+    color: #ccc;
+}
+
+.menu-dropdown {
+    background: #f2f2f2;
+    display: none;
+    position: absolute;
+    z-index: 999;
+    right: 0;
+    overflow: auto;
+}
+
+.username-with-menu:hover .menu-dropdown {
+    display: block;
+}

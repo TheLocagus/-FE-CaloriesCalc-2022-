@@ -1,12 +1,14 @@
 import React from "react";
+import {Button} from "../../common/Button";
+import {addMeal} from "../../../actions/caloriesCalclator";
+import {useDispatch} from "react-redux";
 
+import "./AddMeal.css";
 
-interface Props {
-    addMeal: () => void;
-}
-export const AddMeal = ({addMeal}: Props) => {
+export const AddMeal = () => {
+    const dispatch = useDispatch();
 
     return (
-        <button onClick={addMeal} className="add-meal">Dodaj posiłek</button>
+        <Button className="add-meal" onClick={() => dispatch(addMeal())} text="Add new meal"/>
     )
 }

@@ -1,0 +1,19 @@
+.meals-summary{
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+.meals-summary__macronutrients {
+    display: flex;
+
+}
+
+.meals-procarbfats-container {
+    flex-basis: 50%;
+    display: flex;
+}
+
+.meals-summary-info {
+    padding: 0 5px;
+}

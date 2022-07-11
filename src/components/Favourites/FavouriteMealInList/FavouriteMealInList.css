@@ -1,0 +1,42 @@
+.favourite-meals-wrapper {
+    min-height: 100%;
+}
+
+.favourite-meal-in-list{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 2px solid brown;
+    padding: 20px 15px;
+    margin-bottom: 5px;
+    border-radius: 3px;
+    cursor: pointer;
+
+}
+
+.favourite-meal-sums-container{
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    margin-top: 10px;
+}
+
+.favourite-meal-sums-container p {
+    margin-right: 5px;
+}
+
+.fms-pcf {
+    display: flex;
+}
+
+.fms-cal{
+    margin-left: 20px;
+}
+
+.favourite-meal-in-list:hover {
+    background-color: #ccc;
+}
+
+.remove-favourite-meal-icon:hover{
+    transform: scale(1.1);
+}

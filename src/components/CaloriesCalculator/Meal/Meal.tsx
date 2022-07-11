@@ -1,58 +1,110 @@
-import React, {ChangeEvent, Dispatch, SetStateAction, useEffect, useState} from "react";
-import {ProductEntity} from "types";
+import React, {SyntheticEvent, useState} from "react";
+import {v4 as uuid} from 'uuid';
 import {MealSummary} from "./MealSummary/MealSummary";
 import {MealProducts} from "./MealProducts/MealProducts";
 import {MealHeader} from "./MealHeader/MealHeader";
 import {MealAddingNewProduct} from "./MealAddingNewProduct/MealAddingNewProduct";
+import {useSelector} from "react-redux";
+import {RootState} from "../../../store";
+import {FavouritesEntity, FavouritesProducts} from "types";
+import "./Meal.css"
+
+import {MyModal} from "../../common/MyModal/MyModal";
+import {SetTitleOnFavourite} from "../../common/MyModal/ModalContents/SetTitleOnFavourite/SetTitleOnFavourite";
+
 
 interface Props {
-    productsList: ProductEntity[] | [];
-    mealId: number;
-    setMeals: Dispatch<SetStateAction<[] | ProductEntity[][]>>
-    meals: ProductEntity[][] | []
-    removeMeal: (id: number)=> void
+    mealIndex: number;
 }
 
-export const Meal = ({productsList, mealId, setMeals, meals, removeMeal}: Props) => {
-    const [inputValue, setInputValue] = useState<string>('');
+export const Meal = ({mealIndex}: Props) => {
+    const {meals, user} = useSelector((store: RootState) => store.caloriesCalculator);
+    const [isModalAddToFavouriteOpen, setIsModalAddToFavouriteOpen] = useState(false);
+    const [titleInput, setTitleInput] = useState('');
+    const [isFavourite, setIsFavourite] = useState(false);
 
-    const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
-        setInputValue(e.target.value);
+    const addFavourite = async (e: SyntheticEvent) => {
+        e.preventDefault();
+
+        if (!user) {
+            return <h2>Błąd</h2>
+        }
+
+        const generatedMealId = uuid();
+
+        const generatedCorrectMeal: FavouritesProducts[] = meals[mealIndex].map((meal, i) => ({
+            ...meal,
+            favouriteId: generatedMealId,
+            index: i,
+            id: uuid(),
+        }))
+
+        const mealToSend: FavouritesEntity = {
+            title: titleInput,
+            favouriteId: generatedMealId,
+            userId: user.id,
+            products: generatedCorrectMeal
+        };
+
+        await fetch('http://localhost:3002/user/favourites', {
+            method: 'POST',
+            body: JSON.stringify(mealToSend),
+            credentials: "include",
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+
+        setIsFavourite(true);
+        setIsModalAddToFavouriteOpen(false);
+
     }
 
-    const addNewProduct = (newProduct: ProductEntity) => {
-        const oldMeal = [...meals][mealId]
-        const actualMeal = [...oldMeal, newProduct]
-        const mealsToUpdate = [...meals].map((meal, i) => {
-            if(i !== mealId) return meal
-            return actualMeal
-        })
-        setMeals(prevState => mealsToUpdate)
+    const showAddFavouriteModal = () => {
+        if(meals[mealIndex].length !== 0){
+            setIsModalAddToFavouriteOpen(true);
+        }
+    }
+
+    const closeAddFavouriteModal = () => {
+        setIsModalAddToFavouriteOpen(false);
+    }
+
+    const changeInputValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+        e.preventDefault();
+        setTitleInput(e.target.value)
     }
 
     return (
         <div className="meal">
             <MealHeader
-                removeMeal={removeMeal}
-                mealId={mealId}
+                showAddFavouriteModal={showAddFavouriteModal}
+                mealIndex={mealIndex}
+                isFavourite={isFavourite}
             />
+            {
+                isModalAddToFavouriteOpen
+                    ? <MyModal closeModal={closeAddFavouriteModal} title="Title" content={
+                        <SetTitleOnFavourite title={titleInput} addFavourite={addFavourite} changeInputValue={changeInputValue}/>}
+                    />
+
+                    : null
+            }
             <MealAddingNewProduct
-                addNewProduct={addNewProduct}
-                handleInput={handleInput}
-                inputValue={inputValue}
-                productsList={productsList}
+                mealIndex={mealIndex}
             />
             <MealProducts
-                meals={meals}
-                mealId={mealId}
-                setMeals={setMeals}
-                productsList={productsList}
+                mealIndex={mealIndex}
             />
             <MealSummary
-                mealId={mealId}
-                meals={meals}
-                setMeals={setMeals}
+                mealIndex={mealIndex}
             />
+
+            {
+                meals.length > 1
+                    ? <div className="separator"></div>
+                    : null
+            }
         </div>
     )
 }

@@ -1,53 +1,58 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import {Meal} from "./Meal/Meal";
 import {MealsSummary} from "./MealsSummary/MealsSummary";
 import {AddMeal} from "./AddMeal/AddMeal";
-import {ProductEntity} from 'types';
+import {setError, setMeals, setProductsList} from "../../actions/caloriesCalclator";
+import {ErrorEntity, ProductEntity } from "types";
+import {RootState} from "../../store";
+import {useDispatch, useSelector} from "react-redux";
+
+import './CaloriesCalculator.css'
+
+interface ProductsJsonResponse {
+    products: ProductEntity[];
+    success: true,
+}
 
 export const CaloriesCalculator = () => {
-    const [productsList, setProductsList] = useState<ProductEntity[] | []>([]);
-    const [meals, setMeals] = useState<ProductEntity[][] | []>([]);
-
+    const {meals} = useSelector((store: RootState) => store.caloriesCalculator)
+    const dispatch = useDispatch();
     useEffect(() => {
         (async () => {
             const res = await fetch('http://localhost:3002');
-            const data = await res.json();
-            setProductsList(data);
+            const data: ProductsJsonResponse | ErrorEntity = await res.json();
+            if(!data.success){
+                dispatch(setError(data))
+            }
+            if(data.success){
+                dispatch(setProductsList(data.products));
+            }
         })()
-    }, [])
 
-    const addMeal = () => {
-        const newMeal: ProductEntity[] = []
-        const listWithNewMeal = [...meals, newMeal]
-        setMeals(prevState => listWithNewMeal)
-    }
+        return ()=> {
+            dispatch(setMeals([]));
+        }
+    }, [dispatch])
 
-    const removeMeal = (index: number) => {
-        const mealsAfterRemove: ProductEntity[][] | [] = [...meals]
-            .filter((meal, i) => i !== index)
-        setMeals(mealsAfterRemove)
-    }
+
     return (
         <>
             <div className="calc-wrap">
                 {
                     meals.length > 0
                         ? [...meals].map((meal, i) =><Meal
-                            mealId={i}
+                            mealIndex={i}
                             key={i}
-                            productsList={productsList}
-                            setMeals={setMeals}
-                            meals={meals}
-                            removeMeal={removeMeal}
                         />)
                         : null
                 }
+                <AddMeal />
                 {
                     meals.length > 0
-                    ? <MealsSummary meals={meals}/>
+                    ? <MealsSummary
+                        />
                     : null
                 }
-                <AddMeal addMeal={addMeal}/>
             </div>
         </>
     )

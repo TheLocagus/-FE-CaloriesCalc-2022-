@@ -1,37 +1,43 @@
-import React, {Dispatch, FormEventHandler, SetStateAction, useState} from "react";
-import { ProductEntity } from "types";
+import React, {MutableRefObject, useEffect, useRef, useState} from "react";
+import {Button} from "../../../../common/Button";
+import {ProductEntity} from "types";
+import {useDispatch, useSelector} from "react-redux";
+import {RootState} from "../../../../../store";
+import {removeProductFromMeal, setMeals} from "../../../../../actions/caloriesCalclator";
+
+import './MealProduct.css';
 
 interface Props {
     product: ProductEntity;
-    meals: ProductEntity[][] | [];
-    mealId: number;
-    setMeals: Dispatch<SetStateAction<[] | ProductEntity[][]>>
+    mealIndex: number;
     productId: number;
-    productsList: ProductEntity[]
+    amount: number;
 }
 
-export const MealProduct = ({product, meals, mealId, setMeals, productId, productsList}: Props) => {
+export const MealProduct = ({amount, product, mealIndex, productId}: Props) => {
 
+    const {productsList, meals} = useSelector((store: RootState) => store.caloriesCalculator)
     const [isEditInputVisible, setIsEditInputVisible] = useState(false);
-    const [inputValue, setInputValue] = useState<number | string>(100)
+    const [inputValue, setInputValue] = useState<number | string>(amount)
 
-    const removeProduct = (productId: number) => {
-        const mealAfterRemovingProduct = [...meals][mealId].filter((meal, i) => i !== productId)
-        const refreshedMeals = [...meals].map((meal, i) => {
-            if (mealId === i) return mealAfterRemovingProduct;
-            return meal
-        })
-        setMeals(refreshedMeals)
-    }
+    const dispatch = useDispatch();
+
+    const inputRef = useRef() as MutableRefObject<HTMLInputElement>;
+
+    useEffect(() => {
+        setInputValue(amount);
+        if(isEditInputVisible) inputRef.current.focus()
+    }, [amount, isEditInputVisible])
 
     const showEditInput = () => {
-        if(!isEditInputVisible){
-            setIsEditInputVisible(prevState => !prevState);
+        if (!isEditInputVisible) {
+            setIsEditInputVisible(true);
         }
     }
+
     const showAndConfirmValue = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if(inputValue === ''){
+        if (inputValue === '') {
             setInputValue(0);
         }
 
@@ -39,25 +45,26 @@ export const MealProduct = ({product, meals, mealId, setMeals, productId, produc
 
         const modifiedProduct: ProductEntity = {
             ...productToModifie,
-            proteins: productToModifie.proteins * (Number(inputValue)/100),
-            carbohydrates: productToModifie.carbohydrates * (Number(inputValue)/100),
-            fats: productToModifie.fats * (Number(inputValue)/100),
-            calories: productToModifie.calories * (Number(inputValue)/100),
+            proteins: productToModifie.proteins * (Number(inputValue) / 100),
+            carbohydrates: productToModifie.carbohydrates * (Number(inputValue) / 100),
+            fats: productToModifie.fats * (Number(inputValue) / 100),
+            calories: productToModifie.calories * (Number(inputValue) / 100),
+            amount: Number(inputValue),
         }
 
-        const updatedMeal = [...meals][mealId].map((product, i) => {
-            if(i === productId) return modifiedProduct
+        const updatedMeal = [...meals][mealIndex].map((product, i) => {
+            if (i === productId) return modifiedProduct
             return product;
         })
 
         const updatedMeals = [...meals].map((meal, i) => {
-            if(i === mealId) return updatedMeal
+            if (i === mealIndex) return updatedMeal
             return meal;
         })
 
-        setMeals(prevState => updatedMeals)
+        dispatch(setMeals(updatedMeals))
 
-        if(isEditInputVisible){
+        if (isEditInputVisible) {
             setIsEditInputVisible(prevState => !prevState);
         }
     }
@@ -68,31 +75,57 @@ export const MealProduct = ({product, meals, mealId, setMeals, productId, produc
 
     return (
         <>
-            <div key={product.id}>
-                <div className="product__name">
-                    <p>Nazwa: {product.name}</p>
+            <div className="product" key={product.id}>
+                <div className="product__name product-info">
+                    <div className="name-container">
+                        <p>{product.name}</p>
+                    </div>
+                    <div className="buttons-container">
+                        <Button className="product__remove-product"
+                                onClick={() => dispatch(removeProductFromMeal(productId, mealIndex))} text="Delete"/>
+                    </div>
                 </div>
-                <div className="product__macronutrients-summary">
-                    <div onClick={showEditInput} className="product__amount">
-                        {
-                            isEditInputVisible
-                                ? <form onSubmit={showAndConfirmValue}>
-                                    <input onChange={handleInput}
-                                           className="product__edit-input"
-                                           type="number"
-                                           min="0"
-                                           value={inputValue}
+                <div onClick={showEditInput} className="product__amount product-info">
+                    {
+                        isEditInputVisible
+                            ? <form onSubmit={showAndConfirmValue}>
+                                <label>
+                                    <p><small>Amount: </small></p>
+                                    <input
+                                        onChange={handleInput}
+                                        className="product__edit-input"
+                                        type="number"
+                                        min="0"
+                                        value={inputValue}
+                                        ref={inputRef}
+                                        onBlur={() => setIsEditInputVisible(false)}
                                     />
-                                </form>
-                                : <p>{inputValue}g</p>
-                        }
+                                </label>
+
+                            </form>
+                            : <p><small>Amount: <span className="amount-to-click">{amount}g</span></small></p>
+                    }
+                </div>
+                <div className="product__macronutrients-summary product-info">
+                    <div className="protcarbfats-container">
+                        <div className="product__proteins">
+                            <p><small>Proteins:</small> <span>{Number(product.proteins.toFixed(2))}g</span></p>
+                        </div>
+                        <div className="product__carbohydrates">
+                            <p><small>Carbohydrates:</small> <span>{Number(product.carbohydrates.toFixed(2))}g</span></p>
+                        </div>
+                        <div className="product__fats">
+                            <p><small>Fats:</small> <span>{Number(product.fats.toFixed(2))}g</span></p>
+                        </div>
                     </div>
-                    <div className="product__calories">
-                        <p>Kcal: {product.calories.toFixed(2)}</p>
+                    <div className="cal-container">
+                        <div className="product__calories">
+                            <p><small>Calories:</small> <span>{Number(product.calories.toFixed(2))}</span></p>
+                        </div>
                     </div>
+
                 </div>
                 {/*<button  className="product__edit-product">Edytuj</button>*/}
-                <button onClick={() => removeProduct(productId)} className="product__remove-product">Usuń</button>
             </div>
         </>
     )

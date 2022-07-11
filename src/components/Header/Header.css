@@ -1,0 +1,32 @@
+.app-header {
+    width: 100%;
+    height: 5vh;
+    padding: 0 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #4f0f0f;
+}
+
+.logo a {
+    color: white;
+    text-decoration: none;
+}
+
+.header-functionality {
+    display: flex;
+}
+
+.header-functionality div a {
+    /*background-color: #4f0f0f;*/
+    color: #bbb;
+    border: none;
+    padding: 0 5px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.header-functionality div:hover a {
+    color: white;
+    transition: 0.2s;
+}

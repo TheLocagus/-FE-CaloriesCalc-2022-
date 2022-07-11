@@ -1,28 +1,24 @@
-import React, {Dispatch, SetStateAction} from "react";
-import { ProductEntity } from "types";
+import React from "react";
 import {MealProduct} from "./MealProduct/MealProduct";
+import {useSelector} from "react-redux";
+import {RootState} from "../../../../store";
 
 interface Props {
-    meals: ProductEntity[][]
-    setMeals: Dispatch<SetStateAction<[] | ProductEntity[][]>>
-    mealId: number;
-    productsList: ProductEntity[]
+    mealIndex: number;
 }
 
-export const MealProducts = ({meals, mealId, setMeals, productsList}: Props) => {
-
+export const MealProducts = ({mealIndex}: Props) => {
+    const {meals} = useSelector((store: RootState) => store.caloriesCalculator)
     return (
-        <div className="meal__product product">
+        <div className="meal__products products">
             {
-                [...meals][mealId].map((product, i) =>
+                [...meals][mealIndex].map((product, i) =>
                     <MealProduct
-                        meals={meals}
-                        setMeals={setMeals}
                         productId={i}
-                        mealId={mealId}
+                        mealIndex={mealIndex}
                         key={`${i} - ${product.id}`}
                         product={product}
-                        productsList={productsList}
+                        amount={product.amount}
                     />)
             }
         </div>

@@ -1,10 +1,10 @@
-import React, {Dispatch, SetStateAction, useCallback, useEffect, useMemo, useState} from "react";
-import {ProductEntity} from "types";
+import React, {useCallback} from "react";
+import "./MealSummary.css";
+import {useSelector} from "react-redux";
+import {RootState} from "../../../../store";
 
 interface Props {
-    setMeals: Dispatch<SetStateAction<[] | ProductEntity[][]>>
-    meals: ProductEntity[][]
-    mealId: number
+    mealIndex: number
 }
 
 export enum ProductEnum {
@@ -14,34 +14,36 @@ export enum ProductEnum {
     Calories,
 }
 
-export const MealSummary = ({setMeals, mealId, meals}: Props) => {
+export const MealSummary = ({mealIndex}: Props) => {
+
+    const {meals} = useSelector((store: RootState) => store.caloriesCalculator)
 
     const macroSummary = useCallback((macro: ProductEnum) => {
         switch (macro) {
             case ProductEnum.Proteins:
-                return meals[mealId].length !== 0 ?
-                    Number([...meals][mealId]
+                return meals[mealIndex].length !== 0 ?
+                    Number([...meals][mealIndex]
                         .map((product) => product.proteins)
                         .reduce((prev, curr) => prev + curr)
                         .toFixed(2))
                     : 0
             case ProductEnum.Carbohydrates:
-                return meals[mealId].length !== 0 ?
-                    Number([...meals][mealId]
+                return meals[mealIndex].length !== 0 ?
+                    Number([...meals][mealIndex]
                         .map((product) => product.carbohydrates)
                         .reduce((prev, curr) => prev + curr)
                         .toFixed(2))
                     : 0
             case ProductEnum.Fats:
-                return meals[mealId].length !== 0 ?
-                    Number([...meals][mealId]
+                return meals[mealIndex].length !== 0 ?
+                    Number([...meals][mealIndex]
                         .map((product) => product.fats)
                         .reduce((prev, curr) => prev + curr)
                         .toFixed(2))
                     : 0
             case ProductEnum.Calories:
-                return meals[mealId].length !== 0 ?
-                    Number([...meals][mealId]
+                return meals[mealIndex].length !== 0 ?
+                    Number([...meals][mealIndex]
                         .map((product) => product.calories)
                         .reduce((prev, curr) => prev + curr)
                         .toFixed(2))
@@ -49,24 +51,26 @@ export const MealSummary = ({setMeals, mealId, meals}: Props) => {
             default:
                 return 0
         }
-    }, [mealId, meals])
+    }, [mealIndex, meals])
 
     return (
         <div className="meal__meal-summary meal-summary">
             <div className="meal-summary__header">
-                <p>Posiłek {mealId + 1} zawiera łącznie: </p>
+                <p>Meal #{mealIndex + 1} extends: </p>
             </div>
-            <div className="meal-summary__proteins">
-                <p>Białko: {macroSummary(ProductEnum.Proteins)}g</p>
-            </div>
-            <div className="meal-summary__carbo">
-                <p>Węglowodany: {macroSummary(ProductEnum.Carbohydrates)}g</p>
-            </div>
-            <div className="meal-summary__fats">
-                <p>Tłuszcze: {macroSummary(ProductEnum.Fats)}g</p>
-            </div>
-            <div className="meal-summary__calories">
-                <p>Kalorie: {macroSummary(ProductEnum.Calories)}g</p>
+            <div className="meal-summary__macronutrients">
+                <div className="meal-summary-macro meal-summary__proteins">
+                    <p><small>P:</small> {macroSummary(ProductEnum.Proteins)}<small>g</small></p>
+                </div>
+                <div className="meal-summary-macro meal-summary__carbo">
+                    <p><small>C:</small> {macroSummary(ProductEnum.Carbohydrates)}<small>g</small></p>
+                </div>
+                <div className="meal-summary-macro meal-summary__fats">
+                    <p><small>F:</small> {macroSummary(ProductEnum.Fats)}<small>g</small></p>
+                </div>
+                <div className="meal-summary-macro meal-summary__calories">
+                    <p><small>Cal:</small> {macroSummary(ProductEnum.Calories)}</p>
+                </div>
             </div>
         </div>
     )

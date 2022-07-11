@@ -1,12 +1,15 @@
 import React, {useCallback} from "react";
-import { ProductEntity } from "types";
 import {ProductEnum} from "../Meal/MealSummary/MealSummary";
+import {ProteinsFromAllMeals} from "./ProteinsFromAllMeals/ProteinsFromAllMeals";
+import {CarbohydratesFromAllMeals} from "./CarbohydratesromAllMeals/CarbohydratesFromAllMeals";
+import {FatsFromAllMeals} from "./FatsFromAllMeals/FatsFromAllMeals";
+import {CaloriesFromAllMeals} from "./CaloriesFromAllMeals/CaloriesFromAllMeals";
+import {useSelector} from "react-redux";
+import {RootState} from "../../../store";
+import './MealsSummary.css';
 
-interface Props {
-    meals: ProductEntity[][] | []
-}
-
-export const MealsSummary = ({meals}: Props) => {
+export const MealsSummary = () => {
+    const {meals} = useSelector((store: RootState) => store.caloriesCalculator)
     const macroSummary = useCallback((macro: ProductEnum) => {
         switch (macro) {
             case ProductEnum.Proteins:
@@ -58,19 +61,13 @@ export const MealsSummary = ({meals}: Props) => {
     return (
         <div className="meals-summary">
             <header className="meals-summary__header">
-                <p>Podsumowanie:</p>
+                <p>Summary:</p>
             </header>
-            <div className="meals-summary__proteins">
-                <p>Białko: {macroSummary(ProductEnum.Proteins)}g</p>
-            </div>
-            <div className="meals-summary__carbo">
-                <p>Węglowodany: {macroSummary(ProductEnum.Carbohydrates)}g</p>
-            </div>
-            <div className="meals-summary__fats">
-                <p>Tłuszcze: {macroSummary(ProductEnum.Fats)}g</p>
-            </div>
-            <div className="meals-summary__calories">
-                <p>Kalorie: {macroSummary(ProductEnum.Calories)}kcal</p>
+            <div className="meals-summary__macronutrients">
+                <ProteinsFromAllMeals macroSummary={macroSummary}/>
+                <CarbohydratesFromAllMeals macroSummary={macroSummary}/>
+                <FatsFromAllMeals macroSummary={macroSummary}/>
+                <CaloriesFromAllMeals macroSummary={macroSummary}/>
             </div>
         </div>
     )

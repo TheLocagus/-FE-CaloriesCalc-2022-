@@ -1,5 +1,9 @@
 # CaloriesCalculator App Frontend by Locagus
 
+### Login data to test: 
+`username: mehul`\
+`password: mehul`
+
 ## What we have in version 1.0.2
 
 `1. Creating, removing, renameing meals by click in button`\

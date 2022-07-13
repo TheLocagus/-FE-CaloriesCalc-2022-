@@ -8,6 +8,7 @@ import {RootState} from "../../store";
 import {useDispatch, useSelector} from "react-redux";
 
 import './CaloriesCalculator.css'
+import {apiUrl} from "../../config/api";
 
 interface ProductsJsonResponse {
     products: ProductEntity[];
@@ -19,7 +20,7 @@ export const CaloriesCalculator = () => {
     const dispatch = useDispatch();
     useEffect(() => {
         (async () => {
-            const res = await fetch('http://localhost:3002');
+            const res = await fetch(apiUrl);
             const data: ProductsJsonResponse | ErrorEntity = await res.json();
             if(!data.success){
                 dispatch(setError(data))

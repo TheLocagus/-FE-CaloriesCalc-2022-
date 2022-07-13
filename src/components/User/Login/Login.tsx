@@ -3,6 +3,7 @@ import {LoggedUserEntity, UserEntity} from 'types';
 import {ErrorMessage} from "../../common/ErrorMessage/ErrorMessage";
 
 import './Login.css';
+import {apiUrl} from "../../../config/api";
 
 interface JsonLoginData {
     success: true,
@@ -37,7 +38,7 @@ export const Login = () => {
 
     const sendData = async (e: SyntheticEvent) => {
         e.preventDefault();
-        const res = await fetch('http://localhost:3002/auth/login', {
+        const res = await fetch(`${apiUrl}/auth/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -56,7 +57,7 @@ export const Login = () => {
 
             localStorage.setItem('username', data.loggedUser.username);
             localStorage.setItem('id', data.loggedUser.id);
-            window.location.href = 'http://localhost:3000'
+            window.location.href = 'https://www.bkolsutjs-caloriescalc.networkmanager.pl'
         }
     }
 

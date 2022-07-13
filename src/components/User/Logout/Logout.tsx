@@ -1,10 +1,11 @@
 import React, {useEffect} from "react";
+import {apiUrl} from "../../../config/api";
 
 export const Logout = () => {
 
     useEffect(() => {
         (async() => {
-            const res = await fetch('http://localhost:3002/auth/logout', {
+            const res = await fetch(`${apiUrl}/auth/logout`, {
                 credentials: "include",
             })
             const data = await res.json();
@@ -12,7 +13,7 @@ export const Logout = () => {
             if (data.success === true) {
                 localStorage.removeItem('username');
                 localStorage.removeItem('id');
-                window.location.href = 'http://localhost:3000';
+                window.location.href = 'https://www.bkolsutjs-caloriescalc.networkmanager.pl';
             }
         })()
     }, [])

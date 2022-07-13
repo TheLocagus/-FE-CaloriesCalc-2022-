@@ -4,6 +4,7 @@ import {ErrorMessage} from "../../common/ErrorMessage/ErrorMessage";
 import {Message} from "../../common/Message/Message";
 
 import './Registration.css';
+import {apiUrl} from "../../../config/api";
 
 interface RegistrationJsonResponse {
     success: true,
@@ -35,7 +36,7 @@ export const Registration = () => {
 
     const sendData = async(e: SyntheticEvent) => {
         e.preventDefault();
-        const res = await fetch('http://localhost:3002/auth/registry', {
+        const res = await fetch(`${apiUrl}/auth/registry`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

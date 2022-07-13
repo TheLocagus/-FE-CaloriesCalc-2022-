@@ -11,6 +11,7 @@ import "./Meal.css"
 
 import {MyModal} from "../../common/MyModal/MyModal";
 import {SetTitleOnFavourite} from "../../common/MyModal/ModalContents/SetTitleOnFavourite/SetTitleOnFavourite";
+import {apiUrl} from "../../../config/api";
 
 interface Props {
     mealIndex: number;
@@ -45,7 +46,7 @@ export const Meal = ({mealIndex}: Props) => {
             products: generatedCorrectMeal
         };
 
-        await fetch('http://localhost:3002/user/favourites', {
+        await fetch(`${apiUrl}/user/favourites`, {
             method: 'POST',
             body: JSON.stringify(mealToSend),
             credentials: "include",

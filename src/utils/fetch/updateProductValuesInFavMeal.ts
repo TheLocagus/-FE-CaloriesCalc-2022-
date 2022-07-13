@@ -1,4 +1,5 @@
 import {ErrorEntity, FavouritesEntity, UpdateValuesEntity } from "types";
+import {apiUrl} from "../../config/api";
 
 interface FavouritesJsonResponse {
     favMeals: FavouritesEntity[],
@@ -6,7 +7,7 @@ interface FavouritesJsonResponse {
 }
 
 export const updateProductValuesInFavMeal = async(dataValues: UpdateValuesEntity) => {
-    const res = await fetch('http://localhost:3002/user/favourites', {
+    const res = await fetch(`${apiUrl}/user/favourites`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'

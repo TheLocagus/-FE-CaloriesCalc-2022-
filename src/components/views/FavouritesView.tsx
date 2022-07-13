@@ -12,6 +12,7 @@ import {setError} from "../../actions/caloriesCalclator";
 import {ActiveFavouriteMeal} from "../Favourites/ActiveFavouriteMeal/ActiveFavouriteMeal";
 
 import './FavouriteView.css';
+import {apiUrl} from "../../config/api";
 
 interface FavouritesJsonResponse {
     favMeals: FavouritesEntity[],
@@ -30,7 +31,7 @@ export const FavouritesView = () => {
     useEffect(() => {
         (async () => {
             if (user) {
-                const res = await fetch(`http://localhost:3002/user/${user.id}/favourites`, {
+                const res = await fetch(`${apiUrl}/user/${user.id}/favourites`, {
                     credentials: "include",
                 });
                 const data: FavouritesJsonResponse | ErrorEntity = await res.json();
@@ -73,7 +74,7 @@ export const FavouritesView = () => {
                 whatToChange: 'title'
             }
 
-            const res = await fetch('http://localhost:3002/user/favourites', {
+            const res = await fetch(`${apiUrl}/user/favourites`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
@@ -95,7 +96,7 @@ export const FavouritesView = () => {
     }
 
     const removeFavouriteMeal = async (mealId: string, userId: string) => {
-        const res = await fetch('http://localhost:3002/user/favourites/', {
+        const res = await fetch(`${apiUrl}/user/favourites/`, {
             method: 'DELETE',
             body: JSON.stringify({
                 mealId,

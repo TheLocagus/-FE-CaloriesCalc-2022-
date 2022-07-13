@@ -1,4 +1,5 @@
 import React, {SyntheticEvent, useState} from 'react';
+import {apiUrl} from "../../../config/api";
 
 export const ChangePassword = () => {
 
@@ -16,7 +17,7 @@ export const ChangePassword = () => {
 
     const sendData = async (e: SyntheticEvent) => {
         e.preventDefault();
-        const res = await fetch('http://localhost:3002/change-password', {
+        const res = await fetch(`${apiUrl}/change-password`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

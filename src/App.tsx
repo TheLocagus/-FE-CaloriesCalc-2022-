@@ -19,7 +19,6 @@ import {RootState} from "./store";
 export const App = () => {
     Modal.setAppElement('#root');
     const {error} = useSelector((store: RootState) => store.caloriesCalculator);
-
     return (
         <div className="App">
             <Header/>

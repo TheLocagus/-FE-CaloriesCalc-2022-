@@ -2,6 +2,7 @@ import React, {SyntheticEvent, useState} from "react";
 import {FavouritesEntity, FavouritesProducts, UpdateValuesEntity } from "types";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../../store";
+import {apiUrl} from "../../../../config/api";
 
 interface Props {
     productValues: FavouritesProducts,
@@ -59,7 +60,7 @@ export const HardEditingFields = ({setIsHardEditActive, setFavourites, productVa
 
         setIsHardEditActive(false)
 
-        const res = await fetch('http://localhost:3002/user/favourites', {
+        const res = await fetch(`${apiUrl}/user/favourites`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'

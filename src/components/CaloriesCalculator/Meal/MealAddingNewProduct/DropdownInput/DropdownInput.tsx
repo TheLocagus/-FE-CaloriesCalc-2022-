@@ -15,6 +15,7 @@ export const DropdownInput = ({inputRef, onChange, className, value}: Props) => 
 
     return (
         <input
+            placeholder='Type atleast 2 characters to search'
             ref={inputRef}
             className={className}
             onChange={onChange}

@@ -43,7 +43,7 @@
     width: 100%;
     display: flex;
     flex-direction: column;
-    background-color: #444;
+    background-color: #777;
     font-size: 10px;
 }
 
@@ -75,29 +75,30 @@
 }
 
 .confirm {
-    background-color: #4f0f0f;
-    color: #ccc;
+    background-color: #8ea9db;
+    color: #111;
     padding: 1px 5px;
     border-radius: 3px;
     cursor: pointer;
+    border: 1px solid #111;
 }
 
 .confirm:hover {
-    color: #aaa;
+    color: white;
 }
 
 .find-product, .add-own-product {
     margin-right: 1px;
-    background-color: #4f0f0f;
-    border: 1px solid #ccc;
-    color: #ccc;
+    background-color: #8ea9db;
+    border: 1px solid #111;
+    color: #111;
     border-radius: 3px;
     padding: 3px 10px;
     cursor: pointer;
 }
 
 .find-product:hover, .add-own-product:hover {
-    background-color: #3a0808;
+    background-color: #6991e5;
     color: white;
     transition: 0.2s;
 }

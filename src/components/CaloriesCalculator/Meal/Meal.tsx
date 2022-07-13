@@ -12,7 +12,6 @@ import "./Meal.css"
 import {MyModal} from "../../common/MyModal/MyModal";
 import {SetTitleOnFavourite} from "../../common/MyModal/ModalContents/SetTitleOnFavourite/SetTitleOnFavourite";
 
-
 interface Props {
     mealIndex: number;
 }

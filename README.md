@@ -10,7 +10,7 @@
 `6. Changing values of products in favourite meal by changing amount's value or changing everything's value`\
 `7. Removing favourite meals`\
 `8. Protected routes`\
-`9. Redux global state`
+`9. Redux global state`\
 `10. Bad looking at smartphones and small screens.`
 
 ## TODO

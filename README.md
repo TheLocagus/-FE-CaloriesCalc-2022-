@@ -11,10 +11,12 @@
 `7. Removing favourite meals`\
 `8. Protected routes`\
 `9. Redux global state`
+`10. Bad looking at smartphones and small screens.`
 
 ## TODO
 
 `Improve the appearance for whole app`\
+`Responsiveness`\
 `Add confirm modal while removing favourite meal`\
 `All fetches to one file`\
 `Create admin panel`\

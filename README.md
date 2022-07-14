@@ -4,6 +4,10 @@
 `username: mehul`\
 `password: mehul`
 
+### :(
+
+`Protected Route redirecting to the wrong path`
+
 ## What we have in version 1.0.2
 
 `1. Creating, removing, renameing meals by click in button`\

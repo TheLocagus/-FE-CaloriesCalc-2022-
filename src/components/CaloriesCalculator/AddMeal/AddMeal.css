@@ -1,16 +1,16 @@
 .add-meal {
-    background-color: #8ea9db;
+    background-color: #6991e5;
     color: #111;
     padding: 10px 0;
     width: 100%;
     cursor: pointer;
-    border: 1px solid #ccc;
+    border: 1px solid black;
     border-radius: 3px;
 }
 
 .add-meal:hover {
     background-color: #6991e5;
     color: white;
-    border: 1px solid white;
+    border: 1px solid transparent;
     transition: 0.1s;
 }

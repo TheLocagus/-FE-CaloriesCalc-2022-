@@ -4,7 +4,7 @@ import {RootState} from "../../../store";
 import {Link} from "react-router-dom";
 import {AiFillCaretDown} from "react-icons/ai";
 
-import './UsernameWithMenu.css';
+import './UsernameWithMenu.scss';
 
 export const UsernameWithMenu = () => {
     const {user} = useSelector((store: RootState) => store.caloriesCalculator)

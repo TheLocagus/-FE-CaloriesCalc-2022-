@@ -1,0 +1,26 @@
+.meal__header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    &__remove-meal{
+        background-color: #000;
+        color: #fff;
+        border: 1px solid white;
+        width: 16px;
+        height: 16px;
+        border-radius: 20%;
+        cursor: pointer;
+    }
+
+    &__favourite-icon {
+        &__star {
+            font-size: 20px;
+            cursor: pointer;
+        }
+        &__star-added, &__star:hover {
+            color: yellow;
+            font-size: 20px;
+        }
+    }
+}

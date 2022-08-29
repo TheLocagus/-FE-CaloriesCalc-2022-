@@ -1,6 +1,6 @@
 import React from 'react';
 import {MdCancel} from "react-icons/md";
-import "./MyModal.css";
+import "./MyModal.scss";
 
 interface Props {
     closeModal: () => void;
@@ -12,9 +12,9 @@ interface Props {
 export const MyModal = ({closeModal, title, content, subtitle}: Props) => {
     return (
         <div className='modal-container'>
-            <div className="modal">
-                <div className="modal-header">
-                    <div className="modal-title">
+            <div className="modal-container__modal">
+                <div className="modal-container__modal__header">
+                    <div className="modal-container__modal__header__title">
                         <h2>{title}</h2>
                         {
                             subtitle
@@ -22,13 +22,12 @@ export const MyModal = ({closeModal, title, content, subtitle}: Props) => {
                                 : null
                         }
                     </div>
-                    <MdCancel className='close-modal' onClick={closeModal}/>
+                    <MdCancel className='modal-container__modal__header__close-modal' onClick={closeModal}/>
                 </div>
 
-                <div className="modal-content">
+                <div className="modal-container__modal__content">
                     {content}
                 </div>
-
             </div>
         </div>
     )

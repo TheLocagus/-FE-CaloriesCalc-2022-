@@ -1,13 +1,13 @@
 import React, {ChangeEvent, MutableRefObject, useRef, useState} from "react";
 import {Button} from "../../../common/Button";
-import {DropdownInput} from "./DropdownInput/DropdownInput";
+import {DropdownInput} from "../../../common/DropdownInput/DropdownInput";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../../store";
 import {addProductToMeal} from "../../../../actions/caloriesCalclator";
 import {AddNewProductToMealForm} from "../../../common/MyModal/ModalContents/AddNewProductToMealForm/AddNewProductToMealForm";
 import {MyModal} from "../../../common/MyModal/MyModal";
 
-import './MealAddingNewProduct.css';
+import './MealAddingNewProduct.scss';
 
 interface Props {
     mealIndex: number;
@@ -46,24 +46,24 @@ export const MealAddingNewProduct = ({mealIndex}: Props) => {
     }
 
     return (
-        <div className="meal__add-new-product add-new-product">
+        <div className="meal__add-new-product">
             {
                 isFindProductVisible
-                    ? <div className="meal__dropdown dropdown">
-                        <div className="dropdown-field">
-                            <DropdownInput inputRef={inputRef} className="dropdown-input" onChange={handleInput}
+                    ? <div className="meal__add-new-product__dropdown">
+                        <div className="meal__add-new-product__dropdown__field">
+                            <DropdownInput inputRef={inputRef} className="meal__add-new-product__dropdown__field__input" onChange={handleInput}
                                            value={inputValue}/>
-                            <Button className='dropdown-input-clear' onClick={clearInput} text='X'/>
+                            <Button className='meal__add-new-product__dropdown__field__input__clear' onClick={clearInput} text='X'/>
                         </div>
 
                         {
                             inputValue.length > 1
                                 ?
-                                <ul className="dropdown-list">
+                                <ul className="meal__add-new-product__dropdown__list">
                                     {[...productsList]
                                         .filter(product => product.name.toLowerCase().includes(inputValue.toLowerCase()))
                                         .map(product => (
-                                            <li className="dropdown-record" key={product.id}>
+                                            <li className="meal__add-new-product__dropdown__list__element" key={product.id}>
                                                 <div id={product.id}>
                                                     <p>{product.name}
                                                         <span>
@@ -96,11 +96,6 @@ export const MealAddingNewProduct = ({mealIndex}: Props) => {
 
             {
                 isModalVisible
-                    // ? <ModalCustom
-                    //     isModalVisible={isModalVisible}
-                    //     closeModal={closeModal}
-                    //     modalContent={<AddNewProductToMealForm mealIndex={mealIndex} closeModal={closeModal}/>}
-                    //     titleContent={<h2>Add Your own product. <small>(values at 100g.)</small></h2>}/>
                 ? <MyModal closeModal={closeModal} title='Add Your own product.' subtitle='at 100g' content={<AddNewProductToMealForm closeModal={closeModal} mealIndex={mealIndex}/>}/>
                     : null
             }

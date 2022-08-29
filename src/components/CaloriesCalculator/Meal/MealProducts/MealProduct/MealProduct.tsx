@@ -5,7 +5,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../../../store";
 import {removeProductFromMeal, setMeals} from "../../../../../actions/caloriesCalclator";
 
-import './MealProduct.css';
+import './MealProduct.scss';
 
 interface Props {
     product: ProductEntity;
@@ -76,24 +76,24 @@ export const MealProduct = ({amount, product, mealIndex, productId}: Props) => {
     return (
         <>
             <div className="product" key={product.id}>
-                <div className="product__name product-info">
-                    <div className="name-container">
+                <div className="product__header">
+                    <div className="product__header__name">
                         <p>{product.name}</p>
                     </div>
-                    <div className="buttons-container">
-                        <Button className="product__remove-product"
+                    <div className="product__header__button">
+                        <Button className="product__header__button__remove-product"
                                 onClick={() => dispatch(removeProductFromMeal(productId, mealIndex))} text="Delete"/>
                     </div>
                 </div>
-                <div onClick={showEditInput} className="product__amount product-info">
+                <div onClick={showEditInput} className="product__amount">
                     {
                         isEditInputVisible
                             ? <form onSubmit={showAndConfirmValue}>
-                                <label>
+                                <label className='product__amount__label'>
                                     <p><small>Amount: </small></p>
                                     <input
                                         onChange={handleInput}
-                                        className="product__edit-input"
+                                        className="product__amount__label__edit-input"
                                         type="number"
                                         min="0"
                                         value={inputValue}
@@ -106,20 +106,20 @@ export const MealProduct = ({amount, product, mealIndex, productId}: Props) => {
                             : <p><small>Amount: <span className="amount-to-click">{amount}g</span></small></p>
                     }
                 </div>
-                <div className="product__macronutrients-summary product-info">
-                    <div className="protcarbfats-container">
-                        <div className="product__proteins">
+                <div className="product__macronutrients-summary">
+                    <div className="product__macronutrients-summary__container">
+                        <div className="product__macronutrients-summary__container__proteins">
                             <p><small>Proteins:</small> <span>{Number(product.proteins.toFixed(2))}g</span></p>
                         </div>
-                        <div className="product__carbohydrates">
+                        <div className="product__macronutrients-summary__container__carbohydrates">
                             <p><small>Carbohydrates:</small> <span>{Number(product.carbohydrates.toFixed(2))}g</span></p>
                         </div>
-                        <div className="product__fats">
+                        <div className="product__macronutrients-summary__container__fats">
                             <p><small>Fats:</small> <span>{Number(product.fats.toFixed(2))}g</span></p>
                         </div>
                     </div>
-                    <div className="cal-container">
-                        <div className="product__calories">
+                    <div className="product__macronutrients-summary__cal-container">
+                        <div className="product__macronutrients-summary__cal-container__calories">
                             <p><small>Calories:</small> <span>{Number(product.calories.toFixed(2))}</span></p>
                         </div>
                     </div>

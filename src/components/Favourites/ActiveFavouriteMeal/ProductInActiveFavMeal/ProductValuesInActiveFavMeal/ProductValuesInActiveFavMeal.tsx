@@ -1,6 +1,7 @@
 import React, {Dispatch, MutableRefObject, SetStateAction, SyntheticEvent} from "react";
 import { FavouritesProducts } from "types";
 
+import './ProductValuesInActiveFavMeal.scss';
 interface Props {
     productValues: FavouritesProducts;
     isEditInputVisible: boolean;
@@ -24,7 +25,7 @@ export const ProductValuesInActiveFavMeal = ({productValues, isEditInputVisible,
             <div>Amount:
                 {
                     isEditInputVisible
-                        ? <form onSubmit={changeAmount}>
+                        ? <form className='active-favourite-product-values__form' onSubmit={changeAmount}>
                             <input value={inputValue} onChange={e => setInputValue(Number(e.target.value))}
                                    type="number" ref={inputRef} onBlur={() => setIsEditInputVisible(false)} step='0.01'/>
                         </form>

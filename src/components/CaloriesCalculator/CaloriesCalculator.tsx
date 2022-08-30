@@ -30,9 +30,9 @@ export const CaloriesCalculator = () => {
             }
         })()
 
-        return ()=> {
-            dispatch(setMeals([]));
-        }
+        // return ()=> {
+        //     dispatch(setMeals([]));
+        // }
     }, [dispatch])
 
 

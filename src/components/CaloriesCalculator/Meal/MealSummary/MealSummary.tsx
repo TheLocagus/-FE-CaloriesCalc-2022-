@@ -1,5 +1,5 @@
 import React, {useCallback} from "react";
-import "./MealSummary.css";
+import "./MealSummary.scss";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../../store";
 
@@ -54,21 +54,21 @@ export const MealSummary = ({mealIndex}: Props) => {
     }, [mealIndex, meals])
 
     return (
-        <div className="meal__meal-summary meal-summary">
-            <div className="meal-summary__header">
+        <div className="meal__meal-summary">
+            <div className="meal__meal-summary__header">
                 <p>Meal #{mealIndex + 1} extends: </p>
             </div>
-            <div className="meal-summary__macronutrients">
-                <div className="meal-summary-macro meal-summary__proteins">
+            <div className="meal__meal-summary__macronutrients">
+                <div className="meal__meal-summary__macronutrients__proteins">
                     <p><small>P:</small> {macroSummary(ProductEnum.Proteins)}<small>g</small></p>
                 </div>
-                <div className="meal-summary-macro meal-summary__carbo">
+                <div className="meal__meal-summary__macronutrients__carbohydrates">
                     <p><small>C:</small> {macroSummary(ProductEnum.Carbohydrates)}<small>g</small></p>
                 </div>
-                <div className="meal-summary-macro meal-summary__fats">
+                <div className="meal__meal-summary__macronutrients__fats">
                     <p><small>F:</small> {macroSummary(ProductEnum.Fats)}<small>g</small></p>
                 </div>
-                <div className="meal-summary-macro meal-summary__calories">
+                <div className="meal__meal-summary__macronutrients__calories">
                     <p><small>Cal:</small> {macroSummary(ProductEnum.Calories)}</p>
                 </div>
             </div>

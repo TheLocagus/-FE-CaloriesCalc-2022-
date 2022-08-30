@@ -1,0 +1,13 @@
+.meals-summary{
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+
+    &__macronutrients {
+        display: flex;
+
+        div {
+            padding: 0 5px;
+        }
+    }
+}

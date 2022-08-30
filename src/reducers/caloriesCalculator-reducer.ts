@@ -10,7 +10,7 @@ interface CaloriesCalculatorState {
 
 const initialState: CaloriesCalculatorState = {
     productsList: [],
-    meals: [],
+    meals: [[]],
     user:
         localStorage.getItem('username') === null ? null : {
         username: localStorage.getItem('username') as string,

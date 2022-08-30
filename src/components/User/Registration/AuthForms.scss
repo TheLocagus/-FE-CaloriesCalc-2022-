@@ -1,0 +1,57 @@
+@import "src/variables";
+
+//.signup-form-wrapper {
+//    position: absolute;
+//    top: 30%;
+//    left: 50%;
+//    transform: translate(-50%, -50%);
+//}
+
+.auth-form {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: $color-support-brown;
+  padding: 20px 50px;
+
+  h1 {
+    text-align: center;
+    padding: 5px 10px 30px 10px;
+    font-size: 20px;
+  }
+
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+
+    input {
+      width: 250px;
+      height: 30px;
+      margin: 5px 0;
+      padding-left: 5px;
+      outline: none;
+      border: 1px solid black;
+      font-size: 18px;
+      color: $color-support-brown;
+    }
+
+
+    button {
+      margin-top: 30px;
+      font-size: 12px;
+      padding: 5px 10px;
+      cursor: pointer;
+      border: 1px solid black;
+      background-color: $color-buttons-brown;
+      margin-left: 5px;
+      transition: 0.2s;
+    }
+  }
+
+  button:hover {
+    color: white;
+  }
+}

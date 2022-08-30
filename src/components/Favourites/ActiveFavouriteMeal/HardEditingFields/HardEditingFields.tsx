@@ -4,6 +4,8 @@ import {useSelector} from "react-redux";
 import {RootState} from "../../../../store";
 import {apiUrl} from "../../../../config/api";
 
+import './HardEditingFields.scss';
+
 interface Props {
     productValues: FavouritesProducts,
     favourites: FavouritesEntity[],
@@ -89,14 +91,14 @@ export const HardEditingFields = ({setIsHardEditActive, setFavourites, productVa
         })
     }
 
-    return <form onSubmit={handleEdit}>
+    return <form className='hard-edit-form' onSubmit={handleEdit}>
         <h3>Product: <input type="text" value={values.name} onChange={e => updateForm('name', e.target.value)}/></h3>
         <p>Proteins: <input type="number" value={values.proteins} onChange={e => updateForm('proteins', e.target.value)} step='0.01'/></p>
         <p>Carbohydrates: <input type="number" value={values.carbohydrates} onChange={e => updateForm('carbohydrates', e.target.value)} step='0.01'/></p>
         <p>Fats: <input type="number" value={values.fats} onChange={e => updateForm('fats', e.target.value)} step='0.01'/></p>
         <p>Calories: <input type="number" value={values.calories} onChange={e => updateForm('calories', e.target.value)} step='0.01'/></p>
         <div>Amount: <input type="number" value={values.amount} onChange={e => updateForm('amount', e.target.value)} step='0.01'/></div>
-        <button>Confirm</button>
-        <button type='button' className='cancel-hard-edit' onClick={cancelHardEdit}>Cancel</button>
+        <button className='hard-edit-form__confirm'>Confirm</button>
+        <button className='hard-edit-form__cancel' type='button' onClick={cancelHardEdit}>Cancel</button>
     </form>
 }

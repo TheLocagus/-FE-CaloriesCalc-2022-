@@ -1,0 +1,12 @@
+@import "src/variables";
+
+.active-favourite-product-values {
+  &__form {
+    input {
+      border: 1px solid $color-support-brown;
+      border-radius: 5px;
+      outline: none;
+      padding: 2px 5px
+    }
+  }
+}

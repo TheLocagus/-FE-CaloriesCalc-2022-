@@ -1,0 +1,25 @@
+@import "src/variables";
+
+.hard-edit-form {
+
+  input {
+    padding: 2px 5px;
+    font-size: 14px;
+    outline: none;
+    border: 1px solid $color-support-brown;
+    border-radius: 5px;
+  }
+
+  &__confirm, &__cancel {
+    background-color: $color-buttons-brown;
+    border: 1px solid black;
+    padding: 2px 5px;
+    margin-top: 10px;
+    margin-right: 5px;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+  &__confirm:hover, &__cancel:hover {
+    color: white;
+  }
+}

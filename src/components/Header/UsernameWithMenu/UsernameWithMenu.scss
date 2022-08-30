@@ -22,7 +22,7 @@
     ul {
         width: 15%;
         list-style: none;
-        background-color: #8ea9db;
+        background-color: $color-support-brown;
 
         li {
             height: 2.5em;
@@ -39,7 +39,7 @@
                 color: #111;
             }
             a:hover{
-                background-color: #6991e5;
+                background-color: #b04a4a;
                 color: white;
             }
         }

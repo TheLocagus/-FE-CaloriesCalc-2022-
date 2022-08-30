@@ -8,7 +8,7 @@ import {useSelector} from "react-redux";
 import {RootState} from "../../../../store";
 import {updateProductValuesInFavMeal} from "../../../../utils/fetch/updateProductValuesInFavMeal";
 
-import './ProductInActiveFavMeal.css';
+import './ProductInActiveFavMeal.scss';
 
 interface Props {
     product: FavouritesProducts,
@@ -132,7 +132,7 @@ export const ProductInActiveFavMeal = ({product, favourites, activeMealIndex, se
                 {
                     isHardEditActive
                         ? <>
-                            <div className="active-favourite-product-edit-button">
+                            <div className="active-favourite-product__edit-button-div">
                                 <TiPencil className='active-favourite-product__edit-button'
                                           onClick={() => {setIsHardEditActive(false)}}
                                 />
@@ -145,7 +145,7 @@ export const ProductInActiveFavMeal = ({product, favourites, activeMealIndex, se
                             />
                         </>
                         : <>
-                            <div className="active-favourite-product-edit-button">
+                            <div className="active-favourite-product__edit-button-div">
                                 <TiPencil className='active-favourite-product__edit-button'
                                           onClick={() => {setIsHardEditActive(true)}}
                                 />

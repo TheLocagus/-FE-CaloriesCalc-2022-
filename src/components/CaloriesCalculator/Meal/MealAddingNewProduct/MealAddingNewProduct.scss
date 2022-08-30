@@ -1,3 +1,5 @@
+@import "src/variables";
+
 .meal__add-new-product {
   padding: 10px 0;
 
@@ -74,12 +76,13 @@
 }
 
 .confirm {
-  background-color: #8ea9db;
+  background-color: $color-support-calc;
   color: #111;
   padding: 1px 5px;
   border-radius: 3px;
   cursor: pointer;
   border: 1px solid #111;
+  transition: 0.2s;
 }
 
 .confirm:hover {
@@ -88,16 +91,15 @@
 
 .find-product, .add-own-product {
   margin-right: 1px;
-  background-color: #8ea9db;
+  background-color: $color-support-calc;
   border: 1px solid #111;
   color: #111;
   border-radius: 3px;
   padding: 3px 10px;
   cursor: pointer;
+  transition: 0.2s;
 }
 
 .find-product:hover, .add-own-product:hover {
-  background-color: #6991e5;
   color: white;
-  transition: 0.2s;
 }

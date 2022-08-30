@@ -28,6 +28,10 @@
             &__title {
                 padding-right: 150px;
             }
+            &__close-modal {
+                transform: scale(1.2);
+                cursor: pointer;
+            }
         }
 
         &__content {
@@ -38,11 +42,6 @@
 
 .modal-btn {
     padding-top: 10px;
-}
-
-.modal-container__modal__header__close-modal {
-    transform: scale(1.2);
-    cursor: pointer;
 }
 
 .modal-confirm {

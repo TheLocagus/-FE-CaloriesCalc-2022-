@@ -3,7 +3,7 @@ import {ErrorEntity, UserEntity } from 'types';
 import {ErrorMessage} from "../../common/ErrorMessage/ErrorMessage";
 import {Message} from "../../common/Message/Message";
 
-import './Registration.css';
+import './AuthForms.scss';
 import {apiUrl} from "../../../config/api";
 
 interface RegistrationJsonResponse {
@@ -11,12 +11,21 @@ interface RegistrationJsonResponse {
     message: string,
 }
 
+interface UserInFront {
+    username: string;
+    password: string;
+    email: string;
+}
+
 export const Registration = () => {
 
-    const [user, setUser] = useState<UserEntity>({
+    const [user, setUser] = useState<UserInFront>({
         username: '',
         password: '',
-    })
+        email: '',
+    });
+
+    const [repeatedPassword, setRepeatedPassword] = useState<string>('')
 
     const changeValue = (key: string, value: any) => {
         setUser(form => ({
@@ -60,7 +69,7 @@ export const Registration = () => {
     }
 
     return (
-        <div className="signup-form-wrapper">
+        <div className="auth-form">
             <h1>Rejestracja</h1>
             {
                 errorMessage.length > 0
@@ -72,14 +81,38 @@ export const Registration = () => {
                     ? <Message message={message}/>
                     : null
             }
-            <form onSubmit={sendData} className="signup-form">
-                <label>Username
-                    <input value={user.username} onChange={e => changeValue('username', e.target.value)} type="text"/>
+            <form onSubmit={sendData} className="auth-form__form">
+                <label>
+                    <input
+                      placeholder='Username'
+                      value={user.username}
+                      onChange={e => changeValue('username', e.target.value)}
+                      type="text"/>
                 </label>
-                <label>Password
-                    <input value={user.password} onChange={e => changeValue('password', e.target.value)} type="password"/>
+                <label>
+                    <input
+                      placeholder='Password'
+                      value={user.password}
+                      onChange={e => changeValue('password', e.target.value)}
+                      type="password"/>
                 </label>
-                <button>Sign up</button>
+                <label>
+                    <input
+                      placeholder='Repeat password'
+                      value={repeatedPassword}
+                      onChange={e => setRepeatedPassword(e.target.value)}
+                      type="password"/>
+                </label>
+                <label>
+                    <input
+                      placeholder='Email'
+                      value={user.email}
+                      onChange={e => changeValue('email', e.target.value)}
+                      type="email"/>
+                </label>
+                <div className='auth-form__buttons'>
+                    <button>Sign up</button>
+                </div>
             </form>
         </div>
     )

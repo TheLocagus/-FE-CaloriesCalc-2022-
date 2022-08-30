@@ -7,7 +7,7 @@ import {MealAddingNewProduct} from "./MealAddingNewProduct/MealAddingNewProduct"
 import {useSelector} from "react-redux";
 import {RootState} from "../../../store";
 import {FavouritesEntity, FavouritesProducts} from "types";
-import "./Meal.css"
+import "./Meal.scss"
 
 import {MyModal} from "../../common/MyModal/MyModal";
 import {SetTitleOnFavourite} from "../../common/MyModal/ModalContents/SetTitleOnFavourite/SetTitleOnFavourite";

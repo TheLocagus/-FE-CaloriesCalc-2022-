@@ -1,0 +1,60 @@
+@import "src/variables";
+
+.username-with-menu {
+    height: 100%;
+    color: #111;
+
+    p {
+        height: 100%;
+        display: flex;
+        align-items: center;
+
+        span {
+            font-size: 10px;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0 5px 0 10px;
+        }
+    }
+
+    ul {
+        width: 15%;
+        list-style: none;
+        background-color: $color-support-brown;
+
+        li {
+            height: 2.5em;
+            text-align: center;
+            cursor: pointer;
+
+             a {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100%;
+                width: 100%;
+                text-decoration: none;
+                color: #111;
+            }
+            a:hover{
+                background-color: #b04a4a;
+                color: white;
+            }
+        }
+    }
+}
+
+.menu-dropdown {
+    background: #f2f2f2;
+    display: none;
+    position: absolute;
+    z-index: 999;
+    right: 0;
+    overflow: auto;
+}
+
+.username-with-menu:hover .menu-dropdown {
+    display: block;
+}

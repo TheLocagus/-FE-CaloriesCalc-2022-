@@ -1,3 +1,4 @@
+@import "src/variables";
 .calc-wrap {
     margin-top: 20px;
     display: flex;
@@ -5,5 +6,6 @@
     align-items: center;
     border-radius: 5px;
     width: 60%;
-    background-color: #4b4f97;
+    background-color: $color-main-calc;
+    box-shadow: #3a0808 0 0 2px 2px;
 }

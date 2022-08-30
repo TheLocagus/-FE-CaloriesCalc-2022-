@@ -1,0 +1,15 @@
+@import "src/variables";
+.add-meal {
+    background-color: $color-support-calc;
+    color: #222;
+    padding: 10px 0;
+    width: 100%;
+    cursor: pointer;
+    border: 1px solid black;
+    border-radius: 3px;
+}
+
+.add-meal:hover {
+    color: white;
+    transition: 0.3s;
+}

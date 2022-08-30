@@ -7,7 +7,7 @@ import {ErrorEntity, ProductEntity } from "types";
 import {RootState} from "../../store";
 import {useDispatch, useSelector} from "react-redux";
 
-import './CaloriesCalculator.css'
+import './CaloriesCalculator.scss'
 import {apiUrl} from "../../config/api";
 
 interface ProductsJsonResponse {
@@ -30,9 +30,9 @@ export const CaloriesCalculator = () => {
             }
         })()
 
-        return ()=> {
-            dispatch(setMeals([]));
-        }
+        // return ()=> {
+        //     dispatch(setMeals([]));
+        // }
     }, [dispatch])
 
 

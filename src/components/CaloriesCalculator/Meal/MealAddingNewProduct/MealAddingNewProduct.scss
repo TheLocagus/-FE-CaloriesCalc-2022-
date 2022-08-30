@@ -1,0 +1,105 @@
+@import "src/variables";
+
+.meal__add-new-product {
+  padding: 10px 0;
+
+  &__dropdown {
+    padding: 5px 0;
+
+    &__field {
+      position: relative;
+
+      &__input {
+        width: 100%;
+        height: 2em;
+        font-size: 1.1em;
+        background-color: #ccc;
+        border: 1px solid black;
+        color: #222;
+        padding-left: 5px;
+
+        &__clear {
+          position: absolute;
+          top: 50%;
+          border-radius: 3px;
+          right: 0.5em;
+          transform: translate(0, -50%);
+          border: 2px solid black;
+          background-color: transparent;
+          color: black;
+          font-weight: bold;
+          padding: 1px 3px;
+          cursor: pointer;
+        }
+      }
+
+      &__input:focus {
+        outline: none;
+      }
+    }
+
+    &__list {
+      list-style: none;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      background-color: #777;
+      font-size: 10px;
+
+      &__element div {
+        display: flex;
+        justify-content: space-between;
+        padding: 5px 5px 5px 0;
+        border-bottom: 1px solid black;
+
+        p {
+          display: flex;
+          align-items: center;
+          padding: 0 5px;
+
+          span {
+            padding-left: 10px;
+
+            b {
+              font-size: 1.2em;
+              padding: 0 1px;
+            }
+          }
+        }
+      }
+
+      &__element:nth-last-child(1) div {
+        border-bottom: none;
+      }
+    }
+  }
+}
+
+.confirm {
+  background-color: $color-support-calc;
+  color: #111;
+  padding: 1px 5px;
+  border-radius: 3px;
+  cursor: pointer;
+  border: 1px solid #111;
+  transition: 0.2s;
+}
+
+.confirm:hover {
+  color: white;
+}
+
+.find-product, .add-own-product {
+  margin-right: 1px;
+  background-color: $color-support-calc;
+  border: 1px solid #111;
+  color: #111;
+  border-radius: 3px;
+  padding: 3px 10px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.find-product:hover, .add-own-product:hover {
+  color: white;
+}

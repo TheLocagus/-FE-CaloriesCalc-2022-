@@ -2,7 +2,7 @@ import React from 'react';
 import { ErrorEntity } from 'types';
 import {Link} from "react-router-dom";
 
-import './CustomError.css';
+import './CustomError.scss';
 
 interface Props {
     error?: ErrorEntity | null,

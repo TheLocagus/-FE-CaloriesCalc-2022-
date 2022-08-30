@@ -4,7 +4,7 @@ import {removeMeal} from "../../../../actions/caloriesCalclator";
 import {BsStar, BsStarFill} from "react-icons/bs";
 import {RootState} from "../../../../store";
 
-import './MealHeader.css'
+import './MealHeader.scss'
 
 interface Props {
     mealIndex: number;
@@ -20,16 +20,16 @@ export const MealHeader = ({isFavourite, showAddFavouriteModal, mealIndex}: Prop
     return (
         <div className="meal__header">
             {user
-                ? <div className="favourite-icon">
+                ? <div className="meal__header__favourite-icon">
                     {isFavourite
-                        ? <BsStarFill className='added-favourite-star'/>
-                        : <BsStar onClick={showAddFavouriteModal} className='favourite-star'/>
+                        ? <BsStarFill className='meal__header__favourite-icon__star-added'/>
+                        : <BsStar onClick={showAddFavouriteModal} className='meal__header__favourite-icon__star'/>
                     }
                 </div>
                 : null
             }
             <p>Meal #{mealIndex + 1}</p>
-            <button onClick={() => dispatch(removeMeal(mealIndex))} className="remove-meal">X</button>
+            <button onClick={() => dispatch(removeMeal(mealIndex))} className="meal__header__remove-meal">X</button>
         </div>
     )
 }

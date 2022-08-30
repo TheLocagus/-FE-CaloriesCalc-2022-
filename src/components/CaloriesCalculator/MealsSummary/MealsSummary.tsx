@@ -6,7 +6,7 @@ import {FatsFromAllMeals} from "./FatsFromAllMeals/FatsFromAllMeals";
 import {CaloriesFromAllMeals} from "./CaloriesFromAllMeals/CaloriesFromAllMeals";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../store";
-import './MealsSummary.css';
+import './MealsSummary.scss';
 
 export const MealsSummary = () => {
     const {meals} = useSelector((store: RootState) => store.caloriesCalculator)

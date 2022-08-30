@@ -3,7 +3,7 @@ import {BsPencilSquare} from "react-icons/bs";
 import {FavouritesEntity} from "types";
 import {ProductInActiveFavMeal} from "./ProductInActiveFavMeal/ProductInActiveFavMeal";
 
-import './ActiveFavouriteMeal.css';
+import './ActiveFavouriteMeal.scss';
 
 interface Props {
     favourites: FavouritesEntity[];
@@ -36,15 +36,15 @@ export const ActiveFavouriteMeal = ({favourites, activeMealIndex, openModal, set
 
     return (
         <div className="actual-favourite-meal">
-            <div className="actual-favourite-meal-title">
-                <div className="title">
-                    <h2>{favourites[activeMealIndex].title}</h2>
-                </div>
+            <div className="actual-favourite-meal__header">
+
                 <BsPencilSquare
-                    className="actual-favourite-meal__edit-icon"
+                    className="actual-favourite-meal__header__edit-icon"
                     onClick={openModal}
                 />
-
+                <div className="actual-favourite-meal__header__title">
+                    <h2>{favourites[activeMealIndex].title}</h2>
+                </div>
             </div>
             {favourites[activeMealIndex].products.map((product, i) =>
                 <ProductInActiveFavMeal
@@ -57,8 +57,8 @@ export const ActiveFavouriteMeal = ({favourites, activeMealIndex, openModal, set
             )}
             <div className="actual-favourite-meal__summary">
                 <h3>Summary</h3>
-                <div className="actual-favourite-meal__summary-values">
-                    <div className="actual-favourite-meal__summary-pcf">
+                <div className="actual-favourite-meal__summary__values">
+                    <div className="actual-favourite-meal__summary__pcf">
                         <p>P: {sums.proteins}g</p>
                         <p>C: {sums.carbohydrates}g</p>
                         <p>F: {sums.fats}g</p>

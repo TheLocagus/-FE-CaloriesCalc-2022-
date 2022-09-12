@@ -1,15 +1,15 @@
 import React, {Dispatch, SetStateAction, useEffect, useState} from "react";
 import {BsPencilSquare} from "react-icons/bs";
-import {FavouritesEntity} from "types";
+import {FavouriteMealWithProductsInterface} from "types";
 import {ProductInActiveFavMeal} from "./ProductInActiveFavMeal/ProductInActiveFavMeal";
 
 import './ActiveFavouriteMeal.scss';
 
 interface Props {
-    favourites: FavouritesEntity[];
+    favourites: FavouriteMealWithProductsInterface[];
     activeMealIndex: number;
     openModal: () => void;
-    setFavourites: Dispatch<SetStateAction<FavouritesEntity[] | null>>
+    setFavourites: Dispatch<SetStateAction<FavouriteMealWithProductsInterface[] | null>>
 }
 
 export const ActiveFavouriteMeal = ({favourites, activeMealIndex, openModal, setFavourites}: Props) => {
@@ -22,10 +22,10 @@ export const ActiveFavouriteMeal = ({favourites, activeMealIndex, openModal, set
     })
 
     useEffect(() => {
-        const countProteins = favourites[activeMealIndex].products.map(item => item.proteins).reduce((prev, curr) => prev + curr);
-        const countCarbohydrates = favourites[activeMealIndex].products.map(item => item.carbohydrates).reduce((prev, curr) => prev + curr);
-        const countFats = favourites[activeMealIndex].products.map(item => item.fats).reduce((prev, curr) => prev + curr);
-        const countCalories = favourites[activeMealIndex].products.map(item => item.calories).reduce((prev, curr) => prev + curr);
+        const countProteins = favourites[activeMealIndex].favouritesProducts.map(item => item.proteins).reduce((prev, curr) => prev + curr);
+        const countCarbohydrates = favourites[activeMealIndex].favouritesProducts.map(item => item.carbohydrates).reduce((prev, curr) => prev + curr);
+        const countFats = favourites[activeMealIndex].favouritesProducts.map(item => item.fats).reduce((prev, curr) => prev + curr);
+        const countCalories = favourites[activeMealIndex].favouritesProducts.map(item => item.calories).reduce((prev, curr) => prev + curr);
         setSums(prev => ({
             proteins: Number(countProteins.toFixed(1)),
             carbohydrates: Number(countCarbohydrates.toFixed(1)),
@@ -46,14 +46,13 @@ export const ActiveFavouriteMeal = ({favourites, activeMealIndex, openModal, set
                     <h2>{favourites[activeMealIndex].title}</h2>
                 </div>
             </div>
-            {favourites[activeMealIndex].products.map((product, i) =>
+            {favourites[activeMealIndex].favouritesProducts.map((product, i) =>
                 <ProductInActiveFavMeal
                     key={i}
                     favourites={favourites}
                     activeMealIndex={activeMealIndex}
-                    product={product}
                     setFavourites={setFavourites}
-                />
+                    product={product}/>
             )}
             <div className="actual-favourite-meal__summary">
                 <h3>Summary</h3>

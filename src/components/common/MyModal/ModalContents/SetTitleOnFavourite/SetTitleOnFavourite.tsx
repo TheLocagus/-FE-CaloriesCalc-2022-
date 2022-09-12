@@ -2,7 +2,7 @@ import React, {SyntheticEvent} from "react";
 import './SetTitleOnFavourite.css';
 
 interface Props {
-    addFavourite: (e: SyntheticEvent) => Promise<JSX.Element | undefined>;
+    addFavourite: (e: SyntheticEvent) => Promise<JSX.Element | void>;
     title: string;
     changeInputValue: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }

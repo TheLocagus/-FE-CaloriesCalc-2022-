@@ -26,7 +26,8 @@ export const ChangePassword = () => {
                 password: data.password,
                 repeatedPassword: data.repeatedPassword,
                 token: localStorage.getItem('token')
-            })
+            }),
+            credentials: "include",
         })
         const datas = await res.json()
 

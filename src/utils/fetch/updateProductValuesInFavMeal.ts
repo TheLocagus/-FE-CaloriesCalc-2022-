@@ -1,14 +1,9 @@
-import {ErrorEntity, FavouritesEntity, UpdateValuesEntity } from "types";
+import {ProductToUpdateResponse, ProductToUpdateDto} from "types";
 import {apiUrl} from "../../config/api";
 
-interface FavouritesJsonResponse {
-    favMeals: FavouritesEntity[],
-    success: true,
-}
-
-export const updateProductValuesInFavMeal = async(dataValues: UpdateValuesEntity) => {
-    const res = await fetch(`${apiUrl}/user/favourites`, {
-        method: 'PUT',
+export const updateProductValuesInFavMeal = async(dataValues: ProductToUpdateDto) => {
+    const res = await fetch(`${apiUrl}/favourite/product`, {
+        method: 'PATCH',
         headers: {
             'Content-Type': 'application/json'
         },
@@ -18,7 +13,7 @@ export const updateProductValuesInFavMeal = async(dataValues: UpdateValuesEntity
         )
 
     })
-    const data: FavouritesJsonResponse | ErrorEntity = await res.json();
+    const data: ProductToUpdateResponse = await res.json();
 
     return data;
 }

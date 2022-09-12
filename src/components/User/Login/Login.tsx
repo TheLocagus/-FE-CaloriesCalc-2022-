@@ -1,23 +1,11 @@
 import React, {SyntheticEvent, useEffect, useState} from 'react';
-import {LoggedUserEntity, UserEntity} from 'types';
+import {UserLoginForm, UserResponse} from 'types';
 import {ErrorMessage} from "../../common/ErrorMessage/ErrorMessage";
-
 import '../Registration/AuthForms.scss';
 import {apiUrl} from "../../../config/api";
 
-interface JsonLoginData {
-  success: true,
-  loggedUser: LoggedUserEntity,
-}
-
-interface JsonLoginDataFail {
-  success: false,
-  status: number,
-  message: string,
-}
-
 export const Login = () => {
-  const [user, setUser] = useState<UserEntity>({
+  const [user, setUser] = useState<UserLoginForm>({
     username: '',
     password: '',
   });
@@ -49,14 +37,14 @@ export const Login = () => {
         password: user.password,
       })
     })
-    const data: JsonLoginDataFail | JsonLoginData = await res.json();
+    const data: UserResponse = await res.json();
     if (!data.success) {
       setErrorMessage(data.message);
     }
     if (data.success) {
 
-      localStorage.setItem('username', data.loggedUser.username);
-      localStorage.setItem('id', data.loggedUser.id);
+      localStorage.setItem('username', data.user.username);
+      localStorage.setItem('id', data.user.id);
       // window.location.href = 'https://www.bkolsutjs-caloriescalc.networkmanager.pl'
       window.location.href = '/'
     }
@@ -80,7 +68,7 @@ export const Login = () => {
                    type="password" placeholder='Password'/>
           </label>
           <div className='auth-form__form__buttons'>
-            <button className='auth-form__form__buttons__forgot-password'>Forgot password</button>
+            <button type='button'  className='auth-form__form__buttons__forgot-password'>Forgot password</button>
             <button className='auth-form__form__buttons__sign-in'>Sign in</button>
           </div>
         </form>

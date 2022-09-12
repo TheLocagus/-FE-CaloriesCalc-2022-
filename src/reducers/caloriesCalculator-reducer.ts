@@ -1,11 +1,11 @@
-import {ErrorEntity, LoggedUserEntity, ProductEntity} from "types";
+import {AvailableUserDataOnFront, ProductInterface, UserResponse} from "types";
 import {CaloriesCalculatorAction} from "../action-types/caloriesCalculator";
 
 interface CaloriesCalculatorState {
-    productsList: ProductEntity[];
-    meals: ProductEntity[][];
-    user: LoggedUserEntity | null;
-    error: ErrorEntity | null;
+    productsList: ProductInterface[];
+    meals: ProductInterface[][];
+    user: AvailableUserDataOnFront | null;
+    // error: ErrorEntity | null;
 }
 
 const initialState: CaloriesCalculatorState = {
@@ -14,19 +14,19 @@ const initialState: CaloriesCalculatorState = {
     user:
         localStorage.getItem('username') === null ? null : {
         username: localStorage.getItem('username') as string,
-        id: localStorage.getItem('id') as string
+        id: localStorage.getItem('id') as string,
     } || null,
-    error: null,
+    // error: null,
 }
 
 interface SetProductsList {
     type: CaloriesCalculatorAction.SET_PRODUCTS_LIST,
-    payload: ProductEntity[]
+    payload: ProductInterface[]
 }
 
 interface SetMeals {
     type: CaloriesCalculatorAction.SET_MEALS,
-    payload: ProductEntity[][]
+    payload: ProductInterface[][]
 }
 
 interface AddMeal {
@@ -40,7 +40,7 @@ interface RemoveMeal {
 
 interface AddProduct {
     type: CaloriesCalculatorAction.ADD_PRODUCT,
-    payload: ProductEntity,
+    payload: ProductInterface,
     payload2: number,
 }
 
@@ -52,15 +52,15 @@ interface RemoveProduct {
 
 interface SetUser {
     type: CaloriesCalculatorAction.SET_USER,
-    payload: LoggedUserEntity,
+    payload: AvailableUserDataOnFront,
 }
 
-interface SetError {
-    type: CaloriesCalculatorAction.SET_ERROR,
-    payload: ErrorEntity | null,
-}
+// interface SetError {
+//     type: CaloriesCalculatorAction.SET_ERROR,
+//     payload: ErrorEntity | null,
+// }
 
-type Action = SetProductsList | SetMeals | AddMeal | RemoveMeal | AddProduct | RemoveProduct | SetUser | SetError;
+type Action = SetProductsList | SetMeals | AddMeal | RemoveMeal | AddProduct | RemoveProduct | SetUser;
 
 export default (state: CaloriesCalculatorState = initialState, action: Action) => {
     switch(action.type){
@@ -79,13 +79,13 @@ export default (state: CaloriesCalculatorState = initialState, action: Action) =
         case CaloriesCalculatorAction.ADD_MEAL: {
             return {
                 ...state,
-                meals: [...state.meals, [] as ProductEntity[]]
+                meals: [...state.meals, [] as ProductInterface[]]
             }
         }
         case CaloriesCalculatorAction.REMOVE_MEAL: {
             return {
                 ...state,
-                meals: [...state.meals as ProductEntity[][]].filter((meal, i) => i !== action.payload),
+                meals: [...state.meals as ProductInterface[][]].filter((meal, i) => i !== action.payload),
             }
         }
         case CaloriesCalculatorAction.ADD_PRODUCT: {
@@ -117,12 +117,12 @@ export default (state: CaloriesCalculatorState = initialState, action: Action) =
                 user: action.payload
             }
         }
-        case CaloriesCalculatorAction.SET_ERROR: {
-            return {
-                ...state,
-                error: action.payload
-            }
-        }
+        // case CaloriesCalculatorAction.SET_ERROR: {
+        //     return {
+        //         ...state,
+        //         error: action.payload
+        //     }
+        // }
         default: return state;
     }
 }

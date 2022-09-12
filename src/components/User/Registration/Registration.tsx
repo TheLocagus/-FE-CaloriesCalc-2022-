@@ -1,5 +1,4 @@
 import React, {SyntheticEvent, useEffect, useState} from 'react';
-import {ErrorEntity, UserEntity } from 'types';
 import {ErrorMessage} from "../../common/ErrorMessage/ErrorMessage";
 import {Message} from "../../common/Message/Message";
 
@@ -53,9 +52,10 @@ export const Registration = () => {
             body: JSON.stringify({
                 username: user.username,
                 password: user.password,
-            })
+            }),
+            credentials: "include",
         })
-        const data: RegistrationJsonResponse | ErrorEntity = await res.json();
+        const data: RegistrationJsonResponse  = await res.json();
 
         if (!data.success){
             setMessage('')

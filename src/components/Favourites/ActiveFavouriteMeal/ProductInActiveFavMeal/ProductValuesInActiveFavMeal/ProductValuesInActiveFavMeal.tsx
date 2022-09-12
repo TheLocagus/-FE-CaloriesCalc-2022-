@@ -1,9 +1,9 @@
 import React, {Dispatch, MutableRefObject, SetStateAction, SyntheticEvent} from "react";
-import { FavouritesProducts } from "types";
+import {FavouriteProductInterface} from "types";
 
 import './ProductValuesInActiveFavMeal.scss';
 interface Props {
-    productValues: FavouritesProducts;
+    productValues: Omit<FavouriteProductInterface, 'favouriteMeal'>;
     isEditInputVisible: boolean;
     changeAmount: (e: SyntheticEvent) => void;
     inputValue: number;

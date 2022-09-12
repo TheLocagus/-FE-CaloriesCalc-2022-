@@ -2,7 +2,9 @@ import React, {MutableRefObject, SyntheticEvent, useEffect, useRef, useState} fr
 import {Button} from "../../../common/Button";
 import {HardEditingFields} from "../HardEditingFields/HardEditingFields";
 import {TiPencil} from "react-icons/ti";
-import {FavouritesEntity, FavouritesProducts, UpdateValuesEntity} from "types";
+import {FavouriteMealWithProductsInterface, FavouriteProductInterface,
+    FavouriteProductWithIdInterface,
+    ProductToUpdateDto} from "types";
 import {ProductValuesInActiveFavMeal} from "./ProductValuesInActiveFavMeal/ProductValuesInActiveFavMeal";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../../store";
@@ -11,15 +13,15 @@ import {updateProductValuesInFavMeal} from "../../../../utils/fetch/updateProduc
 import './ProductInActiveFavMeal.scss';
 
 interface Props {
-    product: FavouritesProducts,
-    favourites: FavouritesEntity[],
+    product: FavouriteProductInterface,
+    favourites: FavouriteMealWithProductsInterface[],
     activeMealIndex: number,
-    setFavourites: React.Dispatch<React.SetStateAction<FavouritesEntity[] | null>>
+    setFavourites: React.Dispatch<React.SetStateAction<FavouriteMealWithProductsInterface[] | null>>
 }
 
 export const ProductInActiveFavMeal = ({product, favourites, activeMealIndex, setFavourites}: Props) => {
 
-    const [productValues, setProductValues] = useState<FavouritesProducts>({
+    const [productValues, setProductValues] = useState<FavouriteProductWithIdInterface>({
         id: '',
         name: '',
         proteins: 0,
@@ -49,9 +51,9 @@ export const ProductInActiveFavMeal = ({product, favourites, activeMealIndex, se
             calories: Number(product.calories.toFixed(2)),
             amount: product.amount,
             index: product.index,
-            favouriteId: product.favouriteId,
+            favouriteId: product.favouriteMeal.id,
         }))
-    }, [product.amount, product.calories, product.carbohydrates, product.fats, product.favouriteId, product.id, product.index, product.name, product.proteins])
+    }, [product.amount, product.calories, product.carbohydrates, product.fats, product.favouriteMeal.id, product.id, product.index, product.name, product.proteins])
 
     useEffect(() => {
         setInputValue(inputValue);
@@ -100,10 +102,9 @@ export const ProductInActiveFavMeal = ({product, favourites, activeMealIndex, se
 
     }
     const saveChangedByAmount = async () => {
-        const dataValues: UpdateValuesEntity = {
+        const dataValues: ProductToUpdateDto = {
             product: productValues,
             userId: user.id,
-            whatToChange: 'values'
         }
 
         if(dataValues.product.amount.toString().length > 6){
@@ -117,7 +118,7 @@ export const ProductInActiveFavMeal = ({product, favourites, activeMealIndex, se
             setErrorMessage(data.message)
         }
         if (data.success) {
-            setFavourites(prev => data.favMeals);
+            setFavourites(prev => data.meals);
         }
     }
 

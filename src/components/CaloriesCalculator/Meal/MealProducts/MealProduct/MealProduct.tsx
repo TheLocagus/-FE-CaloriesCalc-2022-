@@ -1,6 +1,6 @@
 import React, {MutableRefObject, useEffect, useRef, useState} from "react";
 import {Button} from "../../../../common/Button";
-import {ProductEntity} from "types";
+import {ProductInterface} from "types";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../../../store";
 import {removeProductFromMeal, setMeals} from "../../../../../actions/caloriesCalclator";
@@ -8,7 +8,7 @@ import {removeProductFromMeal, setMeals} from "../../../../../actions/caloriesCa
 import './MealProduct.scss';
 
 interface Props {
-    product: ProductEntity;
+    product: ProductInterface;
     mealIndex: number;
     productId: number;
     amount: number;
@@ -43,7 +43,7 @@ export const MealProduct = ({amount, product, mealIndex, productId}: Props) => {
 
         const productToModifie = [...productsList].filter(productFromList => productFromList.id === product.id)[0];
 
-        const modifiedProduct: ProductEntity = {
+        const modifiedProduct: ProductInterface = {
             ...productToModifie,
             proteins: productToModifie.proteins * (Number(inputValue) / 100),
             carbohydrates: productToModifie.carbohydrates * (Number(inputValue) / 100),

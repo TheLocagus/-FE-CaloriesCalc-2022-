@@ -1,6 +1,6 @@
 import React, {SyntheticEvent, useState} from "react";
 import {v4 as uuid} from 'uuid';
-import {ProductEntity} from "types";
+import {ProductInterface} from "types";
 import {useDispatch, useSelector} from "react-redux";
 import {addProductToMeal, setProductsList} from "../../../../../actions/caloriesCalclator";
 import {RootState} from "../../../../../store";
@@ -16,7 +16,8 @@ export const AddNewProductToMealForm = ({closeModal, mealIndex}: Props) => {
     const dispatch = useDispatch();
     const {productsList} = useSelector((store: RootState) => store.caloriesCalculator)
     const [errorMessage, setErrorMessage] = useState<string>('')
-    const [newMeal, setNewMeal] = useState<ProductEntity>({
+    const [newProduct, setNewProduct] = useState<ProductInterface>({
+        id: '',
         name: '',
         proteins: 0,
         carbohydrates: 0,
@@ -26,7 +27,7 @@ export const AddNewProductToMealForm = ({closeModal, mealIndex}: Props) => {
     });
 
     const updateForm = (key: string, value: any) => {
-        setNewMeal(form => ({
+        setNewProduct((form: ProductInterface) => ({
             ...form,
             [key]: value,
         }))
@@ -34,9 +35,9 @@ export const AddNewProductToMealForm = ({closeModal, mealIndex}: Props) => {
 
     const confirmForm = (e: SyntheticEvent) => {
         e.preventDefault();
-        const {name, proteins, carbohydrates, fats, calories} = newMeal;
-        const newMealToAdd: ProductEntity = {
-            ...newMeal,
+        const {name, proteins, carbohydrates, fats, calories} = newProduct;
+        const newMealToAdd: ProductInterface = {
+            ...newProduct,
             name,
             proteins: Number(proteins),
             carbohydrates: Number(carbohydrates),
@@ -51,7 +52,7 @@ export const AddNewProductToMealForm = ({closeModal, mealIndex}: Props) => {
         }
 
         dispatch(addProductToMeal(newMealToAdd, mealIndex));
-        const productsListCopy: ProductEntity[] = [...productsList, newMealToAdd]
+        const productsListCopy: ProductInterface[] = [...productsList, newMealToAdd]
         dispatch(setProductsList(productsListCopy))
         closeModal();
     }
@@ -66,7 +67,7 @@ export const AddNewProductToMealForm = ({closeModal, mealIndex}: Props) => {
                     <label> Name:
                         <input
                             maxLength={50}
-                            value={newMeal.name}
+                            value={newProduct.name}
                             type="text"
                             onChange={e => updateForm('name', e.target.value)}
                         />
@@ -77,7 +78,7 @@ export const AddNewProductToMealForm = ({closeModal, mealIndex}: Props) => {
                         <input
                             min={0}
                             step={0.01}
-                            value={newMeal.proteins}
+                            value={newProduct.proteins}
                             type="number"
                             onChange={e => updateForm('proteins', e.target.value[0] === "0" && e.target.value.length > 1 ? e.target.value.substring(1) : e.target.value)}
                         />
@@ -86,7 +87,7 @@ export const AddNewProductToMealForm = ({closeModal, mealIndex}: Props) => {
                         <input
                             min={0}
                             step={0.01}
-                            value={newMeal.carbohydrates}
+                            value={newProduct.carbohydrates}
                             type="number"
                             onChange={e => updateForm('carbohydrates', e.target.value[0] === "0" && e.target.value.length > 1 ? e.target.value.substring(1) : e.target.value)}
                         />
@@ -95,7 +96,7 @@ export const AddNewProductToMealForm = ({closeModal, mealIndex}: Props) => {
                         <input
                             min={0}
                             step={0.01}
-                            value={newMeal.fats}
+                            value={newProduct.fats}
                             type="number"
                             onChange={e => updateForm('fats', e.target.value[0] === "0" && e.target.value.length > 1 ? e.target.value.substring(1) : e.target.value)}
                         />
@@ -104,7 +105,7 @@ export const AddNewProductToMealForm = ({closeModal, mealIndex}: Props) => {
                         <input
                             min={0}
                             step={0.01}
-                            value={newMeal.calories}
+                            value={newProduct.calories}
                             type="number"
                             onChange={e => updateForm('calories', e.target.value[0] === "0" && e.target.value.length > 1 ? e.target.value.substring(1) : e.target.value)}
                         />

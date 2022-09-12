@@ -2,11 +2,11 @@ import React, {useEffect, useState} from "react";
 
 import './FavouriteMealInList.css'
 import {BsTrashFill} from "react-icons/bs";
-import { FavouritesProducts } from "types";
+import {FavouriteProductInterface} from "types";
 
 interface Props {
     title: string;
-    items: FavouritesProducts[];
+    items: Omit<FavouriteProductInterface, 'favouriteMeal'>[];
     index: number;
     setActiveMealIndex: React.Dispatch<React.SetStateAction<number>>;
     id: string,

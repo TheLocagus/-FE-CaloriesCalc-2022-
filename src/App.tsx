@@ -18,7 +18,7 @@ import {RootState} from "./store";
 
 export const App = () => {
     Modal.setAppElement('#root');
-    const {error} = useSelector((store: RootState) => store.caloriesCalculator);
+    // const {error} = useSelector((store: RootState) => store.caloriesCalculator);
     return (
         <div className="App">
             <Header/>
@@ -45,11 +45,11 @@ export const App = () => {
                             <FavouritesView/>
                         </ProtectedRoute>}
                 />
-                {
-                    error === null
-                        ? <Route path="/error" element={<CustomError error={error}/>}/>
-                        : <Route path="/error" element={<CustomError message={error.message} status={error.status}/>}/>
-                }
+                {/*{*/}
+                {/*    error === null*/}
+                {/*        ? <Route path="/error" element={<CustomError error={error}/>}/>*/}
+                {/*        : <Route path="/error" element={<CustomError message={error.message} status={error.status}/>}/>*/}
+                {/*}*/}
                 <Route path="*" element={<NotFoundView/>}/>
             </Routes>
         </div>

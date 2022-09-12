@@ -1,5 +1,5 @@
 import React, {SyntheticEvent, useState} from "react";
-import {FavouritesEntity, FavouritesProducts, UpdateValuesEntity } from "types";
+import {ChangeTitleMealResponse, FavouriteMealWithProductsInterface, FavouriteProductWithIdInterface, ProductToUpdateDto} from "types";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../../store";
 import {apiUrl} from "../../../../config/api";
@@ -7,17 +7,17 @@ import {apiUrl} from "../../../../config/api";
 import './HardEditingFields.scss';
 
 interface Props {
-    productValues: FavouritesProducts,
-    favourites: FavouritesEntity[],
+    productValues: FavouriteProductWithIdInterface,
+    favourites: FavouriteMealWithProductsInterface[],
     activeMealIndex: number,
-    setFavourites: React.Dispatch<React.SetStateAction<FavouritesEntity[] | null>>
+    setFavourites: React.Dispatch<React.SetStateAction<FavouriteMealWithProductsInterface[] | null>>
     setIsHardEditActive:  React.Dispatch<React.SetStateAction<boolean>>
 
 }
 
 export const HardEditingFields = ({setIsHardEditActive, setFavourites, productValues}: Props) => {
 
-    const [values, setValues] = useState<FavouritesProducts>({
+    const [values, setValues] = useState<FavouriteProductWithIdInterface>({
         id: productValues.id,
         name: productValues.name,
         proteins: productValues.proteins,
@@ -45,7 +45,7 @@ export const HardEditingFields = ({setIsHardEditActive, setFavourites, productVa
     const handleEdit = async (e: SyntheticEvent) => {
         e.preventDefault();
 
-        const newValues: FavouritesProducts = {
+        const newValues: FavouriteProductWithIdInterface = {
             ...values,
             proteins: Number(Number(values.proteins).toFixed(2)),
             carbohydrates: Number(Number(values.carbohydrates).toFixed(2)),
@@ -54,16 +54,15 @@ export const HardEditingFields = ({setIsHardEditActive, setFavourites, productVa
             amount: Number(Number(values.amount).toFixed(2)),
         };
 
-        const dataValues: UpdateValuesEntity = {
+        const dataValues: ProductToUpdateDto = {
             product: newValues,
             userId: user.id,
-            whatToChange: 'values'
         }
 
         setIsHardEditActive(false)
 
-        const res = await fetch(`${apiUrl}/user/favourites`, {
-            method: 'PUT',
+        const res = await fetch(`${apiUrl}/favourites/product`, {
+            method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -73,8 +72,12 @@ export const HardEditingFields = ({setIsHardEditActive, setFavourites, productVa
             )
         })
 
-        const data: FavouritesEntity[] = await res.json();
-        setFavourites(data);
+        const data: ChangeTitleMealResponse = await res.json();
+        if (data.success){
+            setFavourites(data.meals);
+        } else {
+            //@TODO do uzupełnienia
+        }
     }
 
     const cancelHardEdit = () => {
